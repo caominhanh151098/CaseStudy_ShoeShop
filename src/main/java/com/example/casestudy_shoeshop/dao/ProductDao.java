@@ -17,6 +17,8 @@ public class ProductDao extends ConnectionDatabase{
             "FROM product p\n" +
             " join category c on p.category_id = c.id\n" +
             "Where p.id = ?";
+
+    private final String UPDATE_PRODUCT = "UPDATE product SET product_name = ?, price = ?, description = ?, img = ?, category_id = ? WHERE id = ?";
     public List<Product> findAll() {
         List<Product> products = new ArrayList<>();
 //        String search = search1.getSearch();
@@ -70,7 +72,7 @@ public class ProductDao extends ConnectionDatabase{
                 String image = rs.getString("img");
 
 
-                int categoryId = rs.getInt("id");
+                int categoryId = rs.getInt("category_id");
                 String categoryName = rs.getString("categoryName");
                 Category category = new Category(categoryId,categoryName);
 
@@ -93,6 +95,7 @@ public class ProductDao extends ConnectionDatabase{
             preparedStatement.setString(4,product.getImage());
             preparedStatement.setInt(5,product.getCategory().getId());
 
+
             preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
@@ -100,4 +103,21 @@ public class ProductDao extends ConnectionDatabase{
         }
     }
 
+    public void update(Product product) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PRODUCT))
+        {
+            preparedStatement.setString(1,product.getProduct_name());
+            preparedStatement.setDouble(2, product.getPrice());
+            preparedStatement.setString(3, product.getDescription());
+            preparedStatement.setString(4,product.getImage());
+            preparedStatement.setInt(5,product.getCategory().getId());
+            preparedStatement.setInt(6,product.getId());
+
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

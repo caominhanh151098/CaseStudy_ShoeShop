@@ -33,14 +33,33 @@ public class ProductServlet extends HttpServlet {
             case  "insert":
                 showInsertProduct(req,resp);
                 break;
+            case "update":
+                showUpdateProduct(req,resp);
+                break;
             default:
                 showProduct(req,resp);
         }
     }
 
+
+
+    private void showProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("products", productService.findAll());
+        req.getRequestDispatcher("product.jsp").forward(req,resp);
+    }
+
     private void showInsertProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("categories",categoryService.findAll());
         req.getRequestDispatcher("insert.jsp").forward(req,resp);
+    }
+
+    private void showUpdateProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        Product product = productService.findById(id);
+        req.setAttribute("categories",categoryService.findAll());
+        req.setAttribute("product", product);
+        req.getRequestDispatcher("update.jsp").forward(req,resp);
+
     }
 
     @Override
@@ -54,11 +73,16 @@ public class ProductServlet extends HttpServlet {
             case "insert":
                 insertProduct(req,resp);
                 break;
+            case "update":
+                updateProduct(req,resp);
+                break;
             default:
                 showProduct(req,resp);
         }
 
     }
+
+
 
     private void insertProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("product_name");
@@ -72,8 +96,19 @@ public class ProductServlet extends HttpServlet {
         showProduct(req,resp);
     }
 
-    private void showProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("products", productService.findAll());
-        req.getRequestDispatcher("product.jsp").forward(req,resp);
+    private void updateProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        String name = req.getParameter("product_name");
+        double price = Double.parseDouble(req.getParameter("price"));
+        String description = req.getParameter("description");
+        String img = req.getParameter("img");
+
+        int idCategory = Integer.parseInt(req.getParameter("category"));
+        Category category = categoryService.findById(idCategory);
+        productService.update(new Product(id,name,price,description,img,category));
+
+        showProduct(req,resp);
     }
+
+
 }
