@@ -1,0 +1,14 @@
+role: getAll()
+user_info: update()
+user: getAll(), findById(id), update(), updateById(id)
+---
+
+category: getAll()
+size: getAll()
+size_product: update(), updateById(product_id, size_id)
+product: getAll(), update(), updateById(id)
+---
+
+delivery_point: findById(id), update(), updateById(id)
+order_detail: findByOrderID(orderID), update(), updateById(id)
+order: getAll(), findById(id), update(), updateById()
