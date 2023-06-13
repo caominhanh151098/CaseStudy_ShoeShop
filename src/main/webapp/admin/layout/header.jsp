@@ -1,836 +1,279 @@
 <!DOCTYPE html>
-<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+
+<html
+        lang="en"
+        class="light-style layout-menu-fixed"
+        dir="ltr"
+        data-theme="theme-default"
+        data-assets-path="../assets/"
+        data-template="vertical-menu-template-free"
+>
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Blank - Windmill Dashboard</title>
+  <meta charset="utf-8" />
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+  />
+
+  <title>Dashboard</title>
+
+  <meta name="description" content="" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
           rel="stylesheet"
   />
-  <link rel="stylesheet" href="../assets/css/tailwind.output.css"/>
-  <script
-          src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
-          defer
-  ></script>
-  <script src="../assets/js/init-alpine.js"></script>
+
+  <!-- Icons. Uncomment required icon fonts -->
+  <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="../assets/css/demo.css" />
+
+  <!-- Vendors CSS -->
+  <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+  <link rel="stylesheet" href="../assets/vendor/libs/apex-charts/apex-charts.css" />
+
+  <!-- Page CSS -->
+
+  <!-- Helpers -->
+  <script src="../assets/vendor/js/helpers.js"></script>
+
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  <script src="../assets/js/config.js"></script>
 </head>
+
 <body>
-<div
-        class="flex h-screen bg-gray-50 dark:bg-gray-900"
-        :class="{ 'overflow-hidden': isSideMenuOpen}"
->
-  <!-- Desktop sidebar -->
-  <aside
-          class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0"
-  >
-    <div class="py-4 text-gray-500 dark:text-gray-400">
-      <a
-              class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
-              href="#"
-      >
-        Windmill
-      </a>
-      <ul class="mt-6">
-        <li class="relative px-6 py-3">
-          <!-- Active items have the snippet below -->
-          <!-- <span
-            class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
-            aria-hidden="true"
-          ></span> -->
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
 
-          <!-- Add this classes to an active anchor (a tag) -->
-          <!-- text-gray-800 dark:text-gray-100 -->
-          <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="../index.html"
-          >
-            <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-            >
-              <path
-                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              ></path>
-            </svg>
-            <span class="ml-4">Dashboard</span>
-          </a>
-        </li>
-      </ul>
-      <ul>
-        <li class="relative px-6 py-3">
-          <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="../forms.html"
-          >
-            <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-            >
-              <path
-                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-              ></path>
-            </svg>
-            <span class="ml-4">Forms</span>
-          </a>
-        </li>
-        <li class="relative px-6 py-3">
-          <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="../cards.html"
-          >
-            <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-            >
-              <path
-                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-              ></path>
-            </svg>
-            <span class="ml-4">Cards</span>
-          </a>
-        </li>
-        <li class="relative px-6 py-3">
-          <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="../charts.html"
-          >
-            <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-            >
-              <path
-                      d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"
-              ></path>
-              <path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
-            </svg>
-            <span class="ml-4">Charts</span>
-          </a>
-        </li>
-        <li class="relative px-6 py-3">
-          <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="../buttons.html"
-          >
-            <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-            >
-              <path
-                      d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
-              ></path>
-            </svg>
-            <span class="ml-4">Buttons</span>
-          </a>
-        </li>
-        <li class="relative px-6 py-3">
-          <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="../modals.html"
-          >
-            <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-            >
-              <path
-                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-              ></path>
-            </svg>
-            <span class="ml-4">Modals</span>
-          </a>
-        </li>
-        <li class="relative px-6 py-3">
-          <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="../tables.html"
-          >
-            <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-            >
-              <path d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
-            </svg>
-            <span class="ml-4">Tables</span>
-          </a>
-        </li>
-        <li class="relative px-6 py-3">
-          <button
-                  class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  @click="togglePagesMenu"
-                  aria-haspopup="true"
-          >
-                <span class="inline-flex items-center">
-                  <svg
-                          class="w-5 h-5"
-                          aria-hidden="true"
-                          fill="none"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                  >
+    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+      <div class="app-brand demo">
+        <a href="index.html" class="app-brand-link">
+              <span class="app-brand-logo demo">
+                <svg
+                        width="25"
+                        viewBox="0 0 25 42"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                >
+                  <defs>
                     <path
-                            d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
+                            d="M13.7918663,0.358365126 L3.39788168,7.44174259 C0.566865006,9.69408886 -0.379795268,12.4788597 0.557900856,15.7960551 C0.68998853,16.2305145 1.09562888,17.7872135 3.12357076,19.2293357 C3.8146334,19.7207684 5.32369333,20.3834223 7.65075054,21.2172976 L7.59773219,21.2525164 L2.63468769,24.5493413 C0.445452254,26.3002124 0.0884951797,28.5083815 1.56381646,31.1738486 C2.83770406,32.8170431 5.20850219,33.2640127 7.09180128,32.5391577 C8.347334,32.0559211 11.4559176,30.0011079 16.4175519,26.3747182 C18.0338572,24.4997857 18.6973423,22.4544883 18.4080071,20.2388261 C17.963753,17.5346866 16.1776345,15.5799961 13.0496516,14.3747546 L10.9194936,13.4715819 L18.6192054,7.984237 L13.7918663,0.358365126 Z"
+                            id="path-1"
                     ></path>
-                  </svg>
-                  <span class="ml-4">Pages</span>
-                </span>
-            <svg
-                    class="w-4 h-4"
-                    aria-hidden="true"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-            >
-              <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clip-rule="evenodd"
-              ></path>
-            </svg>
-          </button>
-          <template x-if="isPagesMenuOpen">
-            <ul
-                    x-transition:enter="transition-all ease-in-out duration-300"
-                    x-transition:enter-start="opacity-25 max-h-0"
-                    x-transition:enter-end="opacity-100 max-h-xl"
-                    x-transition:leave="transition-all ease-in-out duration-300"
-                    x-transition:leave-start="opacity-100 max-h-xl"
-                    x-transition:leave-end="opacity-0 max-h-0"
-                    class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
-                    aria-label="submenu"
-            >
-              <li
-                      class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-              >
-                <a class="w-full" href="./login.html">Login</a>
-              </li>
-              <li
-                      class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-              >
-                <a class="w-full" href="./create-account.html">
-                  Create account
-                </a>
-              </li>
-              <li
-                      class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-              >
-                <a class="w-full" href="./forgot-password.html">
-                  Forgot password
-                </a>
-              </li>
-              <li
-                      class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-              >
-                <a class="w-full" href="./404.html">404</a>
-              </li>
-              <li
-                      class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-              >
-                <a class="w-full" href="./blank.html">Blank</a>
-              </li>
-            </ul>
-          </template>
-        </li>
-      </ul>
-      <div class="px-6 my-6">
-        <button
-                class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        >
-          Create account
-          <span class="ml-2" aria-hidden="true">+</span>
-        </button>
-      </div>
-    </div>
-  </aside>
-  <!-- Mobile sidebar -->
-  <!-- Backdrop -->
-  <div
-          x-show="isSideMenuOpen"
-          x-transition:enter="transition ease-in-out duration-150"
-          x-transition:enter-start="opacity-0"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="transition ease-in-out duration-150"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0"
-          class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
-  ></div>
-  <aside
-          class="fixed inset-y-0 z-20 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white dark:bg-gray-800 md:hidden"
-          x-show="isSideMenuOpen"
-          x-transition:enter="transition ease-in-out duration-150"
-          x-transition:enter-start="opacity-0 transform -translate-x-20"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="transition ease-in-out duration-150"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0 transform -translate-x-20"
-          @click.away="closeSideMenu"
-          @keydown.escape="closeSideMenu"
-  >
-    <div class="py-4 text-gray-500 dark:text-gray-400">
-      <a
-              class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
-              href="#"
-      >
-        Windmill
-      </a>
-      <ul class="mt-6">
-        <li class="relative px-6 py-3">
-          <!-- Active items have the snippet below -->
-          <!-- <span
-            class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
-            aria-hidden="true"
-          ></span> -->
+                    <path
+                            d="M5.47320593,6.00457225 C4.05321814,8.216144 4.36334763,10.0722806 6.40359441,11.5729822 C8.61520715,12.571656 10.0999176,13.2171421 10.8577257,13.5094407 L15.5088241,14.433041 L18.6192054,7.984237 C15.5364148,3.11535317 13.9273018,0.573395879 13.7918663,0.358365126 C13.5790555,0.511491653 10.8061687,2.3935607 5.47320593,6.00457225 Z"
+                            id="path-3"
+                    ></path>
+                    <path
+                            d="M7.50063644,21.2294429 L12.3234468,23.3159332 C14.1688022,24.7579751 14.397098,26.4880487 13.008334,28.506154 C11.6195701,30.5242593 10.3099883,31.790241 9.07958868,32.3040991 C5.78142938,33.4346997 4.13234973,34 4.13234973,34 C4.13234973,34 2.75489982,33.0538207 2.37032616e-14,31.1614621 C-0.55822714,27.8186216 -0.55822714,26.0572515 -4.05231404e-15,25.8773518 C0.83734071,25.6075023 2.77988457,22.8248993 3.3049379,22.52991 C3.65497346,22.3332504 5.05353963,21.8997614 7.50063644,21.2294429 Z"
+                            id="path-4"
+                    ></path>
+                    <path
+                            d="M20.6,7.13333333 L25.6,13.8 C26.2627417,14.6836556 26.0836556,15.9372583 25.2,16.6 C24.8538077,16.8596443 24.4327404,17 24,17 L14,17 C12.8954305,17 12,16.1045695 12,15 C12,14.5672596 12.1403557,14.1461923 12.4,13.8 L17.4,7.13333333 C18.0627417,6.24967773 19.3163444,6.07059163 20.2,6.73333333 C20.3516113,6.84704183 20.4862915,6.981722 20.6,7.13333333 Z"
+                            id="path-5"
+                    ></path>
+                  </defs>
+                  <g id="g-app-brand" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="Brand-Logo" transform="translate(-27.000000, -15.000000)">
+                      <g id="Icon" transform="translate(27.000000, 15.000000)">
+                        <g id="Mask" transform="translate(0.000000, 8.000000)">
+                          <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                          </mask>
+                          <use fill="#696cff" xlink:href="#path-1"></use>
+                          <g id="Path-3" mask="url(#mask-2)">
+                            <use fill="#696cff" xlink:href="#path-3"></use>
+                            <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-3"></use>
+                          </g>
+                          <g id="Path-4" mask="url(#mask-2)">
+                            <use fill="#696cff" xlink:href="#path-4"></use>
+                            <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-4"></use>
+                          </g>
+                        </g>
+                        <g
+                                id="Triangle"
+                                transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) "
+                        >
+                          <use fill="#696cff" xlink:href="#path-5"></use>
+                          <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-5"></use>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </span>
+          <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
+        </a>
 
-          <!-- Add this classes to an active anchor (a tag) -->
-          <!-- text-gray-800 dark:text-gray-100 -->
-          <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="../index.html"
-          >
-            <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-            >
-              <path
-                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              ></path>
-            </svg>
-            <span class="ml-4">Dashboard</span>
-          </a>
-        </li>
-      </ul>
-      <ul>
-        <li class="relative px-6 py-3">
-          <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="../forms.html"
-          >
-            <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-            >
-              <path
-                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-              ></path>
-            </svg>
-            <span class="ml-4">Forms</span>
-          </a>
-        </li>
-        <li class="relative px-6 py-3">
-          <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="../cards.html"
-          >
-            <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-            >
-              <path
-                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-              ></path>
-            </svg>
-            <span class="ml-4">Cards</span>
-          </a>
-        </li>
-        <li class="relative px-6 py-3">
-          <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="../charts.html"
-          >
-            <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-            >
-              <path
-                      d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"
-              ></path>
-              <path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
-            </svg>
-            <span class="ml-4">Charts</span>
-          </a>
-        </li>
-        <li class="relative px-6 py-3">
-          <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="../buttons.html"
-          >
-            <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-            >
-              <path
-                      d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
-              ></path>
-            </svg>
-            <span class="ml-4">Buttons</span>
-          </a>
-        </li>
-        <li class="relative px-6 py-3">
-          <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="../modals.html"
-          >
-            <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-            >
-              <path
-                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-              ></path>
-            </svg>
-            <span class="ml-4">Modals</span>
-          </a>
-        </li>
-        <li class="relative px-6 py-3">
-          <a
-                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  href="../tables.html"
-          >
-            <svg
-                    class="w-5 h-5"
-                    aria-hidden="true"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-            >
-              <path d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
-            </svg>
-            <span class="ml-4">Tables</span>
-          </a>
-        </li>
-        <li class="relative px-6 py-3">
-          <button
-                  class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  @click="togglePagesMenu"
-                  aria-haspopup="true"
-          >
-                <span class="inline-flex items-center">
-                  <svg
-                          class="w-5 h-5"
-                          aria-hidden="true"
-                          fill="none"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                  >
-                    <path
-                            d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
-                    ></path>
-                  </svg>
-                  <span class="ml-4">Pages</span>
-                </span>
-            <svg
-                    class="w-4 h-4"
-                    aria-hidden="true"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-            >
-              <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clip-rule="evenodd"
-              ></path>
-            </svg>
-          </button>
-          <template x-if="isPagesMenuOpen">
-            <ul
-                    x-transition:enter="transition-all ease-in-out duration-300"
-                    x-transition:enter-start="opacity-25 max-h-0"
-                    x-transition:enter-end="opacity-100 max-h-xl"
-                    x-transition:leave="transition-all ease-in-out duration-300"
-                    x-transition:leave-start="opacity-100 max-h-xl"
-                    x-transition:leave-end="opacity-0 max-h-0"
-                    class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
-                    aria-label="submenu"
-            >
-              <li
-                      class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-              >
-                <a class="w-full" href="./login.html">Login</a>
-              </li>
-              <li
-                      class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-              >
-                <a class="w-full" href="./create-account.html">
-                  Create account
-                </a>
-              </li>
-              <li
-                      class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-              >
-                <a class="w-full" href="./forgot-password.html">
-                  Forgot password
-                </a>
-              </li>
-              <li
-                      class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-              >
-                <a class="w-full" href="./404.html">404</a>
-              </li>
-              <li
-                      class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-              >
-                <a class="w-full" href="./blank.html">Blank</a>
-              </li>
-            </ul>
-          </template>
-        </li>
-      </ul>
-      <div class="px-6 my-6">
-        <button
-                class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-        >
-          Create account
-          <span class="ml-2" aria-hidden="true">+</span>
-        </button>
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+          <i class="bx bx-chevron-left bx-sm align-middle"></i>
+        </a>
       </div>
-    </div>
-  </aside>
-  <div class="flex flex-col flex-1">
-    <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
-      <div
-              class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300"
+
+      <div class="menu-inner-shadow"></div>
+
+      <ul class="menu-inner py-1">
+        <!-- Dashboard -->
+        <li class="menu-item">
+          <a href="index.html" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="Analytics">Dashboard</div>
+          </a>
+        </li>
+
+        <!-- User Management -->
+        <li class="menu-item">
+          <a class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-layout"></i>
+            <div data-i18n="Layouts">User Management</div>
+          </a>
+          <ul class="menu-sub">
+            <li class="menu-item">
+              <a href="/admin/userlist.jsp" class="menu-link">
+                User Acount
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="/admin/userlist.jsp" class="menu-link">
+                Customer Acount
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="menu-item">
+          <a href="/admin/productlist.jsp" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+            <div data-i18n="Layouts">Product Management</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/admin/orderlist.jsp" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-collection"></i>
+            <div data-i18n="Layouts">Order Management</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="javascript:void(0);" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-layout"></i>
+            <div data-i18n="Layouts">Revenue</div>
+          </a>
+        </li>
+      </ul>
+    </aside>
+    <!-- / Menu -->
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <!-- Navbar -->
+
+      <nav
+              class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+              id="layout-navbar"
       >
-        <!-- Mobile hamburger -->
-        <button
-                class="p-1 -ml-1 mr-5 rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
-                @click="toggleSideMenu"
-                aria-label="Menu"
-        >
-          <svg
-                  class="w-6 h-6"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-          >
-            <path
-                    fill-rule="evenodd"
-                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                    clip-rule="evenodd"
-            ></path>
-          </svg>
-        </button>
-        <!-- Search input -->
-        <div class="flex justify-center flex-1 lg:mr-32">
-          <div
-                  class="relative w-full max-w-xl mr-6 focus-within:text-purple-500"
-          >
-            <div class="absolute inset-y-0 flex items-center pl-2">
-              <svg
-                      class="w-4 h-4"
-                      aria-hidden="true"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-              >
-                <path
-                        fill-rule="evenodd"
-                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                        clip-rule="evenodd"
-                ></path>
-              </svg>
-            </div>
-            <input
-                    class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
-                    type="text"
-                    placeholder="Search for projects"
-                    aria-label="Search"
-            />
-          </div>
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+          <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="bx bx-menu bx-sm"></i>
+          </a>
         </div>
-        <ul class="flex items-center flex-shrink-0 space-x-6">
-          <!-- Theme toggler -->
-          <li class="flex">
-            <button
-                    class="rounded-md focus:outline-none focus:shadow-outline-purple"
-                    @click="toggleTheme"
-                    aria-label="Toggle color mode"
-            >
-              <template x-if="!dark">
-                <svg
-                        class="w-5 h-5"
-                        aria-hidden="true"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                >
-                  <path
-                          d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
-                  ></path>
-                </svg>
-              </template>
-              <template x-if="dark">
-                <svg
-                        class="w-5 h-5"
-                        aria-hidden="true"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                >
-                  <path
-                          fill-rule="evenodd"
-                          d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-                          clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </template>
-            </button>
-          </li>
-          <!-- Notifications menu -->
-          <li class="relative">
-            <button
-                    class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
-                    @click="toggleNotificationsMenu"
-                    @keydown.escape="closeNotificationsMenu"
-                    aria-label="Notifications"
-                    aria-haspopup="true"
-            >
-              <svg
-                      class="w-5 h-5"
-                      aria-hidden="true"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-              >
-                <path
-                        d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"
-                ></path>
-              </svg>
-              <!-- Notification badge -->
-              <span
-                      aria-hidden="true"
-                      class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"
-              ></span>
-            </button>
-            <template x-if="isNotificationsMenuOpen">
-              <ul
-                      x-transition:leave="transition ease-in duration-150"
-                      x-transition:leave-start="opacity-100"
-                      x-transition:leave-end="opacity-0"
-                      @click.away="closeNotificationsMenu"
-                      @keydown.escape="closeNotificationsMenu"
-                      class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700"
-                      aria-label="submenu"
-              >
-                <li class="flex">
-                  <a
-                          class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                          href="#"
-                  >
-                    <span>Messages</span>
-                    <span
-                            class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600"
-                    >
-                          13
-                        </span>
-                  </a>
-                </li>
-                <li class="flex">
-                  <a
-                          class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                          href="#"
-                  >
-                    <span>Sales</span>
-                    <span
-                            class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600"
-                    >
-                          2
-                        </span>
-                  </a>
-                </li>
-                <li class="flex">
-                  <a
-                          class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                          href="#"
-                  >
-                    <span>Alerts</span>
-                  </a>
-                </li>
-              </ul>
-            </template>
-          </li>
-          <!-- Profile menu -->
-          <li class="relative">
-            <button
-                    class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
-                    @click="toggleProfileMenu"
-                    @keydown.escape="closeProfileMenu"
-                    aria-label="Account"
-                    aria-haspopup="true"
-            >
-              <img
-                      class="object-cover w-8 h-8 rounded-full"
-                      src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=aa3a807e1bbdfd4364d1f449eaa96d82"
-                      alt=""
-                      aria-hidden="true"
+
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+          <!-- Search -->
+          <div class="navbar-nav align-items-center">
+            <div class="nav-item d-flex align-items-center">
+              <i class="bx bx-search fs-4 lh-0"></i>
+              <input
+                      type="text"
+                      class="form-control border-0 shadow-none"
+                      placeholder="Search..."
+                      aria-label="Search..."
               />
-            </button>
-            <template x-if="isProfileMenuOpen">
-              <ul
-                      x-transition:leave="transition ease-in duration-150"
-                      x-transition:leave-start="opacity-100"
-                      x-transition:leave-end="opacity-0"
-                      @click.away="closeProfileMenu"
-                      @keydown.escape="closeProfileMenu"
-                      class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
-                      aria-label="submenu"
-              >
-                <li class="flex">
-                  <a
-                          class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                          href="#"
-                  >
-                    <svg
-                            class="w-4 h-4 mr-3"
-                            aria-hidden="true"
-                            fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                    >
-                      <path
-                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                      ></path>
-                    </svg>
-                    <span>Profile</span>
+            </div>
+          </div>
+          <!-- /Search -->
+
+          <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <!-- User -->
+            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+              <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                <div class="avatar avatar-online">
+                  <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                </div>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="#">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0 me-3">
+                        <div class="avatar avatar-online">
+                          <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                        </div>
+                      </div>
+                      <div class="flex-grow-1">
+                        <span class="fw-semibold d-block">John Doe</span>
+                        <small class="text-muted">Admin</small>
+                      </div>
+                    </div>
                   </a>
                 </li>
-                <li class="flex">
-                  <a
-                          class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                          href="#"
-                  >
-                    <svg
-                            class="w-4 h-4 mr-3"
-                            aria-hidden="true"
-                            fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                    >
-                      <path
-                              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                      ></path>
-                      <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
-                    <span>Settings</span>
+                <li>
+                  <div class="dropdown-divider"></div>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">
+                    <i class="bx bx-user me-2"></i>
+                    <span class="align-middle">My Profile</span>
                   </a>
                 </li>
-                <li class="flex">
-                  <a
-                          class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                          href="#"
-                  >
-                    <svg
-                            class="w-4 h-4 mr-3"
-                            aria-hidden="true"
-                            fill="none"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                    >
-                      <path
-                              d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                      ></path>
-                    </svg>
-                    <span>Log out</span>
+                <li>
+                  <a class="dropdown-item" href="#">
+                    <i class="bx bx-cog me-2"></i>
+                    <span class="align-middle">Settings</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">
+                        <span class="d-flex align-items-center align-middle">
+                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
+                          <span class="flex-grow-1 align-middle">Billing</span>
+                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
+                        </span>
+                  </a>
+                </li>
+                <li>
+                  <div class="dropdown-divider"></div>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="auth-login-basic.html">
+                    <i class="bx bx-power-off me-2"></i>
+                    <span class="align-middle">Log Out</span>
                   </a>
                 </li>
               </ul>
-            </template>
-          </li>
-        </ul>
-      </div>
-    </header>
-    <main class="h-full pb-16 overflow-y-auto">
-      <!-- Remove everything INSIDE this div to a really blank page -->
-      <div class="container px-6 mx-auto grid">
-        <h2
-                class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
-        >
+            </li>
+            <!--/ User -->
+          </ul>
+        </div>
+      </nav>
+
+      <!-- / Navbar -->
+
+      <!-- Content wrapper -->
+      <div class="content-wrapper">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
