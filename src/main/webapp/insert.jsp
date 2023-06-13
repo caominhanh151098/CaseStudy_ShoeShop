@@ -44,7 +44,7 @@
                     </c:forEach>
                 </select>
 
-        </div>
+        </div><br>
         <div>
             <button type="submit">SUBMIT</button>
         </div>

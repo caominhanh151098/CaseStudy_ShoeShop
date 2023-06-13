@@ -52,7 +52,7 @@
                 <td><img src ="${product.image}"></td>
                 <td>${product.category.category_name}</td>
                 <td>
-                    <a href="product?action=edit&id=${product.id}">Edit</a>
+                    <a href="product?action=update&id=${product.id}">Update</a>
                 </td>
             </tr>
         </c:forEach>
