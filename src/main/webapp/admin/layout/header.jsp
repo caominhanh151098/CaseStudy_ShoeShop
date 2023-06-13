@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core_1_1" %>
 <!DOCTYPE html>
 
 <html
@@ -156,7 +157,7 @@
           </ul>
         </li>
         <li class="menu-item">
-          <a href="/admin/productlist.jsp" class="menu-link">
+          <a href="/product" class="menu-link">
             <i class="menu-icon tf-icons bx bx-cube-alt"></i>
             <div data-i18n="Layouts">Product Management</div>
           </a>
