@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
-<jsp:include page="layout/header.jsp"/>
+<jsp:include page="../layout/header.jsp"/>
 <div class="table-responsive text-nowrap">
     <table class="table">
         <thead class="table-light">
@@ -41,9 +41,11 @@
                         </button>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="javascript:void(0);">
-                                <i class="bx bx-edit-alt me-1"/>Show Info</a>
+                                <i class="bx bx-edit-alt me-1"></i>Show Info</a>
                             <a class="dropdown-item" href="javascript:void(0);">
-                                <i class="bx bx-trash me-1"/>Change Status</a>
+                                <i class="bx bx-edit-alt me-1"></i>Change Status</a>
+                            <a class="dropdown-item" href="javascript:void(0);">
+                                <i class="bx bx-trash me-1"></i>Edit Order</a>
                         </div>
                     </div>
                 </td>
@@ -52,4 +54,4 @@
         </tbody>
     </table>
 </div>
-<jsp:include page="layout/footer.jsp"/>
+<jsp:include page="../layout/footer.jsp"/>

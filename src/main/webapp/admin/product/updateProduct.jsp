@@ -1,8 +1,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core_1_1" %>
-<jsp:include page="layout/header.jsp"/>
+<jsp:include page="../layout/header.jsp"/>
 
-<form action="product?action=update" method="post">
+<form action="?action=update" method="post">
   <input type="hidden" name="id" value="${product.id}">
 
   <div>
@@ -39,4 +39,4 @@
     <button type="submit">SUBMIT</button>
   </div>
 </form>
-<jsp:include page="layout/footer.jsp"/>
+<jsp:include page="../layout/footer.jsp"/>

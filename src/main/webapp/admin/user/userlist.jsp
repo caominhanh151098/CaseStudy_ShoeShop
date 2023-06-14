@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:include page="layout/header.jsp"/>
+<jsp:include page="../layout/header.jsp"/>
 <div class="table-responsive text-nowrap">
     <table class="table">
         <thead class="table-light">
@@ -17,7 +17,7 @@
         <tr>
             <td>${user1.id}</td>
             <td>${user1.Username}</td>
-            <td><img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" width="50px"/></td>
+            <td><img src="../../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" width="50px"/></td>
             <td><span class="badge bg-label-info me-1">User</span></td>
             <td>
                 <div class="dropdown">
@@ -39,7 +39,7 @@
         <tr>
             <td>ID</td>
             <td>Username</td>
-            <td><img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" width="50px"/></td>
+            <td><img src="../../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" width="50px"/></td>
             <td><span class="badge bg-label-success me-1">Admin</span></td>
             <td>
                 <div class="dropdown">
@@ -60,7 +60,7 @@
         <tr>
             <td>ID</td>
             <td>Username</td>
-            <td><img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" width="50px"/></td>
+            <td><img src="../../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" width="50px"/></td>
             <td><span class="badge bg-label-warning me-1">Customer</span></td>
             <td>
                 <div class="dropdown">
@@ -81,4 +81,4 @@
         </tbody>
     </table>
 </div>
-<jsp:include page="layout/footer.jsp"/>
+<jsp:include page="../layout/footer.jsp"/>
