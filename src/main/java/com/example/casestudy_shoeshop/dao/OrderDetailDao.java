@@ -15,8 +15,11 @@ public class OrderDetailDao extends ConnectionDatabase {
     private final String SELECT_BY_ORDER_ID = "SELECT * FROM order_detail where order_id = ?";
     private final String INSERT_ORDER_DETAIL = "INSERT INTO `order_detail` (`order_id`, `product_id`, `size_id`, `quantity`, `product_name`, `price`) " +
             "VALUES (?, ?, ?, ?, ?, ?)";
-    private final String UPDATE_ORDER_DETAIL = "UPDATE `delivery_point` " +
-            "SET `delivery_place` = ?, `customer_name` = ?, `customer_email` = ?, `customer_phone` = ? WHERE (`id` = ?);";
+    private final String UPDATE_ORDER_DETAIL = "UPDATE `order_detail` " +
+            "SET `order_id` = ?, `product_id` = ?, `size_id` = ?, `quantity` = ?, `product_name` = ?, `price` = ?" +
+            "WHERE (`id` = ?);";
+    private final String DROP_ORDER_DETAIL = "DELETE FROM `order_detail` WHERE (`id` = ?);";
+    private final String DROP_BY_ORDER_ID = "DELETE FROM `order_detail` WHERE (`order_id` = ?);";
 
     public List<OrderDetail> findByOrderId(int orderId) {
         orderDetailList = new ArrayList<>();
@@ -43,12 +46,12 @@ public class OrderDetailDao extends ConnectionDatabase {
     public void insertOrderDetail(OrderDetail orderDetail) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_ORDER_DETAIL)) {
-            preparedStatement.setInt(1,orderDetail.getOrderID());
-            preparedStatement.setInt(2,orderDetail.getProductID());
-            preparedStatement.setInt(3,orderDetail.getSizeID());
-            preparedStatement.setInt(4,orderDetail.getQuantity());
-            preparedStatement.setString(5,orderDetail.getProductName());
-            preparedStatement.setDouble(6,orderDetail.getPrice());
+            preparedStatement.setInt(1, orderDetail.getOrderID());
+            preparedStatement.setInt(2, orderDetail.getProductID());
+            preparedStatement.setInt(3, orderDetail.getSizeID());
+            preparedStatement.setInt(4, orderDetail.getQuantity());
+            preparedStatement.setString(5, orderDetail.getProductName());
+            preparedStatement.setDouble(6, orderDetail.getPrice());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -59,6 +62,34 @@ public class OrderDetailDao extends ConnectionDatabase {
     public void updateOrderDetail(OrderDetail orderDetail) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ORDER_DETAIL)) {
+            preparedStatement.setInt(1, orderDetail.getOrderID());
+            preparedStatement.setInt(2, orderDetail.getProductID());
+            preparedStatement.setInt(3, orderDetail.getSizeID());
+            preparedStatement.setInt(4, orderDetail.getQuantity());
+            preparedStatement.setString(5, orderDetail.getProductName());
+            preparedStatement.setDouble(6, orderDetail.getPrice());
+            preparedStatement.setInt(7, orderDetail.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void dropOrderDetail(int orderDetailId) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(DROP_ORDER_DETAIL)) {
+            preparedStatement.executeUpdate();
+            preparedStatement.setInt(1, orderDetailId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void dropByOrderId(int orderId) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(DROP_BY_ORDER_ID)) {
+            preparedStatement.executeUpdate();
+            preparedStatement.setInt(1, orderId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
