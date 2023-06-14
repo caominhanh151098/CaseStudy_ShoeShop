@@ -63,7 +63,7 @@ public class UserServlet extends HttpServlet {
 
     public void showUser (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("user",userService.findALL());
-        request.getRequestDispatcher("/admin/userlist.jsp").forward(request,response);
+        request.getRequestDispatcher("/admin/users/userlist.jsp").forward(request,response);
     }
 
     private void editUserInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

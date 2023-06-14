@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core_1_1" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
-<jsp:include page="layout/header.jsp"/>
+<jsp:include page="../layout/header.jsp"/>
 <div class="table-responsive text-nowrap">
     <table class="table">
         <thead class="table-light">
@@ -39,4 +39,4 @@
         </tbody>
     </table>
 </div>
-<jsp:include page="layout/footer.jsp"/>
+<jsp:include page="../layout/footer.jsp"/>
