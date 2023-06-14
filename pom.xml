@@ -18,6 +18,7 @@
     </properties>
 
     <dependencies>
+
         <!-- taglibs-standard-spec-*.jar -->
         <!-- http://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-spec -->
         <dependency>
@@ -25,6 +26,7 @@
             <artifactId>taglibs-standard-spec</artifactId>
             <version>1.2.5</version>
         </dependency>
+
         <!-- taglibs-standard-impl-*.jar -->
         <!-- http://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-impl -->
         <dependency>
@@ -32,12 +34,21 @@
             <artifactId>taglibs-standard-impl</artifactId>
             <version>1.2.5</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.33</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
