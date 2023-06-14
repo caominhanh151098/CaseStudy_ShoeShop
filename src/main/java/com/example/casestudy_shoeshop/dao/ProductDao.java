@@ -1,5 +1,6 @@
 package com.example.casestudy_shoeshop.dao;
 
+import com.example.casestudy_shoeshop.dto.Pageable;
 import com.example.casestudy_shoeshop.model.Category;
 import com.example.casestudy_shoeshop.model.Product;
 //import javafx.scene.image.Image;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDao extends ConnectionDatabase{
-    private final String SELECT_PRODUCT = "SELECT p.* , c.category_name as categoryName FROM product p Left join category c on p.category_id = c.id";
+    private final String SELECT_PRODUCT = "SELECT p.* , c.category_name as categoryName FROM product p Left join category c on p.category_id = c.id where lower(p.product_name) like '%s' or lower(p.category_id) like '%s'";
 
     private final String INSERT_PRODUCT = "INSERT INTO product (product_name, price, description, img, category_id) VALUES (?, ?, ?, ?, ?)";
 
@@ -21,17 +22,17 @@ public class ProductDao extends ConnectionDatabase{
 
     private final String UPDATE_PRODUCT = "UPDATE product SET product_name = ?, price = ?, description = ?, img = ?, category_id = ? WHERE (id = ?)";
 
-    public List<Product> findAll() {
+    public List<Product> findAll(Pageable pageable) {
         List<Product> products = new ArrayList<>();
-//        String search = search1.getSearch();
-//        if(search == null){
-//            search = "";
-//        }
-//        search = "%" + search + "%";
+        String search = pageable.getSearch();
+        if(search == null){
+            search = "";
+        }
+        search = "%" + search + "%";
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement(String.format(SELECT_PRODUCT)))
+                     .prepareStatement(String.format(SELECT_PRODUCT,search,search)))
         {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()){
