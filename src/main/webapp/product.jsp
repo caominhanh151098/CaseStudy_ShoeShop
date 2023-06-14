@@ -27,10 +27,15 @@
     <title>Product</title>
 </head>
 <body>
+
+
+</br>
 <button type="button">
     <a href="product?action=insert">INSERT</a>
 </button>
 <form action="product" method="get">
+    <input type="search" name="search" id="search" value="${pageable.search}" onsearch="onClearSearch()" />
+    <button id="searchButton">Search</button>
     <div>
     <table border="=1">
         <tr align="center">

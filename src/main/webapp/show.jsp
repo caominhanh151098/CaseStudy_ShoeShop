@@ -9,22 +9,28 @@
 <body>
 <h1>${action}</h1>
 <a href="/user?action=show">Show User</a>
+<td><a href="/user?action=create&id=${book.id}">Create</a> </td>
 <c:if test="${requestScope['user'].size() != 0}">
     <table border="1" >
         <tr class="bg-danger" class="rounded-pill">
             <td>Id</td>
             <td>Username</td>
-            <td>user_id</td>
-            <td>Name</td>
+            <td>Avatar</td>
+            <td>Role</td>
+            <td>Actions</td>
+<%--            <td>user_id</td>--%>
+<%--            <td>Name</td>--%>
         </tr>
         <c:forEach items="${user}" var="user1">
             <tr>
                 <td>${user1.id}</td>
                 <td>${user1.username}</td>
-                <td>${user1.user_info.user_id}</td>
-                <td>${user1.user_info.name}</td>
-                <td><a href="/user?action=edit&id=${user1.id}">Edit</a> </td>
-                <td><a href="/user?action=showall&id=${user1.id}">ShowAll</a> </td>
+                <td></td>
+<%--                <td>${user1.user_info.user_id}</td>--%>
+                <td>${user1.role_id}</td>
+                <td>Action</td>
+<%--                <td>${user1.user_info.name}</td>--%>
+                <td><a href="/user?action=showInfo&id=${user1.id}">ShowInfo</a> </td>
             </tr>
         </c:forEach>
     </table>

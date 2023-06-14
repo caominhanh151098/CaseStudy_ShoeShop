@@ -1,5 +1,7 @@
 package com.example.casestudy_shoeshop.model;
 
+import java.sql.Date;
+
 public class User {
     private int id;
     private String username;
@@ -17,6 +19,9 @@ public class User {
         this.role_id = role_id;
         this.user_info = user_info;
     }
+
+
+
 
     public int getId() {
         return id;

@@ -1,6 +1,7 @@
 package com.example.casestudy_shoeshop.controller;
 
 import com.example.casestudy_shoeshop.dao.CategoryDao;
+import com.example.casestudy_shoeshop.dto.Pageable;
 import com.example.casestudy_shoeshop.model.Category;
 import com.example.casestudy_shoeshop.model.Product;
 import com.example.casestudy_shoeshop.service.CategoryService;
@@ -44,7 +45,10 @@ public class ProductServlet extends HttpServlet {
 
 
     private void showProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("products", productService.findAll());
+        String search = req.getParameter("search");
+        Pageable pageable = new Pageable(search);
+        req.setAttribute("products", productService.findAll(pageable));
+        req.setAttribute("pageable",pageable);
         req.getRequestDispatcher("/admin/productlist.jsp").forward(req,resp);
     }
 

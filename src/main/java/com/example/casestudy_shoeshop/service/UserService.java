@@ -2,6 +2,7 @@ package com.example.casestudy_shoeshop.service;
 
 import com.example.casestudy_shoeshop.dao.UserDao;
 import com.example.casestudy_shoeshop.model.User;
+import com.example.casestudy_shoeshop.model.UserInfo;
 
 import java.util.List;
 

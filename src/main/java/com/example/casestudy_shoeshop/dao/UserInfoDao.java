@@ -1,37 +1,18 @@
 package com.example.casestudy_shoeshop.dao;
 
+import com.example.casestudy_shoeshop.model.User;
 import com.example.casestudy_shoeshop.model.UserInfo;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserInfoDao {
-    private String jdbcURL = "jdbc:mysql://127.0.0.1:3306/shoe_shop";
-    private String jdbcUsername = "root";
-    //                            password của mình
-    private String jdbcPassword = "123456";
+public class UserInfoDao extends ConnectionDatabase{
 
-    public UserInfoDao() {
-    }
-
-
-
-    protected Connection getConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
     private final String SELECT_USERS_INFO = "select * from user_info;";
     private final String INSERT_USERS_INFO = "INSERT INTO `shoe_shop`.`user_info` (`user_id`, `name`, `dob`, `email`,`phone`) VALUES (?,?,?,?,?);";
-    private final String SELECT_USER_INFO_BY_ID = "SELECT * FROM user_info WHERE user_id = ?";
+    private final String SELECT_USER_INFO_BY_ID = "SELECT * FROM user_info WHERE (`user_id` = ?);";
+    private final String UPDATE_USER_INFO = "UPDATE `shoe_shop`.`user_info` SET `name` = ?, `dob` = ?, `email` = ?, `phone` = ? WHERE (`user_id` = ?);";
     public List<UserInfo> findAll() {
         List<UserInfo> user_infoList = new ArrayList<>();
         // Step 1: tạo 1 kết nối xuống db để gọi câu lệnh SELECT or UPDATE, Delete, vv
@@ -107,5 +88,22 @@ public class UserInfoDao {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    public void updateUserInfo(UserInfo userInfo) {
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_INFO)) {
+            preparedStatement.setString(1, userInfo.getName());
+            preparedStatement.setDate(2, userInfo.getDob());
+            preparedStatement.setString(3,userInfo.getEmail());
+            preparedStatement.setString(4,userInfo.getPhone());
+            preparedStatement.setInt(5,userInfo.getUser_id());
+//                preparedStatement.setString(5, book.getCategory().getNamecategory());
+            System.out.println(preparedStatement);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
