@@ -1,6 +1,5 @@
 package com.example.casestudy_shoeshop.dao;
 
-import com.example.casestudy_shoeshop.model.Delivery;
 import com.example.casestudy_shoeshop.model.Order;
 import com.example.casestudy_shoeshop.model.OrderDetail;
 import com.example.casestudy_shoeshop.model.Status;
@@ -9,39 +8,38 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class OrderDao extends ConnectionDatabase {
-    private final String SELECT_ALL = "SELECT * FROM order;";
+    private final String SELECT_ALL_ORDERED = "SELECT o.*, ui.`name` as `name_user` " +
+            "FROM user u JOIN `order` o ON u.id = o.user_id JOIN user_info ui ON u.id = ui.user_id " +
+            "WHERE o.status <> 1";
     private final String SELECT_BY_USER_ID = "SELECT * FROM order WHERE user_id = ?;";
     private final String INSERT_ORDER = "INSERT INTO `order` (`user_id`, `total_price`, `order_date`, `status`, `delivery_id`) VALUES (?, ?, ?, ?, ?);";
     private final String UPDATE_STATUS_ORDER = "UPDATE `order` SET `status` = ? WHERE (`id` = ?);";
     private OrderDetailDao orderDetailDao = new OrderDetailDao();
     private List<Order> orderList = new ArrayList<>();
 
-    public List<Order> getAll() {
+    public List<Order> getAllOrdered() {
         orderList = new ArrayList<>();
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_ORDERED)) {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
                 int userId = rs.getInt("user_id");
+                String nameUser = rs.getString("name_user");
                 List<OrderDetail> orderDetailList = orderDetailDao.findByOrderId(id);
                 double totalPrice = rs.getDouble("total_price");
-                Date orderDate = new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("order_date")) ;
+                Date orderDate = rs.getDate("order_date");
                 Status status = Status.valueOf(rs.getString("Status"));
                 int deliveryId = rs.getInt("delivery_id");
-                orderList.add(new Order(id,userId,orderDetailList,totalPrice,orderDate,status,deliveryId));
+                orderList.add(new Order(id, userId, nameUser, orderDetailList, totalPrice, orderDate, status, deliveryId));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } catch (ParseException e) {
-            System.out.println("Lỗi Parse!");
         }
         return orderList;
     }
@@ -54,17 +52,16 @@ public class OrderDao extends ConnectionDatabase {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
+                String nameUser = rs.getString("name_user");
                 List<OrderDetail> orderDetailList = orderDetailDao.findByOrderId(id);
                 double totalPrice = rs.getDouble("total_price");
-                Date orderDate = new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("order_date")) ;
+                Date orderDate = rs.getDate("order_date");
                 Status status = Status.valueOf(rs.getString("Status"));
                 int deliveryId = rs.getInt("delivery_id");
-                orderList.add(new Order(id,userId,orderDetailList,totalPrice,orderDate,status,deliveryId));
+                orderList.add(new Order(id, userId, nameUser, orderDetailList, totalPrice, orderDate, status, deliveryId));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } catch (ParseException e) {
-            System.out.println("Lỗi Parse!");
         }
         return orderList;
     }

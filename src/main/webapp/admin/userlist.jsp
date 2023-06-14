@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="layout/header.jsp"/>
 <div class="table-responsive text-nowrap">
     <table class="table">
@@ -11,9 +13,10 @@
         </tr>
         </thead>
         <tbody class="table-border-bottom-0">
+        <for:Each items="${user}" var="user1">
         <tr>
-            <td>ID</td>
-            <td>Username</td>
+            <td>${user1.id}</td>
+            <td>${user1.Username}</td>
             <td><img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" width="50px"/></td>
             <td><span class="badge bg-label-info me-1">User</span></td>
             <td>
@@ -32,6 +35,7 @@
                 </div>
             </td>
         </tr>
+        </for:Each>
         <tr>
             <td>ID</td>
             <td>Username</td>
