@@ -6,6 +6,7 @@ import java.util.List;
 public class Order {
     private int id;
     private int userId;
+    private String nameUser;
     private List<OrderDetail> orderDetailList;
     private double totalPrice;
     private Date orderDate;
@@ -15,8 +16,9 @@ public class Order {
     public Order() {
     }
 
-    public Order(int userId, List<OrderDetail> orderDetailList, double totalPrice, Date orderDate, Status status, int deliveryId) {
+    public Order(int userId, String nameUser, List<OrderDetail> orderDetailList, double totalPrice, Date orderDate, Status status, int deliveryId) {
         this.userId = userId;
+        this.nameUser = nameUser;
         this.orderDetailList = orderDetailList;
         this.totalPrice = totalPrice;
         this.orderDate = orderDate;
@@ -24,9 +26,10 @@ public class Order {
         this.deliveryId = deliveryId;
     }
 
-    public Order(int id, int userId, List<OrderDetail> orderDetailList, double totalPrice, Date orderDate, Status status, int deliveryId) {
+    public Order(int id, int userId, String nameUser, List<OrderDetail>orderDetailList, double totalPrice, Date orderDate, Status status, int deliveryId) {
         this.id = id;
         this.userId = userId;
+        this.nameUser = nameUser;
         this.orderDetailList = orderDetailList;
         this.totalPrice = totalPrice;
         this.orderDate = orderDate;
@@ -48,6 +51,14 @@ public class Order {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getNameUser() {
+        return nameUser;
+    }
+
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
     }
 
     public List<OrderDetail> getOrderDetailList() {
