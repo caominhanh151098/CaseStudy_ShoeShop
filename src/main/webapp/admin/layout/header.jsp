@@ -248,7 +248,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="/admin/orderlist.jsp" class="menu-link">
+                    <a href="/order" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-collection"></i>
                         <div data-i18n="Layouts">Order Management</div>
                     </a>

@@ -5,7 +5,7 @@ import com.example.casestudy_shoeshop.model.UserInfo;
 
 import java.util.List;
 
-public class User_infoService {
+public class UserInfoService {
 
     private UserInfoDao user_infoDao = new UserInfoDao();
     public List<UserInfo> findAll(){

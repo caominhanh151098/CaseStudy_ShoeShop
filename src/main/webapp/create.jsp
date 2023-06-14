@@ -27,7 +27,6 @@
       <option value="${category.idCategory}">${category.nameCategory}</option>
     </c:forEach>
   </select>
-
   <button type="submit">Create</button>
 </form>
 </body>

@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core_1_1" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
-<jsp:include page="layout/header.jsp"/>
+<jsp:include page="../layout/header.jsp"/>
 <div class="table-responsive text-nowrap">
     <table class="table">
         <thead class="table-light">
@@ -24,7 +24,7 @@
                 <td>${product.category.category_name}</td>
                 <td>
                     <button type="button" class="btn rounded-pill btn-outline-secondary">
-                        <a href="product?action=update&id=${product.id}">
+                        <a href="?action=update&id=${product.id}">
                             <i class="bx bx-edit-alt me-1"></i>Edit
                         </a>
                     </button>
@@ -39,4 +39,4 @@
         </tbody>
     </table>
 </div>
-<jsp:include page="layout/footer.jsp"/>
+<jsp:include page="../layout/footer.jsp"/>
