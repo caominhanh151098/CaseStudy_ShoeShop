@@ -26,7 +26,11 @@ public class OrderServlet extends HttpServlet {
 
     private void  showOrderList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("orderlist", orderServlet.findAll());
+<<<<<<< HEAD
         req.getRequestDispatcher("/admin/orders/orderlist.jsp").forward(req, resp);
+=======
+        req.getRequestDispatcher("/admin/order/orderlist.jsp").forward(req, resp);
+>>>>>>> 4bf94b8dfd62be25c666c1a6993d5cb466a2b270
     }
 
     @Override

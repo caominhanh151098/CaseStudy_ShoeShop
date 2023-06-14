@@ -49,7 +49,11 @@ public class ProductServlet extends HttpServlet {
         Pageable pageable = new Pageable(search);
         req.setAttribute("products", productService.findAll(pageable));
         req.setAttribute("pageable",pageable);
+<<<<<<< HEAD
         req.getRequestDispatcher("/admin/products/productlist.jsp").forward(req,resp);
+=======
+        req.getRequestDispatcher("/admin/product/productlist.jsp").forward(req,resp);
+>>>>>>> 4bf94b8dfd62be25c666c1a6993d5cb466a2b270
     }
 
     private void showInsertProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -62,7 +66,11 @@ public class ProductServlet extends HttpServlet {
         Product product = productService.findById(id);
         req.setAttribute("categories",categoryService.findAll());
         req.setAttribute("product", product);
+<<<<<<< HEAD
         req.getRequestDispatcher("/admin/products/updateProduct.jsp").forward(req,resp);
+=======
+        req.getRequestDispatcher("/admin/product/updateProduct.jsp").forward(req,resp);
+>>>>>>> 4bf94b8dfd62be25c666c1a6993d5cb466a2b270
 
     }
 

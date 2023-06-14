@@ -149,7 +149,11 @@
                             </a>
                         </li>
                         <li class="menu-item">
+<<<<<<< HEAD
                             <a href="/admin/users/userlist.jsp" class="menu-link">
+=======
+                            <a href="/admin/user/userlist.jsp" class="menu-link">
+>>>>>>> 4bf94b8dfd62be25c666c1a6993d5cb466a2b270
                                 Customer Acount
                             </a>
                         </li>
