@@ -1,10 +1,9 @@
 package com.example.casestudy_shoeshop.controller;
 
-import com.example.casestudy_shoeshop.dao.UserDao;
 import com.example.casestudy_shoeshop.model.User;
 import com.example.casestudy_shoeshop.model.UserInfo;
 import com.example.casestudy_shoeshop.service.UserService;
-import com.example.casestudy_shoeshop.service.User_infoService;
+import com.example.casestudy_shoeshop.service.UserInfoService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,9 +14,10 @@ import java.io.IOException;
 import java.sql.Date;
 
 @WebServlet(name = "user", urlPatterns = "/user")
+
 public class UserServlet extends HttpServlet {
     private UserService userService = new UserService();
-    private User_infoService user_infoService = new User_infoService();
+    private UserInfoService user_infoService = new UserInfoService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -63,7 +63,7 @@ public class UserServlet extends HttpServlet {
 
     public void showUser (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("user",userService.findALL());
-        request.getRequestDispatcher("/admin/userlist.jsp").forward(request,response);
+            request.getRequestDispatcher("admin/userList.jsp").forward(request,response);
     }
 
     private void editUserInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

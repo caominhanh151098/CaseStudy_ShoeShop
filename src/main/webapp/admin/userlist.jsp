@@ -13,10 +13,10 @@
         </tr>
         </thead>
         <tbody class="table-border-bottom-0">
-        <for:Each items="${user}" var="user1">
+        <c:forEach items="${user}" var="user1">
         <tr>
-            <td>${user1.id}</td>
-            <td>${user1.Username}</td>
+            <td>${user1.getId()}</td>
+            <td>${user1.getUsername()}</td>
             <td><img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" width="50px"/></td>
             <td><span class="badge bg-label-info me-1">User</span></td>
             <td>
@@ -35,49 +35,49 @@
                 </div>
             </td>
         </tr>
-        </for:Each>
-        <tr>
-            <td>ID</td>
-            <td>Username</td>
-            <td><img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" width="50px"/></td>
-            <td><span class="badge bg-label-success me-1">Admin</span></td>
-            <td>
-                <div class="dropdown">
-                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                        <i class="bx bx-dots-vertical-rounded"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="javascript:void(0);"
-                        ><i class="bx bx-edit-alt me-1"></i>Info</a
-                        >
-                        <a class="dropdown-item" href="javascript:void(0);"
-                        ><i class="bx bx-trash me-1"></i>Edit</a
-                        >
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>ID</td>
-            <td>Username</td>
-            <td><img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" width="50px"/></td>
-            <td><span class="badge bg-label-warning me-1">Customer</span></td>
-            <td>
-                <div class="dropdown">
-                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                        <i class="bx bx-dots-vertical-rounded"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="javascript:void(0);"
-                        ><i class="bx bx-edit-alt me-1"></i>Info</a
-                        >
-                        <a class="dropdown-item" href="javascript:void(0);"
-                        ><i class="bx bx-trash me-1"></i>Edit</a
-                        >
-                    </div>
-                </div>
-            </td>
-        </tr>
+        </c:forEach>
+<%--        <tr>--%>
+<%--            <td>ID</td>--%>
+<%--            <td>Username</td>--%>
+<%--            <td><img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" width="50px"/></td>--%>
+<%--            <td><span class="badge bg-label-success me-1">Admin</span></td>--%>
+<%--            <td>--%>
+<%--                <div class="dropdown">--%>
+<%--                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">--%>
+<%--                        <i class="bx bx-dots-vertical-rounded"></i>--%>
+<%--                    </button>--%>
+<%--                    <div class="dropdown-menu">--%>
+<%--                        <a class="dropdown-item" href="javascript:void(0);"--%>
+<%--                        ><i class="bx bx-edit-alt me-1"></i>Info</a--%>
+<%--                        >--%>
+<%--                        <a class="dropdown-item" href="javascript:void(0);"--%>
+<%--                        ><i class="bx bx-trash me-1"></i>Edit</a--%>
+<%--                        >--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </td>--%>
+<%--        </tr>--%>
+<%--        <tr>--%>
+<%--            <td>ID</td>--%>
+<%--            <td>Username</td>--%>
+<%--            <td><img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" width="50px"/></td>--%>
+<%--            <td><span class="badge bg-label-warning me-1">Customer</span></td>--%>
+<%--            <td>--%>
+<%--                <div class="dropdown">--%>
+<%--                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">--%>
+<%--                        <i class="bx bx-dots-vertical-rounded"></i>--%>
+<%--                    </button>--%>
+<%--                    <div class="dropdown-menu">--%>
+<%--                        <a class="dropdown-item" href="javascript:void(0);"--%>
+<%--                        ><i class="bx bx-edit-alt me-1"></i>Info</a--%>
+<%--                        >--%>
+<%--                        <a class="dropdown-item" href="javascript:void(0);"--%>
+<%--                        ><i class="bx bx-trash me-1"></i>Edit</a--%>
+<%--                        >--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </td>--%>
+<%--        </tr>--%>
         </tbody>
     </table>
 </div>

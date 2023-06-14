@@ -145,12 +145,12 @@
                     </a>
                     <ul class="menu-sub">
                         <li class="menu-item">
-                            <a href="/admin/userlist.jsp" class="menu-link">
+                            <a href="/user" class="menu-link">
                                 User Acount
                             </a>
                         </li>
                         <li class="menu-item">
-                            <a href="/admin/userlist.jsp" class="menu-link">
+                            <a href="/admin/userList.jsp" class="menu-link">
                                 Customer Acount
                             </a>
                         </li>
