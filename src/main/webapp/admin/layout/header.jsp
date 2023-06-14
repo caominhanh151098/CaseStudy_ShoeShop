@@ -120,9 +120,12 @@
               </span>
                     <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
                 </a>
+<<<<<<< HEAD
                 <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
                     <i class="bx bx-chevron-left bx-sm align-middle"></i>
                 </a>
+=======
+>>>>>>> c8e3763ffb0ddf20fba0db0c638b74c7379dcb57
             </div>
 
             <div class="menu-inner-shadow"></div>
@@ -149,11 +152,7 @@
                             </a>
                         </li>
                         <li class="menu-item">
-<<<<<<< HEAD
                             <a href="/admin/users/userlist.jsp" class="menu-link">
-=======
-                            <a href="/admin/user/userlist.jsp" class="menu-link">
->>>>>>> 4bf94b8dfd62be25c666c1a6993d5cb466a2b270
                                 Customer Acount
                             </a>
                         </li>
