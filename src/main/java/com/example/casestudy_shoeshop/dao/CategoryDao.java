@@ -19,12 +19,6 @@ public class CategoryDao extends ConnectionDatabase {
 
     public List<Category> findAll() {
         List<Category> categories = new ArrayList<>();
-//        String search = search1.getSearch();
-//        if(search == null){
-//            search = "";
-//        }
-//        search = "%" + search + "%";
-
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement(String.format(SELECT_CATEGORY)))
