@@ -13,8 +13,11 @@ public class User_infoService {
     }
 
     public UserInfo findById(int id){
-
         return user_infoDao.findById(id);
+    }
+
+    public void update(UserInfo userInfo){
+        user_infoDao.updateUserInfo(userInfo);
     }
 
     public void create(UserInfo user_info){

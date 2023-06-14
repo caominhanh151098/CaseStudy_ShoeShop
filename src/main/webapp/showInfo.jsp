@@ -9,7 +9,7 @@
 <body>
 <h1>${action}</h1>
 <a href="/user?action=showAll">ShowAll User</a>
-<c:if test="${requestScope['user'].size() != 0}">
+
     <table border="1" >
         <tr class="bg-danger" class="rounded-pill">
             <td>Id</td>
@@ -22,23 +22,23 @@
             <td>Email</td>
             <td>Phone</td>
         </tr>
-        <c:forEach items="${userAll}" var="user1">
+<%--        <c:forEach items="${userAll}" var="user1">--%>
             <tr>
-                <td>${user1.id}</td>
-                <td>${user1.username}</td>
-                <td>${user1.password}</td>
-                <td>${user1.role_id}</td>
-                <td>${user1.user_info.user_id}</td>
-                <td>${user1.user_info.name}</td>
-                <td>${user1.user_info.dob}</td>
-                <td>${user1.user_info.email}</td>
-                <td>${user1.user_info.phone}</td>
-                <td><a href="/user?action=edit&id=${book.id}">Edit</a> </td>
-                <td><a href="/user?action=create&id=${book.id}">Create</a> </td>
+                <td>${user.id}</td>
+                <td>${user.username}</td>
+                <td>${user.password}</td>
+                <td>${user.role_id}</td>
+                <td>${user.user_info.user_id}</td>
+                <td>${user.user_info.name}</td>
+                <td>${user.user_info.dob}</td>
+                <td>${user.user_info.email}</td>
+                <td>${user.user_info.phone}</td>
+                <td><a href="/user?action=edit&id=${user.id}">Edit</a> </td>
+
             </tr>
-        </c:forEach>
+<%--        </c:forEach>--%>
     </table>
-</c:if>
+
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

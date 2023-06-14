@@ -7,28 +7,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDao {
-    private String jdbcURL = "jdbc:mysql://127.0.0.1:3306/shoe_shop";
-    private String jdbcUsername = "root";
-    //                            password của mình
-    private String jdbcPassword = "123456";
+public class UserDao  extends ConnectionDatabase{
 
-    protected Connection getConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
     private final String SELECT_USERS = "SELECT u.*, ui.* FROM user as u left join user_info as ui on u.id = ui.user_id;";
     private final String INSERT_USERS= "INSERT INTO `user` (`id`, `username`, `password`, `role_id`) VALUES (?,?,?,?);";
     private final String UPDATE_USER = "UPDATE `shoe_shop`.`user` SET `username` = ?, `password` = ?, `role_id` = ? WHERE (`id` = ?);";
     private final String SELECT_USER_BY_ID = "SELECT u.*, ui.* FROM User u inner join user_info ui on u.id = ui.user_id WHERE u.id = ?;";
+
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
         // Step 1: tạo 1 kết nối xuống db để gọi câu lệnh SELECT or UPDATE, Delete, vv
