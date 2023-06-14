@@ -42,9 +42,10 @@ public class ProductServlet extends HttpServlet {
     }
 
 
+
     private void showProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("products", productService.findAll());
-        req.getRequestDispatcher("product.jsp").forward(req,resp);
+        req.getRequestDispatcher("/admin/productlist.jsp").forward(req,resp);
     }
 
     private void showInsertProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -55,9 +56,10 @@ public class ProductServlet extends HttpServlet {
     private void showUpdateProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         Product product = productService.findById(id);
-        req.setAttribute("categories", categoryService.findAll());
-        req.setAttribute("product",product);
-        req.getRequestDispatcher("update.jsp").forward(req,resp);
+        req.setAttribute("categories",categoryService.findAll());
+        req.setAttribute("product", product);
+        req.getRequestDispatcher("/admin/updateProduct.jsp").forward(req,resp);
+
     }
 
     @Override
@@ -106,7 +108,4 @@ public class ProductServlet extends HttpServlet {
         showProduct(req,resp);
 
     }
-
-
-
 }

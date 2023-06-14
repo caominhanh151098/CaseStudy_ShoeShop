@@ -18,7 +18,9 @@ public class ProductDao extends ConnectionDatabase{
             " join category c on p.category_id = c.id\n" +
             "Where p.id = ?";
 
+
     private final String UPDATE_PRODUCT = "UPDATE product SET product_name = ?, price = ?, description = ?, img = ?, category_id = ? WHERE (id = ?)";
+
     public List<Product> findAll() {
         List<Product> products = new ArrayList<>();
 //        String search = search1.getSearch();
@@ -104,7 +106,6 @@ public class ProductDao extends ConnectionDatabase{
         }
     }
 
-
     public void update(Product product){
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PRODUCT))
@@ -122,7 +123,5 @@ public class ProductDao extends ConnectionDatabase{
             throw new RuntimeException(e);
         }
     }
-
-
 
 }

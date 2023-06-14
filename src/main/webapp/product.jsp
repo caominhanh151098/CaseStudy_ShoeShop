@@ -48,11 +48,10 @@
                 <td>${product.id}</td>
                 <td>${product.product_name}</td>
                 <td>${product.price} VND</td>
-                <td>${product.description}</td>
                 <td><img src ="${product.image}"></td>
                 <td>${product.category.category_name}</td>
-                <td>
-                    <a href="product?action=update&id=${product.id}">Update</a>
+                    <a href="product?action=update&id=${product.id}">UPDATE</a>
+
                 </td>
             </tr>
         </c:forEach>
