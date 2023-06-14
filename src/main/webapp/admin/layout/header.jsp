@@ -203,7 +203,6 @@
                       class="form-control border-0 shadow-none"
                       placeholder="Search..."
                       aria-label="Search..."
-              />
 =======
                 <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
                     <i class="bx bx-chevron-left bx-sm align-middle"></i>
@@ -230,12 +229,12 @@
                     </a>
                     <ul class="menu-sub">
                         <li class="menu-item">
-                            <a href="/admin/userlist.jsp" class="menu-link">
+                            <a href="/user" class="menu-link">
                                 User Acount
                             </a>
                         </li>
                         <li class="menu-item">
-                            <a href="/admin/userlist.jsp" class="menu-link">
+                            <a href="/admin/users/userlist.jsp" class="menu-link">
                                 Customer Acount
                             </a>
                         </li>
@@ -248,7 +247,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="/admin/orderlist.jsp" class="menu-link">
+                    <a href="/order" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-collection"></i>
                         <div data-i18n="Layouts">Order Management</div>
                     </a>
