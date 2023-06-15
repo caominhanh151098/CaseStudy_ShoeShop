@@ -2,6 +2,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <jsp:include page="../layout/header.jsp"/>
+    <button type="button" class="btn rounded-pill btn-outline-secondary">
+        <a href="product?action=insert&amp;id=10">
+            <i class="bx bx-edit-alt me-1"></i>CREATE
+        </a>
+    </button>
+<br><br>
 <div class="table-responsive text-nowrap">
     <table class="table">
         <thead class="table-light">
