@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDao extends ConnectionDatabase{
-    private final String SELECT_PRODUCT = "SELECT p.* , c.category_name as categoryName FROM product p Left join category c on p.category_id = c.id where lower(p.product_name) like '%s' or lower(p.category_id) like '%s'";
+    private final String SELECT_PRODUCT = "SELECT p.* , c.category_name as categoryName, c.img as category_name FROM product p Left join category c on p.category_id = c.id where lower(p.product_name) like '%s' or lower(p.category_id) like '%s'";
 
     private final String INSERT_PRODUCT = "INSERT INTO product (product_name, price, description, img, category_id) VALUES (?, ?, ?, ?, ?)";
 
@@ -45,7 +45,8 @@ public class ProductDao extends ConnectionDatabase{
 
                 int categoryId = rs.getInt("id");
                 String categoryName = rs.getString("categoryName");
-                Category category = new Category(categoryId,categoryName);
+                String categoryImg = rs.getString("category_img");
+                Category category = new Category(categoryId,categoryName, categoryImg);
 
                 products.add(new Product(id,name,price,description,image,category));
             }
@@ -78,7 +79,8 @@ public class ProductDao extends ConnectionDatabase{
 
                 int categoryId = rs.getInt("category_id");
                 String categoryName = rs.getString("categoryName");
-                Category category = new Category(categoryId,categoryName);
+                String categoryImg = rs.getString("category_img");
+                Category category = new Category(categoryId,categoryName, categoryImg);
 
                 return new Product(idPr,name,price,description,image,category);
 
