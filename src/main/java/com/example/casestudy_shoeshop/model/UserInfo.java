@@ -1,6 +1,7 @@
 package com.example.casestudy_shoeshop.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class UserInfo {
     private  int user_id;

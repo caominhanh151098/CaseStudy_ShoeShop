@@ -235,7 +235,7 @@
                             </a>
                         </li>
                         <li class="menu-item">
-                            <a href="/admin/userList.jsp" class="menu-link">
+                            <a href="/customer" class="menu-link">
                                 Customer Acount
                             </a>
                         </li>
@@ -248,7 +248,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="/order" class="menu-link">
+                    <a href="/oder" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-collection"></i>
                         <div data-i18n="Layouts">Order Management</div>
                     </a>

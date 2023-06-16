@@ -1,5 +1,6 @@
 package com.example.casestudy_shoeshop.dao;
 
+import com.example.casestudy_shoeshop.model.Role;
 import com.example.casestudy_shoeshop.model.User;
 import com.example.casestudy_shoeshop.model.UserInfo;
 
@@ -9,10 +10,10 @@ import java.util.List;
 
 public class UserDao  extends ConnectionDatabase{
 
-    private final String SELECT_USERS = "SELECT u.*, ui.* FROM user as u left join user_info as ui on u.id = ui.user_id;";
-    private final String INSERT_USERS= "INSERT INTO `user` (`id`, `username`, `password`, `role_id`) VALUES (?,?,?,?);";
+    private final String SELECT_USERS = "SELECT u.*, ui.*, r.* FROM user u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id;";
+    private final String CREATE_USERS= "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id";
     private final String UPDATE_USER = "UPDATE `shoe_shop`.`user` SET `username` = ?, `password` = ?, `role_id` = ? WHERE (`id` = ?);";
-    private final String SELECT_USER_BY_ID = "SELECT u.*, ui.* FROM User u inner join user_info ui on u.id = ui.user_id WHERE u.id = ?;";
+    private final String SELECT_USER_BY_ID = "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id WHERE u.id = ?;";
 
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
@@ -29,20 +30,23 @@ public class UserDao  extends ConnectionDatabase{
             // Step 4:
             //kiểm tra còn data hay không. còn thì cứ lấy bằng câu lệnh ở dưới
             while (rs.next()) {
-                //(truyên vào tên cột)
+
                 int id = rs.getInt("id");
-                //(truyên vào tên cột)
                 String username = rs.getString("username");
-                //(truyên vào tên cột)
                 String password = rs.getString("password");
+
                 int role_id = rs.getInt("role_id");
+                String role_name = rs.getString("role_name");
+                Role role = new Role(role_id,role_name);
 
                 int user_id = rs.getInt("user_id");
                 String name = rs.getString("name");
                 Date dob = rs.getDate("dob");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone");
-                users.add(new User(id,username,password,role_id, new UserInfo(user_id,name,dob,email,phone)));
+                UserInfo userInfo = new UserInfo(user_id,name,dob,email,phone);
+
+                users.add(new User(id,username,password,role , userInfo));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -50,15 +54,24 @@ public class UserDao  extends ConnectionDatabase{
         return users;
     }
 
-    public void insertUser(User user) {
+    public void createUser(User user) {
 
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID)) {
-            preparedStatement.setInt(1,user.getId());
-            preparedStatement.setString(2, user.getUsername());
-            preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setInt(4, user.getRole_id());
-            preparedStatement.setInt(5,user.getUser_info().getUser_id());
+             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USERS)) {
+//            preparedStatement.setInt(1,user.getId());
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setInt(3, user.getRole().getId());
+
+
+            preparedStatement.setInt(4,user.getUser_info().getUser_id());
+//            preparedStatement.setString(5,user.getUser_info().getName());
+//            preparedStatement.setString(6, String.valueOf((user.getUser_info().getDob())));
+//            preparedStatement.setString(7,user.getUser_info().getEmail());
+//            preparedStatement.setString(8,user.getUser_info().getPhone());
+
+//            preparedStatement.setString(9,user.getRole().getRole_name());
+
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -72,7 +85,7 @@ public class UserDao  extends ConnectionDatabase{
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER)) {
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setInt(3,user.getRole_id());
+            preparedStatement.setInt(3,user.getRole().getId());
             preparedStatement.setInt(5,user.getId());
 //                preparedStatement.setString(5, book.getCategory().getNamecategory());
             System.out.println(preparedStatement);
@@ -84,33 +97,28 @@ public class UserDao  extends ConnectionDatabase{
 
     public User findById(int idUser) {
         try (Connection connection = getConnection();
-
-             // Step 2: truyền câu lênh mình muốn chạy nằm ở trong này (SELECT_USERS)
              PreparedStatement preparedStatement = connection
                      .prepareStatement(SELECT_USER_BY_ID);) {
             System.out.println(preparedStatement);
             preparedStatement.setInt(1, idUser);
-
-            // Step 3: tương đương vowis cái sét
             ResultSet rs = preparedStatement.executeQuery();
-
-            // Step 4:
-            //kiểm tra còn data hay không. còn thì cứ lấy bằng câu lệnh ở dưới
             while (rs.next()) {
-                //(truyên vào tên cột)
                 int id = rs.getInt("id");
-                //(truyên vào tên cột)
                 String username = rs.getString("username");
-                //(truyên vào tên cột)
                 String password = rs.getString("password");
+
                 int role_id = rs.getInt("role_id");
+                String role_name = rs.getString("role_name");
+                Role role = new Role(role_id,role_name);
+
                 int user_id = rs.getInt("user_id");
                 String name = rs.getString("name");
                 Date dob = rs.getDate("dob");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone");
+                UserInfo userInfo = new UserInfo(user_id,name,dob,email,phone);
 
-                return new User(id,username,password,role_id, new UserInfo(user_id,name,dob,email,phone));
+                return new User(id,username,password,role,userInfo);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

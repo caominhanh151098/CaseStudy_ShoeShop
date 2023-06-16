@@ -16,8 +16,8 @@ public class UserInfoService {
         return user_infoDao.findById(id);
     }
 
-    public void update(UserInfo userInfo){
-        user_infoDao.updateUserInfo(userInfo);
+    public void editUserInfo(UserInfo userInfo){
+        user_infoDao.editUserInfo(userInfo);
     }
 
     public void create(UserInfo user_info){
