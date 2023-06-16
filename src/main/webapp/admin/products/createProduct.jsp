@@ -6,10 +6,9 @@
     <div class="card mb-4">
         <div class="card-header d-flex align-items-center justify-content-between">
             <h5 class="mb-0">CREATE PRODUCT</h5>
-            <small class="text-muted float-end">Default label</small>
         </div>
         <div class="card-body">
-            <form action="product?action=insert" method="post" onsubmit="return validateForm()">
+            <form action="/product?action=create" method="post">
                 <input  type="hidden" name="id" >
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label" for="basic-default-name">name</label>
@@ -62,30 +61,27 @@
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label" >Category</label>
                     <div class="col-sm-10">
-                        <select name="category" id="category" >
+                        <select class="form-select" name="category" id="category" >
 
                             <c:forEach items="${categories}" var="category">
                                 <c:if test="${category.id == product.category.id }">
-                                    <option selected value="${category.id}" >${category.category_name}</option>
+                                    <option selected value="${category.id}" >${category.categoryName}</option>
                                 </c:if>
                                 <c:if test="${category.id != product.category.id }">
-                                    <option value="${category.id}" >${category.category_name}</option>
+                                    <option value="${category.id}" >${category.categoryName}</option>
                                 </c:if>
                             </c:forEach>
                         </select>
                     </div>
+                    <br><br><br>
                     <div class="row justify-content-end">
                         <div class="col-sm-10">
                             <button type="submit" class="btn btn-primary">SUBMIT</button>
                         </div>
                     </div>
+                </div>
             </form>
         </div>
     </div>
 </div>
-<script>
-    function validateForm(){
-
-    }
-</script>
 <jsp:include page="../layout/footer.jsp"/>

@@ -33,8 +33,8 @@ public class ProductServlet extends HttpServlet {
             action = "";
         }
         switch (action){
-            case  "insert":
-                showInsertProduct(req,resp);
+            case  "create":
+                showCreateProduct(req,resp);
                 break;
             case "update":
                 showUpdateProduct(req,resp);
@@ -70,7 +70,7 @@ public class ProductServlet extends HttpServlet {
         req.getRequestDispatcher("/admin/products/productlist.jsp").forward(req,resp);
     }
 
-    private void showInsertProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void showCreateProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("categories",categoryService.findAll());
         req.getRequestDispatcher("/admin/products/createProduct.jsp").forward(req,resp);
     }
@@ -91,8 +91,8 @@ public class ProductServlet extends HttpServlet {
             action = "";
         }
         switch (action){
-            case "insert":
-                insertProduct(req,resp);
+            case "create":
+                createProduct(req,resp);
                 break;
             case "update":
                 updateProduct(req,resp);
@@ -104,7 +104,7 @@ public class ProductServlet extends HttpServlet {
     }
 
 
-    private void insertProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void createProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("product_name");
         double price = Double.parseDouble(req.getParameter("price"));
         String description = req.getParameter("description");

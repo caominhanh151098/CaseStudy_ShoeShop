@@ -6,7 +6,6 @@
     <div class="card mb-4">
         <div class="card-header d-flex align-items-center justify-content-between">
             <h5 class="mb-0">UPDATE PRODUCT</h5>
-            <small class="text-muted float-end">Default label</small>
         </div>
         <div class="card-body">
             <form action="product?action=update" method="post">
@@ -62,25 +61,44 @@
                         />
                     </div>
                 </div>
+
+<%--                <label class="col-sm-2 col-form-label" >Category</label>--%>
+<%--                <div class="btn-group">--%>
+<%--                    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">--%>
+<%--                        Secondary--%>
+<%--                    </button>--%>
+<%--                    <ul class="dropdown-menu" style="">--%>
+<%--                        <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>--%>
+<%--                        <li><a class="dropdown-item" href="javascript:void(0);">Another action</a></li>--%>
+<%--                        <li><a class="dropdown-item" href="javascript:void(0);">Something else here</a></li>--%>
+<%--                        <li>--%>
+<%--                            <hr class="dropdown-divider">--%>
+<%--                        </li>--%>
+<%--                        <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a></li>--%>
+<%--                    </ul>--%>
+<%--                </div>--%>
+<%--                <br><br>--%>
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label" >Category</label>
                     <div class="col-sm-10">
-                        <select name="category" id="category" >
+                        <select class="form-select" name="category" id="category"  >
 
                             <c:forEach items="${categories}" var="category">
                                 <c:if test="${category.id == product.category.id }">
-                                    <option selected value="${category.id}" >${category.category_name}</option>
+                                    <option selected value="${category.id}" >${category.categoryName}</option>
                                 </c:if>
                                 <c:if test="${category.id != product.category.id }">
-                                    <option value="${category.id}" >${category.category_name}</option>
+                                    <option value="${category.id}" >${category.categoryName}</option>
                                 </c:if>
                             </c:forEach>
                         </select>
                 </div>
+                    <br><br><br>
                 <div class="row justify-content-end">
                     <div class="col-sm-10">
                         <button type="submit" class="btn btn-primary">SUBMIT</button>
                     </div>
+                </div>
                 </div>
             </form>
         </div>
