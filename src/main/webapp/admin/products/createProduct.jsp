@@ -9,7 +9,7 @@
             <small class="text-muted float-end">Default label</small>
         </div>
         <div class="card-body">
-            <form action="product?action=insert" method="post">
+            <form action="product?action=insert" method="post" onsubmit="return validateForm()">
                 <input  type="hidden" name="id" >
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label" for="basic-default-name">name</label>
@@ -83,4 +83,9 @@
         </div>
     </div>
 </div>
+<script>
+    function validateForm(){
+
+    }
+</script>
 <jsp:include page="../layout/footer.jsp"/>

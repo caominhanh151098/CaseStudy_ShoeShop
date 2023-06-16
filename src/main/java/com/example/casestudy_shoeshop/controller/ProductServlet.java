@@ -20,6 +20,8 @@ import java.util.List;
 
 public class ProductServlet extends HttpServlet {
 
+    private  int TOTAL_ITEMS = 5;
+
     private List<Product> products = new ArrayList<>();
 
     private ProductService productService = new ProductService();
@@ -46,7 +48,23 @@ public class ProductServlet extends HttpServlet {
 
     private void showProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String search = req.getParameter("search");
-        Pageable pageable = new Pageable(search);
+
+        int page = 1;
+        if(req.getParameter("page")!= null){
+            page = Integer.parseInt(req.getParameter("page"));
+        }
+
+        String sortBy = req.getParameter("sortBy");
+        if(sortBy == null){
+            sortBy = "asc";
+        }
+
+        String fieldName = req.getParameter("fieldName");
+        if(fieldName == null){
+            fieldName = "product.id";
+        }
+
+        Pageable pageable = new Pageable(search, page, TOTAL_ITEMS ,fieldName,sortBy);
         req.setAttribute("products", productService.findAll(pageable));
         req.setAttribute("pageable",pageable);
         req.getRequestDispatcher("/admin/products/productlist.jsp").forward(req,resp);

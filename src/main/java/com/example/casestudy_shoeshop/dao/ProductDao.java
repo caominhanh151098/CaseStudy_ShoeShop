@@ -10,8 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDao extends ConnectionDatabase{
-    private final String SELECT_PRODUCT = "SELECT p.* , c.category_name as categoryName FROM product p Left join category c on p.category_id = c.id where lower(p.product_name) like '%s' or lower(p.category_id) like '%s'";
+    private final String SELECT_ALL_PRODUCT = "SELECT p.* , c.category_name as categoryName FROM product p Left join category c on p.category_id = c.id where lower(p.product_name) like '%s' order by '%s' '%s' limit %d offset %d";
 
+    private final String TOTAL_PRODUCT = "SELECT count(1) as total\n" +
+            "FROM product p \n" +
+            "Left join category c \n" +
+            "on p.category_id = c.id \n" +
+            "where lower(p.product_name) like ?";
     private final String INSERT_PRODUCT = "INSERT INTO product (product_name, price, description, img, category_id) VALUES (?, ?, ?, ?, ?)";
 
     private final String SELECT_PRODUCT_BY_ID = "SELECT p.* , c.category_name as categoryName\n" +
@@ -21,6 +26,8 @@ public class ProductDao extends ConnectionDatabase{
 
 
     private final String UPDATE_PRODUCT = "UPDATE product SET product_name = ?, price = ?, description = ?, img = ?, category_id = ? WHERE (id = ?)";
+
+
 
     public List<Product> findAll(Pageable pageable) {
         List<Product> products = new ArrayList<>();
@@ -32,9 +39,15 @@ public class ProductDao extends ConnectionDatabase{
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement(String.format(SELECT_PRODUCT,search,search)))
-        {
+                     .prepareStatement(String.format(SELECT_ALL_PRODUCT,search,
+                             pageable.getNameField(),
+                             pageable.getSortBy(),
+                             pageable.getTotalItems(),
+                            (pageable.getPage() -1) * pageable.getTotalItems())))
+                {
+            System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
+
             while (rs.next()){
                 int id = rs.getInt("id");
                 String name = rs.getString("product_name");
@@ -50,12 +63,26 @@ public class ProductDao extends ConnectionDatabase{
                 products.add(new Product(id,name,price,description,image,category));
             }
 
+            PreparedStatement totalProduct = connection.prepareStatement(TOTAL_PRODUCT);
+            totalProduct.setString(1,search);
+
+            ResultSet total = totalProduct.executeQuery();
+
+            while (total.next()){
+                double totalProducts = total.getDouble("total");
+                double totalItem = Double.parseDouble(pageable.getTotalItems()+"");
+                int totalPage = (int) Math.ceil(totalProducts/totalItem);
+                pageable.setTotalPage(totalPage);
+            }
+
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return products;
     }
+
+
 
     public Product findById(int id) {
         try (
