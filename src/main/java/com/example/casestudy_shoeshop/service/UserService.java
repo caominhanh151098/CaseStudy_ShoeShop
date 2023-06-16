@@ -1,6 +1,7 @@
 package com.example.casestudy_shoeshop.service;
 
 import com.example.casestudy_shoeshop.dao.UserDao;
+import com.example.casestudy_shoeshop.dto.Pageable;
 import com.example.casestudy_shoeshop.model.User;
 import com.example.casestudy_shoeshop.model.UserInfo;
 
@@ -9,8 +10,8 @@ import java.util.List;
 public class UserService {
     private UserDao userDao = new UserDao();
 
-    public List<User> findALL(){
-        return  userDao.findAll();
+    public List<User> findALL(Pageable pageable){
+        return  userDao.findAll(pageable);
     }
 
 

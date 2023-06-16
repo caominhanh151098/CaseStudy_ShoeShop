@@ -40,6 +40,8 @@ public class ProductDao extends ConnectionDatabase {
 
     public List<Product> findAll(Pageable pageable) {
         List<Product> products = new ArrayList<>();
+
+        // tìm theo tên
         String search = pageable.getSearch();
         if (search == null) {
             search = "";

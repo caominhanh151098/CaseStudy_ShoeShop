@@ -1,5 +1,6 @@
 package com.example.casestudy_shoeshop.dao;
 
+import com.example.casestudy_shoeshop.dto.Pageable;
 import com.example.casestudy_shoeshop.model.Role;
 import com.example.casestudy_shoeshop.model.User;
 import com.example.casestudy_shoeshop.model.UserInfo;
@@ -17,17 +18,32 @@ public class UserDao extends ConnectionDatabase{
     private final String UPDATE_USER = "UPDATE `shoe_shop`.`user` SET `username` = ?, `password` = ?, `role_id` = ? WHERE (`id` = ?);";
     private final String SELECT_USER_BY_ID = "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id WHERE u.id = ?;";
     private final String SELECT_USER_BY_USERNAME = "SELECT u.* FROM user u WHERE u.username = ?;";
+    private final String TOTAL_USER = "SELECT count(1) as total FROM user where lower(user.username) like '%s' limit %d offset %d;";
 
+<<<<<<< Updated upstream
 
 //    private final String SELECT_USER_BY_USERNAME = "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id WHERE u.username = ?;";
     public List<User> findAll() {
+=======
+//    private final String SELECT_USER_BY_USERNAME = "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id WHERE u.username = ?;";
+    public List<User> findAll(Pageable pageable) {
+>>>>>>> Stashed changes
         List<User> users = new ArrayList<>();
+        String search = pageable.getSearch();
+        if (search == null) {
+            search = "";
+        }
+        search = "%" + search + "%";
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement(SELECT_USERS)) {
+                     .prepareStatement(String.format(SELECT_USERS,search,
+                             pageable.getNameField(),
+                             pageable.getSortBy(),
+                             pageable.getTotalItems(),
+                             (pageable.getPage() -1) * pageable.getTotalItems())))
+        {
             System.out.println(preparedStatement);
-
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
@@ -48,6 +64,18 @@ public class UserDao extends ConnectionDatabase{
                 UserInfo userInfo = new UserInfo(user_id,name,dob,email,phone);
 
                 users.add(new User(id,username,password,role , userInfo));
+            }
+
+            PreparedStatement totalProduct = connection.prepareStatement(TOTAL_USER);
+            totalProduct.setString(1,search);
+
+            ResultSet total = totalProduct.executeQuery();
+
+            while (total.next()){
+                double totalProducts = total.getDouble("total");
+                double totalItem = Double.parseDouble(pageable.getTotalItems()+"");
+                int totalPage = (int) Math.ceil(totalProducts/totalItem);
+                pageable.setTotalPage(totalPage);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -127,6 +155,10 @@ public class UserDao extends ConnectionDatabase{
     }
 
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     public User findByUserName(String userName) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection

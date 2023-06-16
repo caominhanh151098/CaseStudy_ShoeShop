@@ -1,5 +1,6 @@
 package com.example.casestudy_shoeshop.controller;
 
+import com.example.casestudy_shoeshop.dto.Pageable;
 import com.example.casestudy_shoeshop.model.Role;
 import com.example.casestudy_shoeshop.model.User;
 import com.example.casestudy_shoeshop.model.UserInfo;
@@ -21,6 +22,7 @@ import java.util.List;
 @WebServlet(name = "user", urlPatterns = "/user")
 
 public class UserServlet extends HttpServlet {
+    private  int TOTAL_ITEMS = 5;
 
     private UserService userService = new UserService();
     private UserInfoService user_infoService = new UserInfoService();
@@ -52,9 +54,29 @@ public class UserServlet extends HttpServlet {
 
     private void showCreateUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        int id = Integer.parseInt(req.getParameter("id"));
+        String search = req.getParameter("search");
+
+        int page = 1;
+        if(req.getParameter("page")!= null){
+            page = Integer.parseInt(req.getParameter("page"));
+        }
+
+        String sortBy = req.getParameter("sortBy");
+        if(sortBy == null){
+            sortBy = "asc";
+        }
+
+        String fieldName = req.getParameter("fieldName");
+        if(fieldName == null){
+            fieldName = "product.id";
+        }
+
+        Pageable pageable = new Pageable(search, page, TOTAL_ITEMS ,fieldName,sortBy);
+        req.setAttribute("pageable", pageable);
+        req.setAttribute("usercustomer", userService.findALL(pageable));
 
         req.setAttribute("role", roleService.findAll());
-        req.setAttribute("userinfo", userService.findALL());
+        req.setAttribute("userinfo", userService.findALL(pageable));
         req.getRequestDispatcher("/admin/users/createUser.jsp").forward(req,resp);
 
     }
@@ -102,12 +124,51 @@ public class UserServlet extends HttpServlet {
     }
 
     public void showUser (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("user",userService.findALL());
+        String search = request.getParameter("search");
+
+        int page = 1;
+        if(request.getParameter("page")!= null){
+            page = Integer.parseInt(request.getParameter("page"));
+        }
+
+        String sortBy = request.getParameter("sortBy");
+        if(sortBy == null){
+            sortBy = "asc";
+        }
+
+        String fieldName = request.getParameter("fieldName");
+        if(fieldName == null){
+            fieldName = "product.id";
+        }
+
+        Pageable pageable = new Pageable(search, page, TOTAL_ITEMS ,fieldName,sortBy);
+        request.setAttribute("pageable", pageable);
+        request.setAttribute("user",userService.findALL(pageable));
         request.getRequestDispatcher("/admin/users/userlist.jsp").forward(request,response);
     }
 
     public void showUserCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("usercustomer", userService.findALL());
+        String search = request.getParameter("search");
+
+        int page = 1;
+        if(request.getParameter("page")!= null){
+            page = Integer.parseInt(request.getParameter("page"));
+        }
+
+        String sortBy = request.getParameter("sortBy");
+        if(sortBy == null){
+            sortBy = "asc";
+        }
+
+        String fieldName = request.getParameter("fieldName");
+        if(fieldName == null){
+            fieldName = "product.id";
+        }
+
+        Pageable pageable = new Pageable(search, page, TOTAL_ITEMS ,fieldName,sortBy);
+        request.setAttribute("pageable", pageable);
+        request.setAttribute("usercustomer", userService.findALL(pageable));
+
         request.getRequestDispatcher("/admin/users/customerlist.jsp").forward(request,response);
     }
 
