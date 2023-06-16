@@ -1,5 +1,6 @@
 package com.example.casestudy_shoeshop.controller;
 
+import com.example.casestudy_shoeshop.model.Role;
 import com.example.casestudy_shoeshop.model.User;
 import com.example.casestudy_shoeshop.model.UserInfo;
 import com.example.casestudy_shoeshop.service.RoleService;
@@ -20,7 +21,7 @@ import java.util.List;
 @WebServlet(name = "user", urlPatterns = "/user")
 
 public class UserServlet extends HttpServlet {
-    private String message;
+
     private UserService userService = new UserService();
     private UserInfoService user_infoService = new UserInfoService();
     private RoleService roleService = new RoleService();
@@ -91,6 +92,9 @@ public class UserServlet extends HttpServlet {
             case "usercustomer":
                 showUserCustomer(req, resp);
                 break;
+            case "createUser":
+                createUser(req,resp);
+                break;
 
             default:
                 showUser(req, resp);
@@ -107,18 +111,29 @@ public class UserServlet extends HttpServlet {
         request.getRequestDispatcher("/admin/users/customerlist.jsp").forward(request,response);
     }
 
-//    public void createUser(HttpServletRequest request, HttpServletResponse response){
-//        String username = request.getParameter("name");
-//        String password = request.getParameter("password");
-//        String rolename = request.getParameter("rolename");
-//        String name = request.getParameter("name");
-//        String dob = request.getParameter("dob");
-//        String email = request.getParameter("email");
-//        String phone = request.getParameter("phone");
-////        UserInfo userInfo = user_infoService.findAll();
-//        User user = new User(username,password,);
-//
-//    }
+    public void createUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        Role role = roleService.findById(3);
+
+        String name = request.getParameter("name");
+        Date dob = Date.valueOf(request.getParameter("dob"));
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+
+        UserInfo userInfo = new UserInfo(name,dob,email,phone);
+        User user = new User(username,password, role,userInfo);
+
+        userService.create(user);
+//        request.setAttribute("usercustomer",user);
+        String message = "Thêm mới thành công";
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/admin/users/createUser.jsp").forward(request,response);
+
+
+
+    }
 
     private void editUserInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<String> errors = new ArrayList<>();
@@ -131,7 +146,7 @@ public class UserServlet extends HttpServlet {
 
         String phone = req.getParameter("phone");
         userInfo.setPhone(phone);
-
+        userInfo.setUser_id(user_id);
 
         if(errors.isEmpty()){
             user_infoService.editUserInfo(userInfo);
@@ -139,10 +154,10 @@ public class UserServlet extends HttpServlet {
             req.setAttribute("errors", errors);
             req.setAttribute("userInfo",userInfo);
         }
+        String message = "Sửa thành công";
+        req.setAttribute("message", message);
         req.getRequestDispatcher("/admin/users/userEdit.jsp").forward(req,resp);
-//        message = "Thêm thành công";
-//        req.setAttribute("message", message);
-        showUser(req, resp);
+//        showUser(req, resp);
     }
 
     private void validateEmail(HttpServletRequest req, List<String> errors, UserInfo userInfo) {

@@ -8,12 +8,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDao  extends ConnectionDatabase{
+public class UserDao extends ConnectionDatabase{
+    private UserInfoDao userInfoDao = new UserInfoDao();
 
     private final String SELECT_USERS = "SELECT u.*, ui.*, r.* FROM user u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id;";
-    private final String CREATE_USERS= "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id";
+    private final String CREATE_USERS= "INSERT INTO user (username, password, role_id) VALUES (?,?,?);";
+
     private final String UPDATE_USER = "UPDATE `shoe_shop`.`user` SET `username` = ?, `password` = ?, `role_id` = ? WHERE (`id` = ?);";
     private final String SELECT_USER_BY_ID = "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id WHERE u.id = ?;";
+    private final String SELECT_USER_BY_USERNAME = "SELECT u.* FROM user u WHERE u.username = ?;";
+
 
     private final String SELECT_USER_BY_USERNAME = "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id WHERE u.username = ?;";
     public List<User> findAll() {
@@ -51,6 +55,7 @@ public class UserDao  extends ConnectionDatabase{
         return users;
     }
 
+
     public void createUser(User user) {
 
         try (Connection connection = getConnection();
@@ -61,7 +66,7 @@ public class UserDao  extends ConnectionDatabase{
             preparedStatement.setInt(3, user.getRole().getId());
 
 
-            preparedStatement.setInt(4,user.getUser_info().getUser_id());
+//            preparedStatement.setInt(4,user.getUser_info().getUser_id());
 //            preparedStatement.setString(5,user.getUser_info().getName());
 //            preparedStatement.setString(6, String.valueOf((user.getUser_info().getDob())));
 //            preparedStatement.setString(7,user.getUser_info().getEmail());
@@ -74,6 +79,11 @@ public class UserDao  extends ConnectionDatabase{
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        User newUser = findByUserName(user.getUsername());
+
+
+        UserInfo userInfo = new UserInfo(newUser.getId(), user.getUser_info().getName(), user.getUser_info().getDob(), user.getUser_info().getEmail(), user.getUser_info().getPhone());
+        userInfoDao.insertUserInfo(userInfo);
     }
 
     public void updateUser(User user) {
@@ -123,6 +133,7 @@ public class UserDao  extends ConnectionDatabase{
         return null;
     }
 
+<<<<<<< Updated upstream
 
     public User findByName(String userName) {
         try (Connection connection = getConnection();
@@ -148,11 +159,29 @@ public class UserDao  extends ConnectionDatabase{
                 UserInfo userInfo = new UserInfo(user_id,name,dob,email,phone);
 
                 return new User(id,username,password,role,userInfo);
+=======
+    public User findByUserName(String username) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement(SELECT_USER_BY_USERNAME);) {
+            System.out.println(preparedStatement);
+            preparedStatement.setString(1, username);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String username1 = rs.getString("username");
+                String password = rs.getString("password");
+
+                return new User(id,username1,password);
+>>>>>>> Stashed changes
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 }

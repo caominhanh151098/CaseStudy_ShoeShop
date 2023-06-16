@@ -1,13 +1,44 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="../layout/header.jsp"/>
-<button type="button" class="btn rounded-pill btn-outline-secondary">
-    <a href="user?action=createUser">
-        <i class="bx bx-edit-alt me-1"></i>CREATE
-    </a>
-</button>
+<nav
+        class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+        id="layout-navbar"
+>
+    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="bx bx-menu bx-sm"></i>
+        </a>
+    </div>
+
+    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+        <!-- Search -->
+        <div class="navbar-nav align-items-center">
+            <div class="nav-item d-flex align-items-center">
+                <i class="bx bx-search fs-4 lh-0"></i>
+                <form>
+                    <input
+                            type="search"
+                            class="form-control border-0 shadow-none"
+                            placeholder="Search..."
+                            aria-label="Search..."
+                            name="search" value="${pageable.search}" onsearch="onClearSearch()"
+                    />
+                    <button id="searchButton" type="submit" style="display: none"/>
+                </form>
+                <script>
+                    function onClearSearch(){
+                        let searchButton = document.getElementById("searchButton");
+                        searchButton.click();
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+</nav>
 <br><br>
 <div class="table-responsive text-nowrap">
+
     <table class="table">
         <thead class="table-light">
         <tr>

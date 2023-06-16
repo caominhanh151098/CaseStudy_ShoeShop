@@ -26,6 +26,13 @@ public class UserInfo {
     public UserInfo(int id, String username, String password, int roleId) {
     }
 
+    public UserInfo(String name, Date dob, String email, String phone) {
+        this.name = name;
+        this.dob = dob;
+        this.email = email;
+        this.phone = phone;
+    }
+
     public int getUser_id() {
         return user_id;
     }

@@ -11,9 +11,6 @@
 <jsp:include page="../layout/header.jsp"/>
 <div class="col-xxl">
         <div class="card mb-4">
-<%--            <c:if test="${requestScope['message'] != null}">--%>
-<%--                <span>${message}</span>--%>
-<%--            </c:if>--%>
                 <div class="card-header d-flex align-items-center justify-content-between">
                         <h5 class="mb-0">Edit User Info</h5>
                         <small class="text-muted float-end">Shoe Shop</small>
@@ -29,6 +26,9 @@
                         </div>
                     </c:if>
                         <form action="/user?action=edit" method="post">
+<%--                            <c:if test="${requestScope['message'] != null}">--%>
+<%--                                <span style="color: red">${message}</span>--%>
+<%--                            </c:if>--%>
                             <input type="hidden" name="id" value="${userInfo.user_id}">
                                 <div class="row mb-3">
                                         <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Name</label>
@@ -113,6 +113,9 @@
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
                                 </div>
+                            <c:if test="${message != null}">
+                                <span style="color: red">${message}</span>
+                            </c:if>
                         </form>
                 </div>
         </div>

@@ -11,8 +11,8 @@ public class RoleService {
         return roleDao.findAll();
     }
 
-    public void findById(int idRole){
-        roleDao.findById(idRole);
+    public Role findById(int idRole){
+       return roleDao.findById(idRole);
     }
 
 }
