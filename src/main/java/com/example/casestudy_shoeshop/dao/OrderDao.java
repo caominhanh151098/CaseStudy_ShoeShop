@@ -2,7 +2,7 @@ package com.example.casestudy_shoeshop.dao;
 
 import com.example.casestudy_shoeshop.model.Order;
 import com.example.casestudy_shoeshop.model.OrderDetail;
-import com.example.casestudy_shoeshop.model.Status;
+import com.example.casestudy_shoeshop.model.enums.Status;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

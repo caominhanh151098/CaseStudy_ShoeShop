@@ -17,6 +17,9 @@ public class Pageable {
 
     private List<EPrice> prices;
 
+    public Pageable(String search) {
+        this.search = search;
+    }
 
     public Pageable(String search, int page, int totalItems, int totalPage) {
         this.search = search;
@@ -36,9 +39,6 @@ public class Pageable {
     public Pageable(String search, String priceString) {
         this.search = search;
         this.priceString = priceString;
-    }
-
-    public Pageable(String s) {
     }
 
     public String getSearch() {

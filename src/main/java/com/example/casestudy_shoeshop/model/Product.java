@@ -36,6 +36,12 @@ public class Product {
     public String getProduct_name() {
         return product_name;
     }
+    public String displayProductName() {
+        if (product_name.length() > 20) {
+            return product_name.substring(0, 20) + "...";
+        }
+        return product_name;
+    }
 
     public void setProduct_name(String product_name) {
         this.product_name = product_name;

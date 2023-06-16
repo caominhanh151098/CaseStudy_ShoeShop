@@ -89,6 +89,7 @@
 
 <!-- Template Javascript -->
 <script src="user/js/main.js"></script>
+<c:import url="/user/js/shop.jsp"></c:import>
 </body>
 
 </html>

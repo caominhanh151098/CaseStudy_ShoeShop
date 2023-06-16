@@ -1,5 +1,7 @@
 package com.example.casestudy_shoeshop.model;
 
+import com.example.casestudy_shoeshop.model.enums.Status;
+
 import java.util.Date;
 import java.util.List;
 

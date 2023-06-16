@@ -248,7 +248,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="/oder" class="menu-link">
+                    <a href="/order" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-collection"></i>
                         <div data-i18n="Layouts">Order Management</div>
                     </a>

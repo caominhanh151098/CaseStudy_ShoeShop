@@ -1,4 +1,4 @@
-package com.example.casestudy_shoeshop.model;
+package com.example.casestudy_shoeshop.model.enums;
 
 public enum Status {
     Shopping(1),

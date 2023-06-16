@@ -34,9 +34,17 @@ public class ShopServlet extends HttpServlet {
             case "cart":
                 showCart(req, resp);
                 break;
+            case "cart-edit":
+                editCart(req, resp);
+                break;
             default:
                 showShop(req, resp);
         }
+    }
+
+    private void editCart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        shopService.
+//        showCart(req, resp);
     }
 
     private void showCart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -61,8 +69,13 @@ public class ShopServlet extends HttpServlet {
     }
 
     private void showShop(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int page = 1;
+        String pageString = req.getParameter("page");
+        if (pageString != null)
+            page = Integer.parseInt(req.getParameter("page"));
+
+        Pageable pageable = new Pageable("", page, 9, "id", "ASC");
         String prices = req.getParameter("price");
-        Pageable pageable = new Pageable("");
 
         if (prices != null && !prices.isEmpty()) {
             String[] pricesString = prices.split(",");
@@ -79,10 +92,10 @@ public class ShopServlet extends HttpServlet {
             pageable.setPrices(ePrices);
         }
 
-
         req.setAttribute("productList", shopService.getProducts(pageable));
         req.setAttribute("prices", EPrice.values());
         req.setAttribute("categories", shopService.getCategories());
+        req.setAttribute("pageable", pageable);
         req.getRequestDispatcher("user/shop.jsp").forward(req, resp);
     }
 

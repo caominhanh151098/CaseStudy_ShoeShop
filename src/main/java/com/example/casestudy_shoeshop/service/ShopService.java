@@ -29,8 +29,6 @@ public class ShopService {
     }
 
     public List<Product> getProducts(Pageable pageable) {
-        String string = pageable.getPriceString();
-//        String[] s = string.split("][");
         return productDao.findAll(pageable);
     }
 
@@ -40,5 +38,14 @@ public class ShopService {
 
     public List<Size> findSizeByProductId(int id) {
         return sizeDao.getSizeByIdProduct(id);
+    }
+
+    public OrderDetail findCartDetailById(int id) {
+        return orderDetailDao.findByODId(id);
+    }
+    public void updateOrderDetail(int id) {
+//        OrderDetail orderDetail = orderDetailDao.findByODId(id);
+//        orderDetail.s
+//        orderDetailDao.updateOrderDetail(id);
     }
 }

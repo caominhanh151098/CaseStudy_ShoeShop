@@ -13,9 +13,10 @@ public class HomeService {
     private static ProductDao productDao = new ProductDao();
 
     public List<Product> getAllProduct() {
-        Pageable pageable = new Pageable("");
+        Pageable pageable = new Pageable("",1,8, "id", "ASC");
         return productDao.findAll(pageable);
     }
+
     public List<Category> getCategories() {
         return categoryDao.findAll();
     }

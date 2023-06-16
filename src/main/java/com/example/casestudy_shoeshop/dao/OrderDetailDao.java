@@ -13,6 +13,7 @@ import java.util.List;
 public class OrderDetailDao extends ConnectionDatabase {
     private List<OrderDetail> orderDetailList = new ArrayList<>();
     private final String SELECT_BY_ORDER_ID = "SELECT * FROM order_detail where order_id = ?";
+    private final String SELECT_BY_ID = "SELECT * FROM order_detail where id = ?";
     private final String SELECT_CART_BY_ID = "SELECT od.* " +
             "FROM `order` o JOIN order_detail od ON od.order_id = o.id " +
             "where user_id = ? AND `status` = 1";
@@ -38,12 +39,34 @@ public class OrderDetailDao extends ConnectionDatabase {
                 int quantity = rs.getInt("quantity");
                 String productName = rs.getString("product_name");
                 double price = rs.getDouble("price");
-                orderDetailList.add(new OrderDetail(id, productID, sizeID, quantity, productName, price));
+                orderDetailList.add(new OrderDetail(id, orderId, productID, sizeID, quantity, productName, price));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return orderDetailList;
+    }
+
+    public OrderDetail findByODId(int oDId) {
+        orderDetailList = new ArrayList<>();
+        Delivery delivery = null;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID)) {
+            preparedStatement.setInt(1, oDId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int orderId = rs.getInt("order_id");
+                int productID = rs.getInt("product_id");
+                int sizeID = rs.getInt("size_id");
+                int quantity = rs.getInt("quantity");
+                String productName = rs.getString("product_name");
+                double price = rs.getDouble("price");
+                return new OrderDetail(oDId, orderId, productID, sizeID, quantity, productName, price);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
     public void insertOrderDetail(OrderDetail orderDetail) {
@@ -88,6 +111,7 @@ public class OrderDetailDao extends ConnectionDatabase {
             throw new RuntimeException(e);
         }
     }
+
     public void dropByOrderId(int orderId) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DROP_BY_ORDER_ID)) {
@@ -112,7 +136,7 @@ public class OrderDetailDao extends ConnectionDatabase {
                 int quantity = rs.getInt("quantity");
                 String productName = rs.getString("product_name");
                 double price = rs.getDouble("price");
-                orderDetailList.add(new OrderDetail(cartId, productID, sizeID, quantity, productName, price));
+                orderDetailList.add(new OrderDetail(cartId, userId, productID, sizeID, quantity, productName, price));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

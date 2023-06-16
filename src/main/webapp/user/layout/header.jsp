@@ -91,7 +91,7 @@
             </a>
         </div>
         <div class="col-lg-4 col-6 text-left">
-            <form action="">
+            <form action="shop?search=${pageable.search}&page=${pageable.page}">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search for products">
                     <div class="input-group-append">
