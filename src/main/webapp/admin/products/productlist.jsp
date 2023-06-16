@@ -65,7 +65,7 @@
                 <td>${product.product_name}</td>
                 <td><fmt:formatNumber type="number" value="${product.price}"/>đ</td>
                 <td><img src="${product.image}" width="50px"></td>
-                <td>${product.category.category_name}</td>
+                <td>${product.category.categoryName}</td>
                 <td>
                     <button type="button" class="btn rounded-pill btn-outline-secondary">
                         <a href="?action=update&id=${product.id}">
