@@ -19,7 +19,7 @@ public class UserDao extends ConnectionDatabase{
     private final String SELECT_USER_BY_USERNAME = "SELECT u.* FROM user u WHERE u.username = ?;";
 
 
-    private final String SELECT_USER_BY_USERNAME = "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id WHERE u.username = ?;";
+//    private final String SELECT_USER_BY_USERNAME = "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id WHERE u.username = ?;";
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
 
@@ -60,19 +60,12 @@ public class UserDao extends ConnectionDatabase{
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USERS)) {
-//            preparedStatement.setInt(1,user.getId());
+
+
+
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setInt(3, user.getRole().getId());
-
-
-//            preparedStatement.setInt(4,user.getUser_info().getUser_id());
-//            preparedStatement.setString(5,user.getUser_info().getName());
-//            preparedStatement.setString(6, String.valueOf((user.getUser_info().getDob())));
-//            preparedStatement.setString(7,user.getUser_info().getEmail());
-//            preparedStatement.setString(8,user.getUser_info().getPhone());
-
-//            preparedStatement.setString(9,user.getRole().getRole_name());
 
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
@@ -133,12 +126,11 @@ public class UserDao extends ConnectionDatabase{
         return null;
     }
 
-<<<<<<< Updated upstream
 
-    public User findByName(String userName) {
+    public User findByUserName(String userName) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement(SELECT_USER_BY_ID);) {
+                     .prepareStatement(SELECT_USER_BY_USERNAME);) {
             System.out.println(preparedStatement);
             preparedStatement.setString(1, userName);
             ResultSet rs = preparedStatement.executeQuery();
@@ -159,29 +151,12 @@ public class UserDao extends ConnectionDatabase{
                 UserInfo userInfo = new UserInfo(user_id,name,dob,email,phone);
 
                 return new User(id,username,password,role,userInfo);
-=======
-    public User findByUserName(String username) {
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection
-                     .prepareStatement(SELECT_USER_BY_USERNAME);) {
-            System.out.println(preparedStatement);
-            preparedStatement.setString(1, username);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String username1 = rs.getString("username");
-                String password = rs.getString("password");
 
-                return new User(id,username1,password);
->>>>>>> Stashed changes
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 }
