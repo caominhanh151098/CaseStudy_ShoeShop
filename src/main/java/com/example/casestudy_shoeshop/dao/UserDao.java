@@ -20,14 +20,8 @@ public class UserDao extends ConnectionDatabase{
     private final String SELECT_USER_BY_USERNAME = "SELECT u.* FROM user u WHERE u.username = ?;";
     private final String TOTAL_USER = "SELECT count(1) as total FROM user where lower(user.username) like '%s' limit %d offset %d;";
 
-<<<<<<< Updated upstream
-
-//    private final String SELECT_USER_BY_USERNAME = "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id WHERE u.username = ?;";
-    public List<User> findAll() {
-=======
 //    private final String SELECT_USER_BY_USERNAME = "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id WHERE u.username = ?;";
     public List<User> findAll(Pageable pageable) {
->>>>>>> Stashed changes
         List<User> users = new ArrayList<>();
         String search = pageable.getSearch();
         if (search == null) {
@@ -155,10 +149,6 @@ public class UserDao extends ConnectionDatabase{
     }
 
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
     public User findByUserName(String userName) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
