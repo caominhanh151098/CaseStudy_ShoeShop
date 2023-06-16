@@ -13,6 +13,9 @@ import java.util.List;
 public class OrderDetailDao extends ConnectionDatabase {
     private List<OrderDetail> orderDetailList = new ArrayList<>();
     private final String SELECT_BY_ORDER_ID = "SELECT * FROM order_detail where order_id = ?";
+    private final String SELECT_CART_BY_ID = "SELECT od.* " +
+            "FROM `order` o JOIN order_detail od ON od.order_id = o.id " +
+            "where user_id = ? AND `status` = 1";
     private final String INSERT_ORDER_DETAIL = "INSERT INTO `order_detail` (`order_id`, `product_id`, `size_id`, `quantity`, `product_name`, `price`) " +
             "VALUES (?, ?, ?, ?, ?, ?)";
     private final String UPDATE_ORDER_DETAIL = "UPDATE `order_detail` " +
@@ -94,5 +97,26 @@ public class OrderDetailDao extends ConnectionDatabase {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<OrderDetail> getCartByUserId(int userId) {
+        orderDetailList = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CART_BY_ID)) {
+            preparedStatement.setInt(1, userId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int cartId = rs.getInt("id");
+                int productID = rs.getInt("product_id");
+                int sizeID = rs.getInt("size_id");
+                int quantity = rs.getInt("quantity");
+                String productName = rs.getString("product_name");
+                double price = rs.getDouble("price");
+                orderDetailList.add(new OrderDetail(cartId, productID, sizeID, quantity, productName, price));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return orderDetailList;
     }
 }

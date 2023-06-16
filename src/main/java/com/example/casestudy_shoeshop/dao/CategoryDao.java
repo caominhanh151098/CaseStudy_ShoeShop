@@ -21,18 +21,17 @@ public class CategoryDao extends ConnectionDatabase {
         List<Category> categories = new ArrayList<>();
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement(String.format(SELECT_CATEGORY)))
-        {
+                     .prepareStatement(String.format(SELECT_CATEGORY))) {
             ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("category_name");
+                String img = rs.getString("img");
 
-                categories.add(new Category(id,name));
+                categories.add(new Category(id, name, img));
             }
 
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return categories;
@@ -42,19 +41,18 @@ public class CategoryDao extends ConnectionDatabase {
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement(String.format(SELECT_CATEGORY_BY_ID)))
-        {
-            preparedStatement.setInt(1,id);
+                     .prepareStatement(String.format(SELECT_CATEGORY_BY_ID))) {
+            preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 int idCa = rs.getInt("id");
                 String name = rs.getString("category_name");
+                String img = rs.getString("img");
 
-               return new Category(idCa,name);
+                return new Category(idCa, name, img);
             }
 
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return null;
