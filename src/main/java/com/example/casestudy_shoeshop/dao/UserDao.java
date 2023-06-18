@@ -17,7 +17,7 @@ public class UserDao extends ConnectionDatabase{
 
     private final String UPDATE_USER = "UPDATE `shoe_shop`.`user` SET `username` = ?, `password` = ?, `role_id` = ? WHERE (`id` = ?);";
     private final String SELECT_USER_BY_ID = "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id WHERE u.id = ?;";
-    private final String SELECT_USER_BY_USERNAME = "SELECT u.* FROM user u WHERE u.username = ?;";
+    private final String SELECT_USER_BY_USERNAME = "SELECT u.*,r.role_name FROM user u left join role r on u.role_id = r.id where u.username = ?;";
     private final String TOTAL_USER = "SELECT count(1) as total FROM user where lower(user.username) like '%s' limit %d offset %d;";
 
 //    private final String SELECT_USER_BY_USERNAME = "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id WHERE u.username = ?;";
@@ -158,21 +158,20 @@ public class UserDao extends ConnectionDatabase{
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String username = rs.getString("username");
                 String password = rs.getString("password");
 
                 int role_id = rs.getInt("role_id");
                 String role_name = rs.getString("role_name");
                 Role role = new Role(role_id,role_name);
+//
+//                int user_id = rs.getInt("user_id");
+//                String name = rs.getString("name");
+//                Date dob = rs.getDate("dob");
+//                String email = rs.getString("email");
+//                String phone = rs.getString("phone");
+//                UserInfo userInfo = new UserInfo(user_id,name,dob,email,phone);
 
-                int user_id = rs.getInt("user_id");
-                String name = rs.getString("name");
-                Date dob = rs.getDate("dob");
-                String email = rs.getString("email");
-                String phone = rs.getString("phone");
-                UserInfo userInfo = new UserInfo(user_id,name,dob,email,phone);
-
-                return new User(id,username,password,role,userInfo);
+                return new User(id,userName,password,role);
 
             }
         } catch (SQLException e) {

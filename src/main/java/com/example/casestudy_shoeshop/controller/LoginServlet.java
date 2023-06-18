@@ -29,19 +29,28 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         User user = userService.findByName(username);
 
-        if(user != null && PasswordEncoder.check(password, user.getPassword())){
-            HttpSession session = request.getSession();
-            session.setAttribute("role", user.getRole().getRole_name());
-            response.sendRedirect("Admin/Staff/Custommers");
-            return;
-        }
-        request.setAttribute("errors", "Login Failed");
-        request.getRequestDispatcher("admin/product/productlist.jsp").forward(request,response);
+        if(user != null){
+            if(PasswordEncoder.check(password, user.getPassword())){
+                HttpSession session = request.getSession();
+                session.setAttribute("role", user.getRole().getRole_name());
 
-        if(username.equals(user.getUsername())){
-            HttpSession session = request.getSession();
-            session.setAttribute("role",user.getRole().getRole_name());
-            response.sendRedirect("Admin/Staff/Custommers");
+                if(user.getRole().equals(user.getRole().getRole_name())){
+                    session.setAttribute("user",user);
+                    response.sendRedirect("Admin/Custommer");
+                }
+                else {
+                    session.setAttribute("user",user);
+                    response.sendRedirect("");
+                }
+            }
+            else {
+                request.setAttribute("errors","Mật khẩu không đúng");
+                request.getRequestDispatcher("login.jsp").forward(request,response);
+            }
+        }
+        else {
+            request.setAttribute("errors","Tài khoản không đúng");
+            request.getRequestDispatcher("login.jsp").forward(request,response);
         }
 
     }
