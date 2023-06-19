@@ -9,6 +9,7 @@ import java.util.List;
 public class RoleDao extends ConnectionDatabase{
     private final String SELECT_ROLE = "select * from role;";
     public final String SELECT_ROLE_BY_ID = " select * from role where id = ?;";
+    public final String SELECT_ROLE_BY_NAME = " select * from role where role_name = ?;";
     public List<Role> findAll() {
         List<Role> roles = new ArrayList<>();
         try (Connection connection = getConnection();
@@ -47,6 +48,30 @@ public class RoleDao extends ConnectionDatabase{
                 //(truyên vào tên cột)
                 String role_name = rs.getString("role_name");
                 //(truyên vào tên cột)
+                return new Role(id, role_name);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public Role findByName(String name) {
+        try (Connection connection = getConnection();
+
+             // Step 2: truyền câu lênh mình muốn chạy nằm ở trong này (SELECT_USERS)
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement(SELECT_ROLE_BY_NAME);) {
+            System.out.println(preparedStatement);
+            preparedStatement.setString(1, name);
+
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String role_name = rs.getString("role_name");
                 return new Role(id, role_name);
             }
         } catch (SQLException e) {

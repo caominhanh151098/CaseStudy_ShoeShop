@@ -126,6 +126,7 @@
               <h4 class="mb-2">Welcome to Shoes Shop </h4>
               <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
+
               <form id="formAuthentication" class="mb-3" action="/login" method="post">
                 <div class="mb-3">
                   <label for="username" class="form-label" name="username">Username</label>
@@ -138,6 +139,7 @@
                     autofocus
                   />
                 </div>
+                <h5>${errors}</h5>
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
                     <label class="form-label" for="password" name="password">Password</label>
@@ -157,6 +159,7 @@
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
                 </div>
+                <h5>${error}</h5>
                 <div class="mb-3">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="remember-me" />

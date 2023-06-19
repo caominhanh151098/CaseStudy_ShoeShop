@@ -4,6 +4,7 @@ import com.example.casestudy_shoeshop.model.Product;
 import com.example.casestudy_shoeshop.model.Role;
 import com.example.casestudy_shoeshop.model.User;
 import com.example.casestudy_shoeshop.service.ProductService;
+import com.example.casestudy_shoeshop.service.RoleService;
 import com.example.casestudy_shoeshop.service.UserService;
 import com.example.casestudy_shoeshop.ulti.PasswordEncoder;
 
@@ -22,6 +23,7 @@ public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private final UserService userService = new UserService();
+    private final RoleService roleService = new RoleService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -30,21 +32,23 @@ public class LoginServlet extends HttpServlet {
         User user = userService.findByName(username);
 
         if(user != null){
-            if(PasswordEncoder.check(password, user.getPassword())){
+            if(password.equals(user.getPassword())){
                 HttpSession session = request.getSession();
                 session.setAttribute("role", user.getRole().getRole_name());
 
-                if(user.getRole().equals(user.getRole().getRole_name())){
-                    session.setAttribute("user",user);
-                    response.sendRedirect("Admin/Custommer");
-                }
-                else {
-                    session.setAttribute("user",user);
-                    response.sendRedirect("");
-                }
+                response.sendRedirect("/product");
+
+//                if(user.getRole().equals(roleService.findByName(username))){
+//                    session.setAttribute("user",user);
+//                    response.sendRedirect("/product");
+//                }
+//                else {
+//                    session.setAttribute("user",user);
+//                    response.sendRedirect("");
+//                }
             }
             else {
-                request.setAttribute("errors","Mật khẩu không đúng");
+                request.setAttribute("error","Mật khẩu không đúng");
                 request.getRequestDispatcher("login.jsp").forward(request,response);
             }
         }
