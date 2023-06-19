@@ -38,6 +38,7 @@ public class LoginServlet extends HttpServlet {
 
                 response.sendRedirect("/user");
 
+
 //                if(user.getRole().equals(roleService.findByName(username))){
 //                    session.setAttribute("user",user);
 //                    response.sendRedirect("/product");
@@ -58,4 +59,6 @@ public class LoginServlet extends HttpServlet {
         }
 
     }
+
 }
+

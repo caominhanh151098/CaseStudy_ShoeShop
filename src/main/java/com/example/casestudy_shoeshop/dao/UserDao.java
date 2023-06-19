@@ -208,7 +208,6 @@ public class UserDao extends ConnectionDatabase{
         return null;
     }
 
-
     public User findByUserName(String userName) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
