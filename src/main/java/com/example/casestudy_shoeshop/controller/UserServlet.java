@@ -41,9 +41,7 @@ public class UserServlet extends HttpServlet {
             case "edit":
                 showEditUserInfo(req, resp);
                 break;
-            case "usercustomer":
-                showUserCustomer(req, resp);
-                break;
+
             case "createUser":
                 showCreateUser(req,resp);
                 break;
@@ -111,9 +109,7 @@ public class UserServlet extends HttpServlet {
             case "edit":
                 editUserInfo(req, resp);
                 break;
-            case "usercustomer":
-                showUserCustomer(req, resp);
-                break;
+
             case "createUser":
                 createUser(req,resp);
                 break;
@@ -138,39 +134,16 @@ public class UserServlet extends HttpServlet {
 
         String fieldName = request.getParameter("fieldName");
         if(fieldName == null){
-            fieldName = "product.id";
+            fieldName = "user.id";
         }
 
         Pageable pageable = new Pageable(search, page, TOTAL_ITEMS ,fieldName,sortBy);
         request.setAttribute("pageable", pageable);
+
         request.setAttribute("user",userService.findALL(pageable));
         request.getRequestDispatcher("/admin/users/userlist.jsp").forward(request,response);
     }
 
-    public void showUserCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String search = request.getParameter("search");
-
-        int page = 1;
-        if(request.getParameter("page")!= null){
-            page = Integer.parseInt(request.getParameter("page"));
-        }
-
-        String sortBy = request.getParameter("sortBy");
-        if(sortBy == null){
-            sortBy = "asc";
-        }
-
-        String fieldName = request.getParameter("fieldName");
-        if(fieldName == null){
-            fieldName = "product.id";
-        }
-
-        Pageable pageable = new Pageable(search, page, TOTAL_ITEMS ,fieldName,sortBy);
-        request.setAttribute("pageable", pageable);
-        request.setAttribute("usercustomer", userService.findALL(pageable));
-
-        request.getRequestDispatcher("/admin/users/customerlist.jsp").forward(request,response);
-    }
 
     public void createUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");

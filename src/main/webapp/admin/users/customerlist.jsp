@@ -89,7 +89,22 @@
             </c:if>
 
         </c:forEach>
+        <script>
+            function onClearSearch(){
+                searchButton.click();
+            }
+        </script>
         </tbody>
     </table>
 </div>
+
+<ul class="pagination d-flex justify-content-center" >
+    <li class="page-item first">
+        <a class="page-link" href="user?page=${pageable.page - 1}"><i class="tf-icon bx bx-chevrons-left"></i></a>
+    </li>
+
+    <li class="page-item last">
+        <a class="page-link" href="user?page=${pageable.page + 1}"><i class="tf-icon bx bx-chevrons-right"></i></a>
+    </li>
+</ul>
 <jsp:include page="../layout/footer.jsp"/>

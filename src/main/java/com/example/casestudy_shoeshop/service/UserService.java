@@ -13,6 +13,9 @@ public class UserService {
     public List<User> findALL(Pageable pageable){
         return  userDao.findAll(pageable);
     }
+    public List<User>findAllCustomer(Pageable pageable){
+        return userDao.findAllCustomer(pageable);
+    }
 
 
     public void create(User user){
