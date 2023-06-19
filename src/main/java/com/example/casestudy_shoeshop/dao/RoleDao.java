@@ -31,23 +31,20 @@ public class RoleDao extends ConnectionDatabase{
     public Role findById(int idRole) {
         try (Connection connection = getConnection();
 
-             // Step 2: truyền câu lênh mình muốn chạy nằm ở trong này (SELECT_USERS)
              PreparedStatement preparedStatement = connection
                      .prepareStatement(SELECT_ROLE_BY_ID);) {
             System.out.println(preparedStatement);
+
             preparedStatement.setInt(1, idRole);
 
-            // Step 3: tương đương vowis cái sét
             ResultSet rs = preparedStatement.executeQuery();
 
-            // Step 4:
-            //kiểm tra còn data hay không. còn thì cứ lấy bằng câu lệnh ở dưới
             while (rs.next()) {
-                //(truyên vào tên cột)
+
                 int id = rs.getInt("id");
-                //(truyên vào tên cột)
+
                 String role_name = rs.getString("role_name");
-                //(truyên vào tên cột)
+
                 return new Role(id, role_name);
             }
         } catch (SQLException e) {
@@ -59,7 +56,6 @@ public class RoleDao extends ConnectionDatabase{
     public Role findByName(String name) {
         try (Connection connection = getConnection();
 
-             // Step 2: truyền câu lênh mình muốn chạy nằm ở trong này (SELECT_USERS)
              PreparedStatement preparedStatement = connection
                      .prepareStatement(SELECT_ROLE_BY_NAME);) {
             System.out.println(preparedStatement);

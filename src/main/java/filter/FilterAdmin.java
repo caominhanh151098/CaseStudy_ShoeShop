@@ -18,13 +18,20 @@ public class FilterAdmin implements Filter {
         HttpSession session = httpServletRequest.getSession();
 
         String role = (String)session.getAttribute("role");
-        //chua co thi dieu huong ve login
+
         if(role == null){
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-            httpServletResponse.sendRedirect("login.jsp");
+            httpServletResponse.sendRedirect("/login.jsp");
             return;
         }
-        //bo qua
+
+        if(!role.equals("Admin")){
+            //tạo error ko có quyền vô Admin
+            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+            httpServletResponse.sendRedirect("/home");
+            return;
+        }
+
         chain.doFilter(request, response);
     }
 }
