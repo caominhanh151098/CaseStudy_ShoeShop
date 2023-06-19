@@ -11,11 +11,9 @@ import java.util.List;
 
 public class UserDao extends ConnectionDatabase {
     private UserInfoDao userInfoDao = new UserInfoDao();
-
     private final String SELECT_USERS = "SELECT u.*,ui.*,r.role_name  FROM user u left join user_info ui on u.id = ui.user_id left join role r on r.id = u.role_id where u.role_id not in(3) AND lower(u.username) like '%s' order by '%s' '%s' limit %d offset %d";
     private final String SELECT_USERS_CUSTOMER = "SELECT u.*,ui.*,r.role_name  FROM user u left join user_info ui on u.id = ui.user_id left join role r on r.id = u.role_id where u.role_id  in(3) AND lower(u.username) like '%s' order by '%s' '%s' limit %d offset %d";
     private final String CREATE_USERS = "INSERT INTO user (username, password, role_id) VALUES (?,?,?);";
-
     private final String UPDATE_USER = "UPDATE `shoe_shop`.`user` SET `username` = ?, `password` = ?, `role_id` = ? WHERE (`id` = ?);";
     private final String SELECT_USER_BY_ID = "SELECT u.*, ui.* , r.* FROM User u join user_info ui on u.id = ui.user_id join role r on u.role_id = r.id WHERE u.id = ?;";
     private final String SELECT_USER_BY_USERNAME = "SELECT u.*,r.role_name FROM user u left join role r on u.role_id = r.id where u.username = ?;";
@@ -224,7 +222,7 @@ public class UserDao extends ConnectionDatabase {
                 String password = rs.getString("password");
                 int role_id = rs.getInt("role_id");
                 String role_name = rs.getString("role_name");
-                Role role = new Role(role_id,role_name);
+                Role role = new Role(role_id, role_name);
 
                 return new User(id, username, password, role);
             }

@@ -30,27 +30,12 @@ public class RoleDao extends ConnectionDatabase{
 
     public Role findById(int idRole) {
         try (Connection connection = getConnection();
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
-             PreparedStatement preparedStatement = connection
-                     .prepareStatement(SELECT_ROLE_BY_ID);) {
-            System.out.println(preparedStatement);
-
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ROLE_BY_ID)) {
             preparedStatement.setInt(1, idRole);
-
             ResultSet rs = preparedStatement.executeQuery();
-
             while (rs.next()) {
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
                 int id = rs.getInt("id");
-
                 String role_name = rs.getString("role_name");
-
                 return new Role(id, role_name);
             }
         } catch (SQLException e) {
@@ -66,9 +51,7 @@ public class RoleDao extends ConnectionDatabase{
                      .prepareStatement(SELECT_ROLE_BY_NAME);) {
             System.out.println(preparedStatement);
             preparedStatement.setString(1, name);
-
             ResultSet rs = preparedStatement.executeQuery();
-
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String role_name = rs.getString("role_name");

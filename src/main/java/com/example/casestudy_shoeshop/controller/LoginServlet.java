@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("role", user.getRole().getRole_name());
 
-                response.sendRedirect("/user");
+                response.sendRedirect("/ad/product");
 
 
 //                if(user.getRole().equals(roleService.findByName(username))){

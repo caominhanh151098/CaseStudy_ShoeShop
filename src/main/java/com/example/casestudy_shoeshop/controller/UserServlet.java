@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "user", urlPatterns = "/user")
+@WebServlet({"/admin/user"})
 
 public class UserServlet extends HttpServlet {
     private  int TOTAL_ITEMS = 5;
