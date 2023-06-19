@@ -30,17 +30,12 @@ public class RoleDao extends ConnectionDatabase{
 
     public Role findById(int idRole) {
         try (Connection connection = getConnection();
-<<<<<<< Updated upstream
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ROLE_BY_ID)) {
-=======
-
-
 
              PreparedStatement preparedStatement = connection
                      .prepareStatement(SELECT_ROLE_BY_ID);) {
             System.out.println(preparedStatement);
 
->>>>>>> Stashed changes
             preparedStatement.setInt(1, idRole);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
