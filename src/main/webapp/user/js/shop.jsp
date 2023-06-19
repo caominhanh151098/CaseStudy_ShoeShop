@@ -16,7 +16,18 @@
         changeTotalPrice()
     }
 
-    function changeTotalPrice() {
+    function checkBuy() {
+        var sizeSelect = document.getElementsByClassName("size-select");
+        var buttonSubmit = document.getElementById("buttonSubmit");
+        var check = false;
+        Array.from(sizeSelect).forEach(e => {
+            if (e.checked == true)
+                check = true;
+        })
+        if (check == false) {
+            alert("You haven't selected the size yet!!");
+            buttonSubmit.disabled = true;
+        } else buttonSubmit.disabled = false;
 
     }
 

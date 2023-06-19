@@ -2,28 +2,27 @@ package com.example.casestudy_shoeshop.model;
 
 public class Delivery {
     private int id;
-    private String delivery_place;
     private String customer_name;
     private String customer_email;
     private String customer_phone;
-    private static int currentID;
+    private String customer_address;
 
     public Delivery() {
     }
 
-    public Delivery(int id, String delivery_place, String customer_name, String customer_email, String customer_phone) {
+    public Delivery(int id, String customer_name, String customer_email, String customer_phone, String customer_address) {
         this.id = id;
-        this.delivery_place = delivery_place;
         this.customer_name = customer_name;
         this.customer_email = customer_email;
         this.customer_phone = customer_phone;
+        this.customer_address = customer_address;
     }
 
-    public Delivery(String delivery_place, String customer_name, String customer_email, String customer_phone) {
-        this.delivery_place = delivery_place;
+    public Delivery(String customer_name, String customer_email, String customer_phone, String customer_address) {
         this.customer_name = customer_name;
         this.customer_email = customer_email;
         this.customer_phone = customer_phone;
+        this.customer_address = customer_address;
     }
 
     public int getId() {
@@ -32,14 +31,6 @@ public class Delivery {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getDelivery_place() {
-        return delivery_place;
-    }
-
-    public void setDelivery_place(String delivery_place) {
-        this.delivery_place = delivery_place;
     }
 
     public String getCustomer_name() {
@@ -64,5 +55,13 @@ public class Delivery {
 
     public void setCustomer_phone(String customer_phone) {
         this.customer_phone = customer_phone;
+    }
+
+    public String getCustomer_address() {
+        return customer_address;
+    }
+
+    public void setCustomer_address(String customer_address) {
+        this.customer_address = customer_address;
     }
 }

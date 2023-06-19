@@ -1,5 +1,6 @@
 package com.example.casestudy_shoeshop.dao;
 
+import com.example.casestudy_shoeshop.model.Delivery;
 import com.example.casestudy_shoeshop.model.Order;
 import com.example.casestudy_shoeshop.model.OrderDetail;
 import com.example.casestudy_shoeshop.model.enums.Status;
@@ -16,10 +17,21 @@ public class OrderDao extends ConnectionDatabase {
     private final String SELECT_ALL_ORDERED = "SELECT o.*, ui.`name` as `name_user` " +
             "FROM user u JOIN `order` o ON u.id = o.user_id JOIN user_info ui ON u.id = ui.user_id " +
             "WHERE o.status <> 1";
-    private final String SELECT_BY_USER_ID = "SELECT * FROM order WHERE user_id = ?;";
-    private final String INSERT_ORDER = "INSERT INTO `order` (`user_id`, `total_price`, `order_date`, `status`, `delivery_id`) VALUES (?, ?, ?, ?, ?);";
+    private final String SELECT_ORDER_BY_USER_ID = "SELECT o.*, ui.`name` as `name_user` " +
+            "FROM user u JOIN `order` o ON u.id = o.user_id " +
+            "JOIN user_info ui ON u.id = ui.user_id WHERE o.user_id = ? AND status <> 1";
+    private final String SELECT_CART_BY_USER_ID = "SELECT o.*, ui.`name` as `name_user` " +
+            "FROM user u JOIN `order` o ON u.id = o.user_id " +
+            "JOIN user_info ui ON u.id = ui.user_id WHERE o.user_id = ? AND status = 1";
+
+    private final String SELECT_LAST_RECORD = "SELECT * FROM `order` ORDER BY id DESC LIMIT 1";
+    private final String INSERT_ORDER = "INSERT INTO `order` (`user_id`, `status`) " +
+            "VALUES (?, ?);";
+    private final String UPDATE_ORDER = "UPDATE `order` SET `total_price` = ?, `order_date` = ?, `status` = ?, `delivery_id` = ? WHERE (`id` = ?);";
+    private final String UPDATE_TOTAL_PRICE = "UPDATE `order` SET `total_price` = ? WHERE (`id` = ?);";
     private final String UPDATE_STATUS_ORDER = "UPDATE `order` SET `status` = ? WHERE (`id` = ?);";
     private OrderDetailDao orderDetailDao = new OrderDetailDao();
+    private DeliveryDao deliveryDao = new DeliveryDao();
     private List<Order> orderList = new ArrayList<>();
 
     public List<Order> getAllOrdered() {
@@ -36,7 +48,10 @@ public class OrderDao extends ConnectionDatabase {
                 Date orderDate = rs.getDate("order_date");
                 Status status = Status.valueOf(rs.getString("Status"));
                 int deliveryId = rs.getInt("delivery_id");
-                orderList.add(new Order(id, userId, nameUser, orderDetailList, totalPrice, orderDate, status, deliveryId));
+                Delivery delivery = new Delivery();
+                if (deliveryId != 0)
+                    delivery = deliveryDao.findById(deliveryId);
+                orderList.add(new Order(id, userId, nameUser, orderDetailList, totalPrice, orderDate, status, delivery));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -47,7 +62,7 @@ public class OrderDao extends ConnectionDatabase {
     public List<Order> findByUserId(int userId) {
         orderList = new ArrayList<>();
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_USER_ID)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ORDER_BY_USER_ID)) {
             preparedStatement.setInt(1, userId);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -58,22 +73,73 @@ public class OrderDao extends ConnectionDatabase {
                 Date orderDate = rs.getDate("order_date");
                 Status status = Status.valueOf(rs.getString("Status"));
                 int deliveryId = rs.getInt("delivery_id");
-                orderList.add(new Order(id, userId, nameUser, orderDetailList, totalPrice, orderDate, status, deliveryId));
+                Delivery delivery = new Delivery();
+                if (deliveryId != 0)
+                    delivery = deliveryDao.findById(deliveryId);
+                orderList.add(new Order(id, userId, nameUser, orderDetailList, totalPrice, orderDate, status, delivery));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return orderList;
     }
+    public Order findCartByUserId(int userId) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CART_BY_USER_ID)) {
+            preparedStatement.setInt(1, userId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nameUser = rs.getString("name_user");
+                List<OrderDetail> orderDetailList = orderDetailDao.findByOrderId(id);
+                double totalPrice = rs.getDouble("total_price");
+                Date orderDate = rs.getDate("order_date");
+                Status status = Status.valueOf(rs.getString("Status"));
+
+                return new Order(id, userId, nameUser, orderDetailList, totalPrice, orderDate, status, new Delivery());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 
     public void insertOrder(Order order) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_ORDER)) {
             preparedStatement.setInt(1, order.getId());
-            preparedStatement.setDouble(2, order.getTotalPrice());
-            preparedStatement.setDate(3, (java.sql.Date) order.getOrderDate());
-            preparedStatement.setInt(4, order.getStatus().getIndex());
-            preparedStatement.setInt(5, order.getDeliveryId());
+            preparedStatement.setInt(2, order.getStatus().getIndex());
+            preparedStatement.executeUpdate();
+
+            PreparedStatement preparedStatement1 = connection.prepareStatement(SELECT_LAST_RECORD);
+            ResultSet rs = preparedStatement.executeQuery();
+            int idOrder = rs.getInt("id");
+            order.setId(idOrder);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateOrder(Order order) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ORDER)) {
+            preparedStatement.setDouble(1, order.getTotalPrice());
+            preparedStatement.setDate(2, new java.sql.Date(order.getOrderDate().getTime()));
+            preparedStatement.setInt(3, order.getStatus().getIndex());
+            preparedStatement.setInt(4, order.getDelivery().getId());
+            preparedStatement.setInt(5, order.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateTotalPrice(Order order) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_TOTAL_PRICE)) {
+            preparedStatement.setDouble(1, order.getTotalPrice());
+            preparedStatement.setInt(2, order.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -89,5 +155,14 @@ public class OrderDao extends ConnectionDatabase {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void updateTPriceOrder(Order cartUser) {
+        double totalPrice = 0;
+        for (OrderDetail orderDetail: cartUser.getOrderDetailList()) {
+            totalPrice += orderDetail.getPrice() * orderDetail.getQuantity();
+        }
+        cartUser.setTotalPrice(totalPrice);
+        updateTotalPrice(cartUser);
     }
 }

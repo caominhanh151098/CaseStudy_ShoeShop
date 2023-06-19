@@ -3,6 +3,7 @@ package com.example.casestudy_shoeshop.dao;
 import com.example.casestudy_shoeshop.dto.Pageable;
 import com.example.casestudy_shoeshop.model.Category;
 import com.example.casestudy_shoeshop.model.Product;
+import com.example.casestudy_shoeshop.model.enums.EPrice;
 //import javafx.scene.image.Image;
 
 import java.sql.*;
@@ -11,7 +12,7 @@ import java.util.List;
 
 
 public class ProductDao extends ConnectionDatabase {
-    private final String SELECT_ALL_PRODUCT = "SELECT p.* , c.category_name as categoryName, c.img as category_img FROM product p Left join category c on p.category_id = c.id where lower(p.product_name) like '%s' order by '%s' '%s' limit %d offset %d";
+    private final String SELECT_ALL_PRODUCT = "SELECT p.* , c.category_name as categoryName, c.img as category_img FROM product p Left join category c on p.category_id = c.id where lower(p.product_name) like '%s' %s order by '%s' '%s' limit %d offset %d";
 
     private final String SELECT_PRODUCT = "SELECT p.* , c.category_name as categoryName, c.img as category_img " +
             "FROM product p Left join category c on p.category_id = c.id " +
@@ -37,7 +38,6 @@ public class ProductDao extends ConnectionDatabase {
     private final String UPDATE_PRODUCT = "UPDATE product SET product_name = ?, price = ?, description = ?, img = ?, category_id = ? WHERE (id = ?)";
 
 
-
     public List<Product> findAll(Pageable pageable) {
         List<Product> products = new ArrayList<>();
 
@@ -47,15 +47,26 @@ public class ProductDao extends ConnectionDatabase {
             search = "";
         }
         search = "%" + search + "%";
-
+        List<EPrice> prices = pageable.getPrices();
+        String filterPrice = "";
+        if (prices != null && !prices.isEmpty()) {
+            filterPrice += "AND";
+            for (int i = 0; i < prices.size(); i++) {
+                String filter = String.format("(p.price >= %d AND p.price <= %d)", prices.get(i).getBegin(), prices.get(i).getEnd());
+                if (i == 0) {
+                    filterPrice += filter;
+                } else
+                    filterPrice += " OR " + filter;
+            }
+        }
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement(String.format(SELECT_ALL_PRODUCT,search,
+                     .prepareStatement(String.format(SELECT_ALL_PRODUCT, search,
+                             filterPrice,
                              pageable.getNameField(),
                              pageable.getSortBy(),
                              pageable.getTotalItems(),
-                            (pageable.getPage() -1) * pageable.getTotalItems())))
-                {
+                             (pageable.getPage() - 1) * pageable.getTotalItems()))) {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -76,24 +87,22 @@ public class ProductDao extends ConnectionDatabase {
             }
 
             PreparedStatement totalProduct = connection.prepareStatement(TOTAL_PRODUCT);
-            totalProduct.setString(1,search);
+            totalProduct.setString(1, search);
 
             ResultSet total = totalProduct.executeQuery();
 
-            while (total.next()){
+            while (total.next()) {
                 double totalProducts = total.getDouble("total");
-                double totalItem = Double.parseDouble(pageable.getTotalItems()+"");
-                int totalPage = (int) Math.ceil(totalProducts/totalItem);
+                double totalItem = Double.parseDouble(pageable.getTotalItems() + "");
+                int totalPage = (int) Math.ceil(totalProducts / totalItem);
                 pageable.setTotalPage(totalPage);
             }
 
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
         return products;
     }
-
 
 
     public Product findById(int id) {

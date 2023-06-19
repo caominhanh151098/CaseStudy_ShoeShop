@@ -14,9 +14,9 @@ public class OrderDetailDao extends ConnectionDatabase {
     private List<OrderDetail> orderDetailList = new ArrayList<>();
     private final String SELECT_BY_ORDER_ID = "SELECT * FROM order_detail where order_id = ?";
     private final String SELECT_BY_ID = "SELECT * FROM order_detail where id = ?";
-    private final String SELECT_CART_BY_ID = "SELECT od.* " +
+    private final String SELECT_CARTLIST_BY_ID = "SELECT od.* " +
             "FROM `order` o JOIN order_detail od ON od.order_id = o.id " +
-            "where user_id = ? AND `status` = 1";
+            "where order_id = ?";
     private final String INSERT_ORDER_DETAIL = "INSERT INTO `order_detail` (`order_id`, `product_id`, `size_id`, `quantity`, `product_name`, `price`) " +
             "VALUES (?, ?, ?, ?, ?, ?)";
     private final String UPDATE_ORDER_DETAIL = "UPDATE `order_detail` " +
@@ -70,15 +70,15 @@ public class OrderDetailDao extends ConnectionDatabase {
     }
 
     public void insertOrderDetail(OrderDetail orderDetail) {
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_ORDER_DETAIL)) {
-            preparedStatement.setInt(1, orderDetail.getOrderID());
-            preparedStatement.setInt(2, orderDetail.getProductID());
-            preparedStatement.setInt(3, orderDetail.getSizeID());
-            preparedStatement.setInt(4, orderDetail.getQuantity());
-            preparedStatement.setString(5, orderDetail.getProductName());
-            preparedStatement.setDouble(6, orderDetail.getPrice());
-            preparedStatement.executeUpdate();
+        try (Connection connection = getConnection()) {
+            PreparedStatement preStatement1 = connection.prepareStatement(INSERT_ORDER_DETAIL);
+            preStatement1.setInt(1, orderDetail.getOrderID());
+            preStatement1.setInt(2, orderDetail.getProductID());
+            preStatement1.setInt(3, orderDetail.getSizeID());
+            preStatement1.setInt(4, orderDetail.getQuantity());
+            preStatement1.setString(5, orderDetail.getProductName());
+            preStatement1.setDouble(6, orderDetail.getPrice());
+            preStatement1.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -104,7 +104,6 @@ public class OrderDetailDao extends ConnectionDatabase {
     public void dropOrderDetail(int orderDetailId) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DROP_ORDER_DETAIL)) {
-            preparedStatement.executeUpdate();
             preparedStatement.setInt(1, orderDetailId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -123,20 +122,20 @@ public class OrderDetailDao extends ConnectionDatabase {
         }
     }
 
-    public List<OrderDetail> getCartByUserId(int userId) {
+    public List<OrderDetail> getCartListByOrderId(int orderId) {
         orderDetailList = new ArrayList<>();
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CART_BY_ID)) {
-            preparedStatement.setInt(1, userId);
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CARTLIST_BY_ID)) {
+            preparedStatement.setInt(1, orderId);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                int cartId = rs.getInt("id");
+                int id = rs.getInt("id");
                 int productID = rs.getInt("product_id");
                 int sizeID = rs.getInt("size_id");
                 int quantity = rs.getInt("quantity");
                 String productName = rs.getString("product_name");
                 double price = rs.getDouble("price");
-                orderDetailList.add(new OrderDetail(cartId, userId, productID, sizeID, quantity, productName, price));
+                orderDetailList.add(new OrderDetail(id, orderId, productID, sizeID, quantity, productName, price));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

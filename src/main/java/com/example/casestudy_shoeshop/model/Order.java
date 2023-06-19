@@ -13,22 +13,27 @@ public class Order {
     private double totalPrice;
     private Date orderDate;
     private Status status;
-    private int deliveryId;
+    private Delivery delivery;
 
     public Order() {
     }
 
-    public Order(int userId, String nameUser, List<OrderDetail> orderDetailList, double totalPrice, Date orderDate, Status status, int deliveryId) {
+    public Order(int userId, Status status) {
+        this.userId = userId;
+        this.status = status;
+    }
+
+    public Order(int userId, String nameUser, List<OrderDetail> orderDetailList, double totalPrice, Date orderDate, Status status, Delivery delivery) {
         this.userId = userId;
         this.nameUser = nameUser;
         this.orderDetailList = orderDetailList;
         this.totalPrice = totalPrice;
         this.orderDate = orderDate;
         this.status = status;
-        this.deliveryId = deliveryId;
+        this.delivery = delivery;
     }
 
-    public Order(int id, int userId, String nameUser, List<OrderDetail>orderDetailList, double totalPrice, Date orderDate, Status status, int deliveryId) {
+    public Order(int id, int userId, String nameUser, List<OrderDetail>orderDetailList, double totalPrice, Date orderDate, Status status, Delivery delivery) {
         this.id = id;
         this.userId = userId;
         this.nameUser = nameUser;
@@ -36,7 +41,7 @@ public class Order {
         this.totalPrice = totalPrice;
         this.orderDate = orderDate;
         this.status = status;
-        this.deliveryId = deliveryId;
+        this.delivery = delivery;
     }
 
     public int getId() {
@@ -95,11 +100,11 @@ public class Order {
         this.status = status;
     }
 
-    public int getDeliveryId() {
-        return deliveryId;
+    public Delivery getDelivery() {
+        return delivery;
     }
 
-    public void setDeliveryId(int deliveryId) {
-        this.deliveryId = deliveryId;
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
     }
 }

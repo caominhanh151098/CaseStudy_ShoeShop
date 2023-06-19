@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SizeDao extends ConnectionDatabase {
     private final String SELECT_SIZE = "SELECT * FROM size_product";
-    private final String SELECT_SIZE_BY_PRODUCT_ID = "SELECT s.size " +
+    private final String SELECT_SIZE_BY_PRODUCT_ID = "SELECT s.id, s.size " +
             "FROM product p join size_product sp on sp.product_id = p.id " +
             "join size s on s.id = sp.size_id where p.id = %d";
 
@@ -44,8 +44,9 @@ public class SizeDao extends ConnectionDatabase {
                      .prepareStatement(String.format(SELECT_SIZE_BY_PRODUCT_ID, id))) {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
+                int idSize = rs.getInt("id");
                 int size = rs.getInt("size");
-                sizes.add(new Size(id, size));
+                sizes.add(new Size(idSize, size));
             }
 
         } catch (SQLException e) {

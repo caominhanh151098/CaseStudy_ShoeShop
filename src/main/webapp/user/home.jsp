@@ -146,7 +146,7 @@
                 <div class="product-img position-relative overflow-hidden">
                     <img class="img-fluid w-100" src="${productList[index].image}" style="height: 350px" alt="${productList[index].product_name}">
                     <div class="product-action">
-                        <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                        <a class="btn btn-outline-dark btn-square" href="shop?action=show&id=${productList[index].id}"><i class="fa fa-shopping-cart"></i></a>
                         <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
                     </div>
                 </div>

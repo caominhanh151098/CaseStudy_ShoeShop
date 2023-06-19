@@ -156,7 +156,8 @@ public class UserServlet extends HttpServlet {
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
 
-        UserInfo userInfo = new UserInfo(name,dob,email,phone);
+
+        UserInfo userInfo = new UserInfo(name,dob,email,phone, "");
         User user = new User(username,password, role,userInfo);
 
         userService.create(user);

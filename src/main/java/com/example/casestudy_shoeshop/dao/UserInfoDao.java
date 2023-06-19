@@ -26,8 +26,9 @@ public class UserInfoDao extends ConnectionDatabase{
                 Date dob = rs.getDate("dob");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone");
+                String address = rs.getString("address");
 
-                user_infoList.add(new UserInfo(user_id,name,dob,email,phone));
+                user_infoList.add(new UserInfo(user_id,name,dob,email,phone, address));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -64,8 +65,9 @@ public class UserInfoDao extends ConnectionDatabase{
                 Date dob = rs.getDate("dob");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone");
+                String address = rs.getString("address");
 
-                return new UserInfo(user_id,name,dob,email,phone);
+                return new UserInfo(user_id,name,dob,email,phone, address);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

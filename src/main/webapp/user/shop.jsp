@@ -36,7 +36,7 @@
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input prices" id="price-1${eprice.value}"
                                    value="${eprice.value}" onclick="filterByPrice()"
-                            <c:forEach items="${ePricesSelect}" var="pricesSelect">
+                            <c:forEach items="${pageable.prices}" var="pricesSelect">
                                    <c:if test="${pricesSelect.value == eprice.value}">checked</c:if>
                             </c:forEach>
                             >
@@ -196,7 +196,8 @@
                                                              href="shop?search=${pageable.search}&page=2">2</a></li>
                                     <li class="page-item"><a class="page-link"
                                                              href="shop?search=${pageable.search}&page=3">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="shop?search=${pageable.search}&page=2">Next</a></li>
+                                    <li class="page-item"><a class="page-link"
+                                                             href="shop?search=${pageable.search}&page=2">Next</a></li>
                                 </c:when>
                                 <c:when test="${pageable.page > 1 && pageable.page < pageable.totalPage}">
                                     <li class="page-item">

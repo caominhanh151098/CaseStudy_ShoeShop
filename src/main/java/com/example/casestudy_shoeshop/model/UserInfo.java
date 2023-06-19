@@ -9,28 +9,26 @@ public class UserInfo {
     private Date dob;
     private String email;
     private String phone;
+    private String address;
 
     public UserInfo() {
     }
 
-
-
-    public UserInfo(int user_id, String name, Date dob, String email, String phone) {
+    public UserInfo(int user_id, String name, Date dob, String email, String phone, String address) {
         this.user_id = user_id;
         this.name = name;
         this.dob = dob;
         this.email = email;
         this.phone = phone;
+        this.address = address;
     }
 
-    public UserInfo(int id, String username, String password, int roleId) {
-    }
-
-    public UserInfo(String name, Date dob, String email, String phone) {
+    public UserInfo(String name, Date dob, String email, String phone, String address) {
         this.name = name;
         this.dob = dob;
         this.email = email;
         this.phone = phone;
+        this.address = address;
     }
 
     public int getUser_id() {
@@ -71,5 +69,13 @@ public class UserInfo {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
