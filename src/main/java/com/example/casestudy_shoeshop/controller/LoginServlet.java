@@ -23,7 +23,6 @@ public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private final UserService userService = new UserService();
-    private final RoleService roleService = new RoleService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,21 +31,10 @@ public class LoginServlet extends HttpServlet {
         User user = userService.findByName(username);
 
         if(user != null){
-            if(password.equals(user.getPassword())){
+            if(password.equals(user.getPassword())) {
                 HttpSession session = request.getSession();
-                session.setAttribute("role", user.getRole().getRole_name());
-
-                response.sendRedirect("/ad/product");
-
-
-//                if(user.getRole().equals(roleService.findByName(username))){
-//                    session.setAttribute("user",user);
-//                    response.sendRedirect("/product");
-//                }
-//                else {
-//                    session.setAttribute("user",user);
-//                    response.sendRedirect("");
-//                }
+                session.setAttribute("admin",user.getRole().getRole_name());
+                response.sendRedirect("/admin/user");
             }
             else {
                 request.setAttribute("error","Mật khẩu không đúng");

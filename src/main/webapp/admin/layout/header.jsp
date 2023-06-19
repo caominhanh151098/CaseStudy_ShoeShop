@@ -216,7 +216,7 @@
             <ul class="menu-inner py-1">
                 <!-- Dashboard -->
                 <li class="menu-item">
-                    <a href="index.html" class="menu-link">
+                    <a href="/admin/home" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
                         <div data-i18n="Analytics">Dashboard</div>
                     </a>
@@ -230,19 +230,19 @@
                     </a>
                     <ul class="menu-sub">
                         <li class="menu-item">
-                            <a href="/user" class="menu-link">
+                            <a href="/admin/user" class="menu-link">
                                 User Acount
                             </a>
                         </li>
                         <li class="menu-item">
-                            <a href="/customer" class="menu-link">
+                            <a href="/admin/customer" class="menu-link">
                                 Customer Acount
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="menu-item">
-                    <a href="/product" class="menu-link">
+                    <a href="/admin/product" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-cube-alt"></i>
                         <div data-i18n="Layouts">Product Management</div>
                     </a>

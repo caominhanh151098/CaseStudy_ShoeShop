@@ -17,7 +17,7 @@ public class FilterAdmin implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpSession session = httpServletRequest.getSession();
 
-        String role = (String)session.getAttribute("role");
+        String role = (String)session.getAttribute("admin");
 
         if(role == null){
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;

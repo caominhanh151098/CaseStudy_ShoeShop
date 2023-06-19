@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "customer", urlPatterns = "/customer")
+@WebServlet(name = "customer", urlPatterns = "/admin/customer")
 public class CustomerUserServlet extends HttpServlet {
     private  int TOTAL_ITEMS = 5;
     private UserService userService = new UserService();

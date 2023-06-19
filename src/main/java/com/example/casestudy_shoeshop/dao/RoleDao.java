@@ -35,7 +35,7 @@ public class RoleDao extends ConnectionDatabase{
 
             preparedStatement.setInt(1, idRole);
             ResultSet rs = preparedStatement.executeQuery();
-            
+
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String role_name = rs.getString("role_name");
