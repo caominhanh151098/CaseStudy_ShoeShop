@@ -48,7 +48,6 @@ public class ProductServlet extends HttpServlet {
         }
     }
 
-
     private void showProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String search = req.getParameter("search");
 

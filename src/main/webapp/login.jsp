@@ -125,7 +125,7 @@
                   </span>
                   <input type="image" src="../assets/img/favicon/logo.jpg" alt="Photo" width="70px" height="50px">
 
-                  <span class="app-brand-text demo text-body fw-bolder" style="color:#f6ca45"> Shoes Shop</span>
+                  <span class="app-brand-text demo text-body fw-bolder" style="color:#f6ca45"> Shoe Shop</span>
                 </a>
               </div>
               <!-- /Logo -->
@@ -173,7 +173,8 @@
                   </div>
                 </div>
                 <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+
+                  <button class="btn btn-primary d-grid w-100" type="submit ">Sign in</button>
                 </div>
               </form>
 
