@@ -8,12 +8,18 @@
             <h5 class="mb-0">UPDATE PRODUCT</h5>
         </div>
         <div class="card-body">
-            <form action="product?action=update" method="post">
+            <form action="/admin/product?action=update" method="post">
                 <input  type="hidden" name="id" value="${product.id}">
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label" for="basic-default-name">name</label>
                     <div class="col-sm-10">
                         <input type="text" name="product_name" class="form-control" id="basic-default-name" placeholder="Nike" value="${product.product_name}" />
+                    </div>
+                </div>
+
+                <div class="row justify-content-end">
+                    <div class="col-sm-10">
+                        <h5>${errorName}</h5>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -27,6 +33,11 @@
                                 placeholder="ACME Inc."
                                 value="${product.price}"
                         />
+                    </div>
+                </div>
+                <div class="row justify-content-end">
+                    <div class="col-sm-10">
+                        <h5>${errorPrice}</h5>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -97,8 +108,15 @@
                 <div class="row justify-content-end">
                     <div class="col-sm-10">
                         <button type="submit" class="btn btn-primary">SUBMIT</button>
+                        <button type="reset" class="btn btn-primary">CLEAR</button>
+                        <a  class="btn btn-primary" href="/admin/product">BACK</a>
                     </div>
                 </div>
+                </div>
+                <div class="row justify-content-end">
+                    <div class="col-sm-10">
+                        <h5>${errorUpdate}</h5>
+                    </div>
                 </div>
             </form>
         </div>

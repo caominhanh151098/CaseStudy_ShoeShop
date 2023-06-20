@@ -23,4 +23,8 @@ public class ProductService {
     public void update(Product product){
         productDao.update(product);
     }
+
+    public Product finByName(String name){
+        return productDao.findByName(name);
+    }
 }

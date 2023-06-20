@@ -26,7 +26,6 @@ public class FilterAdmin implements Filter {
         }
 
         if(!role.equals("Admin")){
-            //tạo error ko có quyền vô Admin
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
             httpServletResponse.sendRedirect("/home");
             return;

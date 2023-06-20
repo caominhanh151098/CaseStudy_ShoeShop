@@ -86,6 +86,15 @@
               <label class="form-control" type="text" value="${user.user_info.phone}" id="html5-month-input">${user.user_info.phone}</label>
         </div>
       </div>
+
+        <div class="mb-3 row">
+            <label for="html5-month-input" class="col-md-2 col-form-label" >Address</label>
+            <div class="col-md-10">
+                <%--          <input class="form-control" type="text" value="${user.user_info.phone}" id="html5-month-input">--%>
+                <label class="form-control" type="text" value="${user.user_info.address}" id="html5-month-input">${user.user_info.address}</label>
+            </div>
+        </div>
+        
     </div>
   </div>
 <jsp:include page="../layout/footer.jsp"/>

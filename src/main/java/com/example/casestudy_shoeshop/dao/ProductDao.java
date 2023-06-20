@@ -37,6 +37,7 @@ public class ProductDao extends ConnectionDatabase {
 
     private final String UPDATE_PRODUCT = "UPDATE product SET product_name = ?, price = ?, description = ?, img = ?, category_id = ? WHERE (id = ?)";
 
+    private final String SELECT_PRODUCT_BY_NAME = "SELECT p.*, c.category_name as categoryName FROM product p join category c on p.category_id = c.id Where p.product_name = ?;";
 
     public List<Product> findAll(Pageable pageable) {
         List<Product> products = new ArrayList<>();
@@ -162,6 +163,33 @@ public class ProductDao extends ConnectionDatabase {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Product findByName(String name) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PRODUCT_BY_NAME);) {
+            preparedStatement.setString(1, name);
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                String nameP = rs.getString("product_name");
+                double price = rs.getDouble("price");
+                String description = rs.getString("description");
+                String image = rs.getString("img");
+
+
+                int categoryId = rs.getInt("category_id");
+                String categoryName = rs.getString("categoryName");
+                Category category = new Category(categoryId, categoryName);
+
+                return new Product( nameP, price, description, image, category);
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
 }
