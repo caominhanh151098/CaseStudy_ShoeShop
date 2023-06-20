@@ -25,7 +25,7 @@
                             </ul>
                         </div>
                     </c:if>
-                        <form action="/user?action=edit" method="post">
+                        <form action="/admin/user?action=edit" method="post">
 <%--                            <c:if test="${requestScope['message'] != null}">--%>
 <%--                                <span style="color: red">${message}</span>--%>
 <%--                            </c:if>--%>
@@ -111,6 +111,8 @@
                                 <div class="row justify-content-end">
                                         <div class="col-sm-10">
                                                 <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="reset" class="btn btn-primary">CLEAR</button>
+                                            <a  class="btn btn-primary" href="/admin/user">BACK</a>
                                         </div>
                                 </div>
                             <c:if test="${message != null}">

@@ -34,5 +34,9 @@ public class UserService {
         return userDao.findByUserName(userName);
     }
 
+    public User findByPassword(String password){
+        return userDao.findByPassword(password);
+    }
+
 }
 

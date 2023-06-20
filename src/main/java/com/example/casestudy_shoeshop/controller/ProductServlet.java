@@ -28,7 +28,7 @@ public class ProductServlet extends HttpServlet {
     private ProductService productService = new ProductService();
     private CategoryService categoryService = new CategoryService();
 
-    Validate validate = new Validate();
+    private Validate validate = new Validate();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

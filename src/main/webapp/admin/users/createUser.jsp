@@ -9,7 +9,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <jsp:include page="../layout/header.jsp"/>
-<div class="col-xl-8 ">
+<div class="col-xxl-12xl-15 d-flex justify-content-center mb-10 row">
 
     <!-- HTML5 Inputs -->
     <div class="card mb-4">
@@ -19,17 +19,31 @@
             <form action="/admin/user?action=createUser" method="post">
                 <div class="card-body" >
                 <div class="mb-3 row">
-                    <label for="html5-search-input"  class="col-md-2 col-form-label" >Username</label>
+                    <label for="username"  class="col-md-2 col-form-label" >Username</label>
                     <div class="col-md-10">
-                        <input class="form-control" name="username" type="search"  id="html5-search-input">
+                        <input class="form-control" name="username" type="search"  id="username">
                     </div>
                 </div>
+
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <h5>${errorUserName}</h5>
+                        </div>
+                    </div>
+
                 <div class="mb-3 row">
-                    <label for="html5-email-input" class="col-md-2 col-form-label" >Password</label>
+                    <label for="password" class="col-md-2 col-form-label" >Password</label>
                     <div class="col-md-10">
-                        <input class="form-control" name="password" type="text"  id="html5-email-input">
+                        <input class="form-control" name="password" type="text"  id="password">
                     </div>
                 </div>
+
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <h5>${errorPassword}</h5>
+                        </div>
+                    </div>
+
 
 <%--                <div class="mb-3 row">--%>
 <%--                    <label for="html5-tel-input" class="col-md-2 col-form-label" >Role Id</label>--%>
@@ -39,40 +53,74 @@
 <%--                </div>--%>
 
                 <div class="mb-3 row">
-                    <label for="html5-number-input" class="col-md-2 col-form-label" >Name</label>
+                    <label for="name" class="col-md-2 col-form-label" >Name</label>
                     <div class="col-md-10">
-                        <input class="form-control" name="name" type="text"  id="html5-number-input">
+                        <input class="form-control" name="name" type="text"  id="name">
                     </div>
                 </div>
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <h5>${errorName}</h5>
+                        </div>
+                    </div>
                 <div class="mb-3 row">
-                    <label for="html5-datetime-local-input" class="col-md-2 col-form-label" >Dob</label>
+                    <label for="dob" class="col-md-2 col-form-label" >Dob</label>
                     <div class="col-md-10">
-                        <input class="form-control" name="dob" type="date" id="html5-datetime-local-input">
+                        <input class="form-control" name="dob" type="date" id="dob">
                     </div>
                 </div>
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <h5>${errorDob}</h5>
+                        </div>
+                    </div>
                 <div class="mb-3 row">
-                    <label for="html5-date-input" class="col-md-2 col-form-label" >Email</label>
+                    <label for="email" class="col-md-2 col-form-label" >Email</label>
                     <div class="col-md-10">
-                        <input class="form-control" name="email" type="text"  id="html5-date-input">
+                        <input class="form-control" name="email" type="text"  id="email">
                     </div>
                 </div>
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <h5>${errorEmail}</h5>
+                        </div>
+                    </div>
                 <div class="mb-3 row">
-                    <label for="html5-month-input" class="col-md-2 col-form-label" >Phone</label>
+                    <label for="phone" class="col-md-2 col-form-label" >Phone</label>
                     <div class="col-md-10">
-                        <input class="form-control" name="phone" type="text"  id="html5-month-input">
+                        <input class="form-control" name="phone" type="text"  id="phone">
                     </div>
                 </div>
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <h5>${errorPhone}</h5>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="address" class="col-md-2 col-form-label" >Address</label>
+                        <div class="col-md-10">
+                            <input class="form-control" name="address" type="text"  id="address">
+                        </div>
+                    </div>
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <h5>${errorAddress}</h5>
+                        </div>
+                    </div>
 
 
         </div>
-        <div class="  ">
-            <div class="col-sm-10 d-flex justify-content-center" >
+        <div class=" row justify-content-end ">
+            <div class="col-sm-10" >
                 <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-primary">CLEAR</button>
+                <a  class="btn btn-primary" href="/admin/user">BACK</a>
             </div>
         </div>
-                <c:if test="${requestScope['message'] != null}">
-                    <span style="color: red">${message}</span>
-                </c:if>
+<%--                <c:if test="${requestScope['message'] != null}">--%>
+<%--                    <span style="color: red">${message}</span>--%>
+<%--                </c:if>--%>
 
             </form>
 

@@ -173,7 +173,7 @@ public class ProductDao extends ConnectionDatabase {
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
-                String nameP = rs.getString("product_name");
+//                String nameP = rs.getString("product_name");
                 double price = rs.getDouble("price");
                 String description = rs.getString("description");
                 String image = rs.getString("img");
@@ -183,7 +183,7 @@ public class ProductDao extends ConnectionDatabase {
                 String categoryName = rs.getString("categoryName");
                 Category category = new Category(categoryId, categoryName);
 
-                return new Product( nameP, price, description, image, category);
+                return new Product( name, price, description, image, category);
 
             }
         } catch (SQLException e) {

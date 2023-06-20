@@ -7,6 +7,8 @@ import com.example.casestudy_shoeshop.model.UserInfo;
 import com.example.casestudy_shoeshop.service.RoleService;
 import com.example.casestudy_shoeshop.service.UserService;
 import com.example.casestudy_shoeshop.service.UserInfoService;
+import com.example.casestudy_shoeshop.ulti.Regex;
+import com.example.casestudy_shoeshop.ulti.Validate;
 import com.example.casestudy_shoeshop.ulti.ValidateUtils;
 
 import javax.servlet.ServletException;
@@ -19,6 +21,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.casestudy_shoeshop.ulti.Regex.*;
+
 @WebServlet({"/admin/user"})
 
 public class UserServlet extends HttpServlet {
@@ -27,6 +31,7 @@ public class UserServlet extends HttpServlet {
     private UserService userService = new UserService();
     private UserInfoService user_infoService = new UserInfoService();
     private RoleService roleService = new RoleService();
+    private Validate validate = new Validate();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -41,7 +46,6 @@ public class UserServlet extends HttpServlet {
             case "edit":
                 showEditUserInfo(req, resp);
                 break;
-
             case "createUser":
                 showCreateUser(req,resp);
                 break;
@@ -147,24 +151,92 @@ public class UserServlet extends HttpServlet {
 
     public void createUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        boolean checkEmptyUserName = validate.checkEmpty(username);
+        boolean checkUserName = checkUsername(username);
+        if (checkEmptyUserName) {
+            request.setAttribute("errorUserName", "Tài Khoản Không Được Để Trống");
+        } else if (userService.findByName(username) != null) {
+            request.setAttribute("errorUserName", "Tài Khoản Đã Tồn Tại");
+        }else if(!checkUserName){
+            request.setAttribute("errorUserName", "Tài Khoản 8 ký tự gồm chữ và số. Ví dụ: phuc1234");
+        }
 
-        Role role = roleService.findById(3);
+
+        String password = request.getParameter("password");
+        boolean checkEmptyPass = validate.checkEmpty(password);
+        boolean checkPassword = checkPassword(password);
+        if (checkEmptyPass) {
+            request.setAttribute("errorPassword", "Mật Khẩu Không Được Để Trống");
+        }else if(!checkPassword){
+            request.setAttribute("errorPassword", "Mật Khẩu gồm chữ và số");
+        }
 
         String name = request.getParameter("name");
-        Date dob = Date.valueOf(request.getParameter("dob"));
+        boolean checkEmptyName = validate.checkEmpty(name);
+        boolean checkName = checkName(name);
+        if(checkEmptyName){
+            request.setAttribute("errorName", "Tên Không Được Để Trống");
+        }else if(!checkName){
+            request.setAttribute("errorName", "Tên Không Được Có Ký Tự Đặc Biệt");
+        }
+
+
+        String dobString = request.getParameter("dob");
+        Date dob = null;
+        if(dobString == "") {
+            request.setAttribute("errorDob","Vui Lòng Chọn Ngày Tháng");
+        } else {
+            dob = Date.valueOf(dobString);
+            if(dob.compareTo(new java.util.Date()) >= 0){
+                request.setAttribute("errorDob","Không Đươc Chọn Quá Ngày Hiện Tại");
+            }
+        }
+
+
         String email = request.getParameter("email");
+        boolean checkEmptyEmail = validate.checkEmpty(email);
+        boolean checkEmail = checkEmail(email);
+        if(checkEmptyEmail){
+            request.setAttribute("errorEmail","Email Không Được Để Trống");
+        }else if(user_infoService.findByEmail(email)!= null){
+            request.setAttribute("errorEmail","Email Đã Tồn Tại");
+        }else if(!checkEmail){
+            request.setAttribute("errorEmail","Sai Định Dạng. Ví Dụ: Phuc@gmail.com");
+        }
+
         String phone = request.getParameter("phone");
+        boolean checkEmptyPhone = validate.checkEmpty(phone);
+        boolean checkPhone = Regex.checkPhone(phone);
+        if(checkEmptyPhone){
+            request.setAttribute("errorPhone","Số Điện Thoại Không Được Để Trống");
+        }else if(user_infoService.findByPhone(phone) != null){
+            request.setAttribute("errorPhone","Số Điện Thoại Đã Tồn Tại");
+        }else if(!checkPhone){
+            request.setAttribute("errorPhone","Sai Định Dạng. Ví Dụ: 0123456789");
+        }
+
+        String address = request.getParameter("address");
+        boolean checkEmptyAddress = validate.checkEmpty(address);
+        if(checkEmptyAddress){
+            request.setAttribute("errorAddress","Địa Chỉ Không Được Để Trống");
+        }
 
 
-        UserInfo userInfo = new UserInfo(name,dob,email,phone, "");
-        User user = new User(username,password, role,userInfo);
+        if(checkEmptyUserName && checkEmptyPass && checkEmptyName && checkEmptyEmail && checkEmptyPhone) {
 
-        userService.create(user);
-//        request.setAttribute("usercustomer",user);
-        String message = "Thêm mới thành công";
-        request.setAttribute("message", message);
-        request.getRequestDispatcher("/admin/users/createUser.jsp").forward(request,response);
+            Role role = roleService.findById(3);
+
+            UserInfo userInfo = new UserInfo(name, dob, email, phone, address);
+            User user = new User(username, password, role, userInfo);
+
+            userService.create(user);
+
+            request.setAttribute("message", "Tạo Tài Khoản Thành Công");
+            showCreateUser(request,response);
+        }
+        else {
+            showCreateUser(request,response);
+        }
 
 
 
