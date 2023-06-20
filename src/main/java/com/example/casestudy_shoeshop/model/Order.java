@@ -12,15 +12,17 @@ public class Order {
     private List<OrderDetail> orderDetailList;
     private double totalPrice;
     private Date orderDate;
-    private Status status;
+    private Status status = Status.Shopping;
     private Delivery delivery;
+    private String session_id;
 
     public Order() {
     }
 
-    public Order(int userId, Status status) {
-        this.userId = userId;
+    public Order(List<OrderDetail> orderDetailList, Status status, String session_id) {
+        this.orderDetailList = orderDetailList;
         this.status = status;
+        this.session_id = session_id;
     }
 
     public Order(int userId, String nameUser, List<OrderDetail> orderDetailList, double totalPrice, Date orderDate, Status status, Delivery delivery) {
@@ -33,7 +35,13 @@ public class Order {
         this.delivery = delivery;
     }
 
-    public Order(int id, int userId, String nameUser, List<OrderDetail>orderDetailList, double totalPrice, Date orderDate, Status status, Delivery delivery) {
+    public Order(int id, Status status, Delivery delivery) {
+        this.id = id;
+        this.status = status;
+        this.delivery = delivery;
+    }
+
+    public Order(int id, int userId, String nameUser, List<OrderDetail> orderDetailList, double totalPrice, Date orderDate, Status status, Delivery delivery) {
         this.id = id;
         this.userId = userId;
         this.nameUser = nameUser;
@@ -42,6 +50,23 @@ public class Order {
         this.orderDate = orderDate;
         this.status = status;
         this.delivery = delivery;
+    }
+
+    public Order(int id, int userId, List<OrderDetail> orderDetailList, double totalPrice, Status status, String session_id) {
+        this.id = id;
+        this.userId = userId;
+        this.orderDetailList = orderDetailList;
+        this.totalPrice = totalPrice;
+        this.status = status;
+        this.session_id = session_id;
+    }
+
+    public String getSession_id() {
+        return session_id;
+    }
+
+    public void setSession_id(String session_id) {
+        this.session_id = session_id;
     }
 
     public int getId() {

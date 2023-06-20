@@ -19,15 +19,12 @@ public class OrderDetailDao extends ConnectionDatabase {
             "where order_id = ?";
     private final String INSERT_ORDER_DETAIL = "INSERT INTO `order_detail` (`order_id`, `product_id`, `size_id`, `quantity`, `product_name`, `price`) " +
             "VALUES (?, ?, ?, ?, ?, ?)";
-    private final String UPDATE_ORDER_DETAIL = "UPDATE `order_detail` " +
-            "SET `order_id` = ?, `product_id` = ?, `size_id` = ?, `quantity` = ?, `product_name` = ?, `price` = ?" +
-            "WHERE (`id` = ?);";
+    private final String UPDATE_ORDER_DETAIL = "UPDATE `order_detail` SET `quantity` = ? WHERE (`id` = ?);";
     private final String DROP_ORDER_DETAIL = "DELETE FROM `order_detail` WHERE (`id` = ?);";
     private final String DROP_BY_ORDER_ID = "DELETE FROM `order_detail` WHERE (`order_id` = ?);";
 
     public List<OrderDetail> findByOrderId(int orderId) {
         orderDetailList = new ArrayList<>();
-        Delivery delivery = null;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ORDER_ID)) {
             preparedStatement.setInt(1, orderId);
@@ -49,7 +46,6 @@ public class OrderDetailDao extends ConnectionDatabase {
 
     public OrderDetail findByODId(int oDId) {
         orderDetailList = new ArrayList<>();
-        Delivery delivery = null;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID)) {
             preparedStatement.setInt(1, oDId);
@@ -88,13 +84,8 @@ public class OrderDetailDao extends ConnectionDatabase {
     public void updateOrderDetail(OrderDetail orderDetail) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ORDER_DETAIL)) {
-            preparedStatement.setInt(1, orderDetail.getOrderID());
-            preparedStatement.setInt(2, orderDetail.getProductID());
-            preparedStatement.setInt(3, orderDetail.getSizeID());
-            preparedStatement.setInt(4, orderDetail.getQuantity());
-            preparedStatement.setString(5, orderDetail.getProductName());
-            preparedStatement.setDouble(6, orderDetail.getPrice());
-            preparedStatement.setInt(7, orderDetail.getId());
+            preparedStatement.setInt(1, orderDetail.getQuantity());
+            preparedStatement.setInt(2, orderDetail.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

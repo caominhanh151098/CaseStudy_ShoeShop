@@ -16,33 +16,46 @@
         changeTotalPrice()
     }
 
-    function checkBuy() {
-        var sizeSelect = document.getElementsByClassName("size-select");
-        var buttonSubmit = document.getElementById("buttonSubmit");
-        var check = false;
-        Array.from(sizeSelect).forEach(e => {
-            if (e.checked == true)
-                check = true;
-        })
-        if (check == false) {
-            alert("You haven't selected the size yet!!");
-            buttonSubmit.disabled = true;
-        } else buttonSubmit.disabled = false;
+    let url = "/shop?";
 
-    }
-
-    function filterByPrice() {
-        var url = "/shop?price=";
+    function filterByPriceAndCategory() {
+        url = "/shop?";
         var checkboxes = document.getElementsByClassName("prices");
-        for (let i = 0; i < checkboxes.length; i++) {
-            let e = checkboxes[i];
-            if (e.checked) {
-                url += e.value + ",";
+        var checkboxesCategories = document.getElementsByClassName("categories");
+       if(checkboxes.length !==0){
+           var price = "";
+
+           for (let i = 0; i < checkboxes.length; i++) {
+               let e = checkboxes[i];
+               if (e.checked && e.value) {
+                   price += e.value;
+               }
+           }
+           if(price !== ""){
+               price = "&price=" + price;
+           }
+           url += price;
+       }
+
+        if(checkboxesCategories.length !== 0){
+            var category = "";
+
+            for (let i = 0; i < checkboxesCategories.length; i++) {
+                let e = checkboxesCategories[i];
+                if (e.checked && e.value) {
+                    category += e.value;
+                }
+
             }
+            if(category !== ""){
+                category = "&category=" + category;
+            }
+            url += category;
         }
 
-        window.location = url;
+
+        window.location = "http://localhost:8080/" + url;
     }
 
-    //nhaan object enum selected o day loop enum selected o day bat checked len lien he huy
+
 </script>

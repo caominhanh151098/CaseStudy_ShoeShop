@@ -46,8 +46,6 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("errors","Tài khoản không đúng");
             request.getRequestDispatcher("login.jsp").forward(request,response);
         }
-
     }
-
 }
 

@@ -28,14 +28,14 @@
                 <form>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                         <input type="checkbox" class="custom-control-input" id="price-all"
-                               onclick="filterByPrice()">
+                               onclick="filterByPriceAndCategory()">
                         <label class="custom-control-label" for="price-all">All Price</label>
                         <%--            <span class="badge border font-weight-normal"></span>--%>
                     </div>
                     <c:forEach var="eprice" items="${prices}">
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input prices" id="price-1${eprice.value}"
-                                   value="${eprice.value}" onclick="filterByPrice()"
+                                   value="${eprice.value}" onclick="filterByPriceAndCategory()"
                             <c:forEach items="${pageable.prices}" var="pricesSelect">
                                    <c:if test="${pricesSelect.value == eprice.value}">checked</c:if>
                             </c:forEach>
@@ -57,33 +57,19 @@
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                         <input type="checkbox" class="custom-control-input" checked id="color-all">
                         <label class="custom-control-label" for="price-all">All Color</label>
-                        <span class="badge border font-weight-normal">1000</span>
+                        <%--                        <span class="badge border font-weight-normal">1000</span>--%>
                     </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-1">
-                        <label class="custom-control-label" for="color-1">Sport</label>
-                        <span class="badge border font-weight-normal">150</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-2">
-                        <label class="custom-control-label" for="color-2">Gym</label>
-                        <span class="badge border font-weight-normal">295</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-3">
-                        <label class="custom-control-label" for="color-3">Red</label>
-                        <span class="badge border font-weight-normal">246</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-4">
-                        <label class="custom-control-label" for="color-4">Blue</label>
-                        <span class="badge border font-weight-normal">145</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                        <input type="checkbox" class="custom-control-input" id="color-5">
-                        <label class="custom-control-label" for="color-5">Green</label>
-                        <span class="badge border font-weight-normal">168</span>
-                    </div>
+                    <c:forEach items="${categories}" var="category">
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" class="custom-control-input categories" id="category-1${category.id}"
+                                   value="${category.id}" onclick="filterByPriceAndCategory()"
+                            <c:forEach items="${pageable.categories}" var="categorySelect">
+                                   <c:if test="${categorySelect.value == category.id}">checked</c:if>
+                            </c:forEach>>
+                            <label class="custom-control-label"
+                                   for="category-1${category.id}">${category.categoryName}</label>
+                        </div>
+                    </c:forEach>
                 </form>
             </div>
             <!-- Color End -->

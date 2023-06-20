@@ -151,7 +151,7 @@
                     </div>
                 </div>
                 <div class="text-center py-4">
-                    <a class="h6 text-decoration-none text-truncate" href="">${productList[index].product_name}</a>
+                    <a class="h6 text-decoration-none text-truncate" href="shop?action=show&id=${productList[index].id}">${productList[index].product_name}</a>
                     <div class="d-flex align-items-center justify-content-center mt-2">
                         <h5>${productList[index].price}</h5>
                     </div>

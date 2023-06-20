@@ -5,6 +5,7 @@ import com.example.casestudy_shoeshop.dto.Pageable;
 import com.example.casestudy_shoeshop.model.*;
 import com.example.casestudy_shoeshop.model.enums.Status;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,10 @@ public class ShopService {
 
     public User findUserById(int userId) {
         return userDao.findById(userId);
+    }
+
+    public Order getCartById(int id) {
+        return orderDao.findCartById(id);
     }
 
     public Product getProductById(int productId) {
@@ -37,24 +42,34 @@ public class ShopService {
         return sizeDao.getSizeByIdProduct(id);
     }
 
-
     public Order findCartByUserId(int userId) {
         return orderDao.findCartByUserId(userId);
     }
 
-    public void updateCartDetail(int idCartDetail, int quantity) {
-        OrderDetail cartDetail = orderDetailDao.findByODId(idCartDetail);
-        cartDetail.setQuantity(quantity);
-        orderDetailDao.updateOrderDetail(cartDetail);
+    public Order findCartBySessionId(String sessionId) {
+        Order cartUser = orderDao.findCartBySesionId(sessionId);
+        if (cartUser == null) {
+            List<OrderDetail> orderDetailList = new ArrayList<>();
+            cartUser = new Order(orderDetailList, Status.Shopping, sessionId);
+            return orderDao.createOrder(cartUser);
+        }
+        else return cartUser;
     }
 
-    public void updateCart(int userId) {
-        Order cartUser = orderDao.findCartByUserId(userId);
+    public void updateCartDetail(Order cartUser, int idCartDetail, int quantity) {
+        for(OrderDetail cartDetail : cartUser.getOrderDetailList()) {
+            if (cartDetail.getId() == idCartDetail) {
+                cartDetail.setQuantity(quantity);
+            orderDetailDao.updateOrderDetail(cartDetail);}
+        }
+    }
+
+    public void updateCart(Order cartUser) {
         orderDao.updateTPriceOrder(cartUser);
     }
 
     public void acceptOrder(Order cartUser, Delivery delivery) {
-        cartUser.setStatus(Status.valueOf("Ordered"));
+        cartUser.setStatus(Status.Ordered);
         cartUser.setOrderDate(new Date());
         deliveryDao.insertDelivery(delivery);
         cartUser.setDelivery(delivery);
@@ -67,23 +82,14 @@ public class ShopService {
         orderDao.updateTPriceOrder(cartUser);
     }
 
-    public void addToCart(int userId, OrderDetail cartDetail) {
-        Order cartUser = orderDao.findCartByUserId(userId);
+    public void addToCart(Order cartUser, OrderDetail cartDetail) {
         Product product = productDao.findById(cartDetail.getProductID());
+
         cartDetail.setProductName(product.getProduct_name());
         cartDetail.setPrice(product.getPrice());
+        cartDetail.setOrderID(cartUser.getId());
 
-        if (cartUser == null) {
-            cartUser = new Order(userId, Status.valueOf("Shopping"));
-            orderDao.insertOrder(cartUser);
-            cartDetail.setOrderID(cartUser.getId());
-
-            orderDetailDao.insertOrderDetail(cartDetail);
-        }
-        else {
-            cartDetail.setOrderID(cartUser.getId());
-            orderDetailDao.insertOrderDetail(cartDetail);
-        }
+        orderDetailDao.insertOrderDetail(cartDetail);
         cartUser.getOrderDetailList().add(cartDetail);
         orderDao.updateTPriceOrder(cartUser);
     }

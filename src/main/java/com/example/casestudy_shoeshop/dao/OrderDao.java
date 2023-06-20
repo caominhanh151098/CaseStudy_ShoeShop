@@ -24,9 +24,13 @@ public class OrderDao extends ConnectionDatabase {
             "FROM user u JOIN `order` o ON u.id = o.user_id " +
             "JOIN user_info ui ON u.id = ui.user_id WHERE o.user_id = ? AND status = 1";
 
+    private final String SELECT_CART_BY_SESSION = "SELECT o.* FROM `order` o WHERE session_id like ? AND `status` = 'Shopping'";
+    private final String SELECT_CART_BY_ID = "SELECT * FROM `order` o  WHERE id = ?";
     private final String SELECT_LAST_RECORD = "SELECT * FROM `order` ORDER BY id DESC LIMIT 1";
     private final String INSERT_ORDER = "INSERT INTO `order` (`user_id`, `status`) " +
             "VALUES (?, ?);";
+    private final String CREATE_ORDER = "INSERT INTO `order` (`status`, `session_id`) VALUES (?,?);";
+    private final String REMOVE_ORDER = "DELETE FROM `order` WHERE (`user_id` is null AND `status` = 'Shopping');";
     private final String UPDATE_ORDER = "UPDATE `order` SET `total_price` = ?, `order_date` = ?, `status` = ?, `delivery_id` = ? WHERE (`id` = ?);";
     private final String UPDATE_TOTAL_PRICE = "UPDATE `order` SET `total_price` = ? WHERE (`id` = ?);";
     private final String UPDATE_STATUS_ORDER = "UPDATE `order` SET `status` = ? WHERE (`id` = ?);";
@@ -83,6 +87,7 @@ public class OrderDao extends ConnectionDatabase {
         }
         return orderList;
     }
+
     public Order findCartByUserId(int userId) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CART_BY_USER_ID)) {
@@ -104,21 +109,95 @@ public class OrderDao extends ConnectionDatabase {
         return null;
     }
 
+    public Order findCartById(int orderId) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CART_BY_ID)) {
+            preparedStatement.setInt(1, orderId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int userId = rs.getInt("user_id");
+                List<OrderDetail> orderDetailList = orderDetailDao.findByOrderId(orderId);
+                double totalPrice = rs.getDouble("total_price");
+                Date orderDate = rs.getDate("order_date");
+                Status status = Status.valueOf(rs.getString("Status"));
+
+                return new Order(orderId, userId, "", orderDetailList, totalPrice, orderDate, status, new Delivery());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public Order findCartBySesionId(String sessionId) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CART_BY_SESSION)) {
+            preparedStatement.setString(1, sessionId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int orderId = rs.getInt("id");
+                int userId = rs.getInt("user_id");
+                List<OrderDetail> orderDetailList = orderDetailDao.findByOrderId(orderId);
+                double totalPrice = rs.getDouble("total_price");
+                Status status = Status.valueOf(rs.getString("Status"));
+
+                return new Order(orderId, userId, orderDetailList, totalPrice, status, sessionId);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
     public void insertOrder(Order order) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_ORDER)) {
-            preparedStatement.setInt(1, order.getId());
+            preparedStatement.setInt(1, order.getUserId());
             preparedStatement.setInt(2, order.getStatus().getIndex());
             preparedStatement.executeUpdate();
 
             PreparedStatement preparedStatement1 = connection.prepareStatement(SELECT_LAST_RECORD);
-            ResultSet rs = preparedStatement.executeQuery();
-            int idOrder = rs.getInt("id");
-            order.setId(idOrder);
+            ResultSet rs = preparedStatement1.executeQuery();
+            while (rs.next()) {
+                int idOrder = rs.getInt("id");
+                order.setId(idOrder);
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Order createOrder(Order order) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ORDER)) {
+            preparedStatement.setInt(1, order.getStatus().getIndex());
+            preparedStatement.setString(2, order.getSession_id());
+            preparedStatement.executeUpdate();
+
+            PreparedStatement preparedStatement1 = connection.prepareStatement(SELECT_LAST_RECORD);
+            ResultSet rs = preparedStatement1.executeQuery();
+            while (rs.next()) {
+                int idOrder = rs.getInt("id");
+                order.setId(idOrder);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return order;
+    }
+
+    public Order createNewOrder() {
+        Order newOrder = new Order();
+        try (Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_ORDER);
+            preparedStatement.executeUpdate();
+            createOrder(newOrder);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return newOrder;
     }
 
     public void updateOrder(Order order) {
@@ -159,7 +238,7 @@ public class OrderDao extends ConnectionDatabase {
 
     public void updateTPriceOrder(Order cartUser) {
         double totalPrice = 0;
-        for (OrderDetail orderDetail: cartUser.getOrderDetailList()) {
+        for (OrderDetail orderDetail : cartUser.getOrderDetailList()) {
             totalPrice += orderDetail.getPrice() * orderDetail.getQuantity();
         }
         cartUser.setTotalPrice(totalPrice);

@@ -53,11 +53,12 @@
                 <div class="d-flex mb-3">
                     <strong class="text-dark mr-3">Sizes:</strong>
                     <form action="shop?action=add-to-cart" method="post" id="formBuy">
+                        <input type="hidden" name="idCart" value="${idCart}">
                         <input type="hidden" name="productId" value="${product.id}">
                         <c:forEach items="${sizes}" var="size">
                             <div class="custom-control custom-radio custom-control-inline">
                                 <input type="radio" class="custom-control-input size-select" id="size-${size.id}"
-                                       name="sizeId" value="${size.id}" onclick="checkBuy()">
+                                       name="sizeId" value="${size.id}" onclick="buyProduct()">
                                 <label class="custom-control-label" for="size-${size.id}">${size.size}</label>
                             </div>
                         </c:forEach>
@@ -78,7 +79,7 @@
                             </button>
                         </div>
                     </div>
-                    <button onclick="checkBuy()" type="submit" form="formBuy" class="btn btn-primary px-3"
+                    <button onclick="buyProduct()" type="submit" form="formBuy" class="btn btn-primary px-3"
                             id="buttonSubmit"><i class="fa fa-shopping-cart mr-1" disabled="disable"></i> Add To Cart
                     </button>
                 </div>
