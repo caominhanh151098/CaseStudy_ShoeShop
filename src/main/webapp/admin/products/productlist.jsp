@@ -58,8 +58,8 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <span class="fw-semibold d-block">John Doe</span>
-                                    <small class="text-muted">Admin</small>
+                                    <span class="fw-semibold d-block">${user.username}</span>
+                                    <small class="text-muted">${admin}</small>
                                 </div>
                             </div>
                         </a>
@@ -106,7 +106,7 @@
 <br><br>
 
     <button type="button" class="btn rounded-pill btn-outline-secondary">
-        <a href="product?action=create">
+        <a href="/admin/product?action=create">
             <i class="bx bx-edit-alt me-1"></i>CREATE
         </a>
     </button>

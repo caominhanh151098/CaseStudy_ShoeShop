@@ -2,19 +2,28 @@ package com.example.casestudy_shoeshop.ulti;
 
 import com.example.casestudy_shoeshop.model.UserInfo;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Validate {
-    List<String> errors = new ArrayList<>();
-    UserInfo userInfo = new UserInfo();
 
-    private void validateName(HttpServletRequest req, List<String> errors, UserInfo userInfo) {
-        String name = req.getParameter("name");
-        if(!ValidateUtils.isNameValid(name)){
-            errors.add("Ten khong duoc de trong");
-        }
-        userInfo.setName(name);
+    public boolean checkEmpty(String name) {
+//        return !Objects.equals(name,"");
+        if (Objects.equals(name, ""))
+            return true;
+        return false;
     }
+
+    public boolean checkPrice(String price){
+        try{
+            double number = Double.parseDouble(String.valueOf(price));
+            if(number > 0 )
+                return true;
+        }catch (Exception e){
+            return false;
+        }
+        return false;
+    }
+
 }

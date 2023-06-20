@@ -8,6 +8,9 @@ public class Product {
      private String image;
      private Category category;
 
+    public Product() {
+    }
+
     public Product(String product_name, double price, String description, String image, Category category) {
         this.product_name = product_name;
         this.price = price;

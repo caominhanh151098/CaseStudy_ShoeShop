@@ -8,12 +8,18 @@
             <h5 class="mb-0">CREATE PRODUCT</h5>
         </div>
         <div class="card-body">
-            <form action="/product?action=create" method="post">
+            <form action="/admin/product?action=create" method="post">
                 <input  type="hidden" name="id" >
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label" for="basic-default-name">name</label>
                     <div class="col-sm-10">
                         <input type="text" name="product_name" class="form-control" id="basic-default-name" placeholder="Nike"  />
+                    </div>
+                    <br><br>
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <h5>${errorName}</h5>
+                        </div>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -27,7 +33,14 @@
                                 placeholder="ACME Inc."
                         />
                     </div>
+                    <br><br>
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <h5>${errorPrice}</h5>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label" for="basic-default-email">Description</label>
                     <div class="col-sm-10">
@@ -56,6 +69,7 @@
                                 aria-label="658 799 8941"
                                 aria-describedby="basic-default-phone"
                         />
+
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -77,7 +91,14 @@
                     <div class="row justify-content-end">
                         <div class="col-sm-10">
                             <button type="submit" class="btn btn-primary">SUBMIT</button>
+                            <button type="reset" class="btn btn-primary">CLEAR</button>
+                                <a  class="btn btn-primary" href="/admin/product">BACK</a>
                         </div>
+                    </div>
+                </div>
+                <div class="row justify-content-end">
+                    <div class="col-sm-10">
+                        <h5>${errorCreate}</h5>
                     </div>
                 </div>
             </form>

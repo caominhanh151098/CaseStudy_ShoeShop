@@ -6,6 +6,7 @@ import com.example.casestudy_shoeshop.model.Category;
 import com.example.casestudy_shoeshop.model.Product;
 import com.example.casestudy_shoeshop.service.CategoryService;
 import com.example.casestudy_shoeshop.service.ProductService;
+import com.example.casestudy_shoeshop.ulti.Validate;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +27,8 @@ public class ProductServlet extends HttpServlet {
 
     private ProductService productService = new ProductService();
     private CategoryService categoryService = new CategoryService();
+
+    Validate validate = new Validate();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -106,27 +109,77 @@ public class ProductServlet extends HttpServlet {
 
     private void createProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("product_name");
-        double price = Double.parseDouble(req.getParameter("price"));
-        String description = req.getParameter("description");
-        String img = req.getParameter("img");
+        boolean checkName = validate.checkEmpty(name);
+        if (checkName) {
+            req.setAttribute("errorName", "Tên Không Được Để Trống");
+        } else if (productService.finByName(name) != null) {
+            req.setAttribute("errorName", "Tên Sản Phẩm Đã Tồn Tại");
+        }
 
-        int idCategory = Integer.parseInt(req.getParameter("category"));
-        Category category = categoryService.findById(idCategory);
-        productService.insert(new Product(name, price, description, img, category));
-        showProduct(req, resp);
+        String priceS = req.getParameter("price");
+        boolean checkPrice = validate.checkEmpty(priceS);
+        if(!checkPrice){
+            req.setAttribute("errorPrice","Giá Sản Phẩm Không Được Để Trống");
+        }
+        if(!validate.checkPrice(priceS)){
+            req.setAttribute("errorPrice","Giá Sản Phẩm Phải Lớn Hơn 0");
+        }
+        if(checkName && checkPrice && validate.checkPrice(priceS)){
+            double price = Double.parseDouble(priceS);
+
+            String description = req.getParameter("description");
+            String img = req.getParameter("img");
+
+            int idCategory = Integer.parseInt(req.getParameter("category"));
+            Category category = categoryService.findById(idCategory);
+            productService.insert(new Product(name, price, description, img, category));
+
+            req.setAttribute("errorCreate","Tạo Sản Phẩm Thành Công");
+            showCreateProduct(req,resp);
+        }
+        else {
+            showCreateProduct(req,resp);
+        }
+
     }
 
     private void updateProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        String name = req.getParameter("product_name");
-        double price = Double.parseDouble(req.getParameter("price"));
-        String description = req.getParameter("description");
-        String img = req.getParameter("img");
 
-        int idCategory = Integer.parseInt(req.getParameter("category"));
-        Category category = categoryService.findById(idCategory);
-        productService.update(new Product(id, name, price, description, img, category));
-        showProduct(req, resp);
+        String name = req.getParameter("product_name");
+        boolean checkName = validate.checkEmpty(name);
+        if (checkName) {
+            req.setAttribute("errorName", "Tên Không Được Để Trống");
+        } else if (productService.finByName(name) != null) {
+            req.setAttribute("errorName", "Tên Sản Phẩm Đã Tồn Tại");
+        }
+
+        String priceS = req.getParameter("price");
+        boolean checkPrice = validate.checkEmpty(priceS);
+        if(!checkPrice){
+            req.setAttribute("errorPrice","Giá Sản Phẩm Không Được Để Trống");
+        }
+        if(!validate.checkPrice(priceS)){
+            req.setAttribute("errorPrice","Giá Sản Phẩm Phải Lớn Hơn 0");
+        }
+        if(checkName && checkPrice && validate.checkPrice(priceS)) {
+
+            double price = Double.parseDouble(priceS);
+
+
+            String description = req.getParameter("description");
+            String img = req.getParameter("img");
+
+            int idCategory = Integer.parseInt(req.getParameter("category"));
+            Category category = categoryService.findById(idCategory);
+            productService.update(new Product(id, name, price, description, img, category));
+
+            req.setAttribute("errorUpdate","Sửa Thông Tin Sản Phẩm Thành Công");
+            showUpdateProduct(req, resp);
+        }
+        else {
+            showUpdateProduct(req,resp);
+        }
 
     }
 }
