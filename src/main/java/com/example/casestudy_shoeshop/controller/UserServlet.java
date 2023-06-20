@@ -95,7 +95,7 @@ public class UserServlet extends HttpServlet {
         User user = userService.findByID(id);
         req.setAttribute("user",user);
 //        req.setAttribute("userAll",userService.findALL());
-        req.getRequestDispatcher("admin/users/showUserInfo.jsp").forward(req,resp);
+        req.getRequestDispatcher("/admin/users/showUserInfo.jsp").forward(req,resp);
 
     }
 

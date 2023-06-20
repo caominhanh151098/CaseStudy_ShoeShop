@@ -16,7 +16,7 @@
 
         <h5 class="card-header">Create User</h5>
 
-            <form action="/user?action=createUser" method="post">
+            <form action="/admin/user?action=createUser" method="post">
                 <div class="card-body" >
                 <div class="mb-3 row">
                     <label for="html5-search-input"  class="col-md-2 col-form-label" >Username</label>

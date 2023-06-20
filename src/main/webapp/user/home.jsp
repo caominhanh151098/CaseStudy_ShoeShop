@@ -168,29 +168,29 @@
     <div class="row px-xl-5">
         <div class="col">
             <div class="owl-carousel vendor-carousel">
-                <div class="bg-light p-4">
-                    <img src="user/img/vendor-1.jpg" alt="">
+                <div class="bg-light p-4" style="height: 230px">
+                    <img src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/b68b0684-1ffb-4cf3-82f7-02cc4bbf5fc2/phantom-gx-club-dynamic-fit-mg-multi-ground-football-boot-24PQkr.png" width="50px"  height="180px">
                 </div>
                 <div class="bg-light p-4">
-                    <img src="user/img/vendor-2.jpg" alt="">
+                    <img src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/5084b9a7-c425-4108-866e-1bdffedc8ad1/gripknit-phantom-gx-elite-fg-football-boot-6t4Xff.png" width="50px" height="180px">
                 </div>
                 <div class="bg-light p-4">
-                    <img src="user/img/vendor-3.jpg" alt="">
+                    <img src="https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/61d18281-89f5-4a1d-a0a5-3f426a8a5d03/metcon-8-training-shoes-p9rQzn.png" width="50px">
                 </div>
                 <div class="bg-light p-4">
-                    <img src="user/img/vendor-4.jpg" alt="">
+                    <img src="https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/06366ceb-2b4c-44cf-bb2a-5c9bcdd21bb1/metcon-8-amp-training-shoes-qCXZkL.png" width="50px">
                 </div>
                 <div class="bg-light p-4">
-                    <img src="user/img/vendor-5.jpg" alt="">
+                    <img src="https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/a2eaf301-687e-4235-9dc6-d1cb70f927be/blazer-mid-77-shoes-fW78R7.png" width="50px">
                 </div>
                 <div class="bg-light p-4">
-                    <img src="user/img/vendor-6.jpg" alt="">
+                    <img src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/f56ebbc8-9c68-4e2b-a3cb-01f6f57083c0/zoom-mercurial-superfly-9-elite-xxv-fg-football-boot-RxNPgm.png" width="50px">
                 </div>
                 <div class="bg-light p-4">
-                    <img src="user/img/vendor-7.jpg" alt="">
+                    <img src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/f9e940d3-2192-434e-a017-072303ce2f14/air-max-90-shoes-N7Tbw0.png" width="50px">
                 </div>
                 <div class="bg-light p-4">
-                    <img src="user/img/vendor-8.jpg" alt="">
+                    <img src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/b61bbd79-bb41-4a55-9a61-255fffa5fded/phantom-gx-club-tf-football-shoes-K2rSnK.png" width="50px" height="180px">
                 </div>
             </div>
         </div>

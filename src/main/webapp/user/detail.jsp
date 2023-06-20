@@ -2,7 +2,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:import url="layout/header.jsp"></c:import>
 
-
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
@@ -16,7 +15,6 @@
     </div>
 </div>
 <!-- Breadcrumb End -->
-
 
 <!-- Shop Detail Start -->
 <div class="container-fluid pb-5">
