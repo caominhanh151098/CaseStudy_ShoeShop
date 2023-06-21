@@ -12,12 +12,12 @@
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item position-relative active" style="height: 430px;">
-                        <img class="position-absolute w-100 h-100" src="user/img/nike2.png"
+                        <img class="position-absolute w-100 h-100" src="user/img/nike7.png"
                              style="object-fit: cover;">
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3" style="max-width: 700px;">
-                                <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Women
-                                    Fashion</h1>
+                                <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">
+                                  Sneakes for spring</h1>
                                 <p class="mx-md-5 px-5 animate__animated animate__bounceIn">We deliver stories, services, experiences, and related products centered on five major themes.
                                     Let's start a healthy day with the world's experts and trainers.</p>
                                 <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
@@ -26,12 +26,11 @@
                         </div>
                     </div>
                     <div class="carousel-item position-relative" style="height: 430px;">
-                        <img class="position-absolute w-100 h-100" src="user/img/nike1.png"
+                        <img class="position-absolute w-100 h-100" src="user/img/nike6.png"
                              style="object-fit: cover;">
                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                             <div class="p-3" style="max-width: 700px;">
-                                <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Summer
-                                    Fashion</h1>
+                                <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Men's shoes</h1>
                                 <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Let's move. Escape from everyday life and go on an adventure.
                                     Enjoy summer to the fullest with our summer collection that fits any occasion.</p>
                                 <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
