@@ -9,10 +9,7 @@ import java.util.Objects;
 public class Validate {
 
     public boolean checkEmpty(String name) {
-//        return !Objects.equals(name,"");
-        if (Objects.equals(name, ""))
-            return true;
-        return false;
+        return !Objects.equals(name,"");
     }
 
     public boolean checkPrice(String price){

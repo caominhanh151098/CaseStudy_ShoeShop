@@ -85,9 +85,6 @@ public class UserServlet extends HttpServlet {
 
     private void showEditUserInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        // lấy customer có id bằng với id trong parameter;
-        // gửi customer qua bên editUserInfo.jsp;
-        // điều hướng tới trang editUserInfo.jsp;
         UserInfo userInfo = user_infoService.findById(id);
         req.setAttribute("userInfo", userInfo);
 //        req.setAttribute("listcategory", categoryService.findAll());
@@ -153,7 +150,7 @@ public class UserServlet extends HttpServlet {
         String username = request.getParameter("username");
         boolean checkEmptyUserName = validate.checkEmpty(username);
         boolean checkUserName = checkUsername(username);
-        if (checkEmptyUserName) {
+        if (!checkEmptyUserName) {
             request.setAttribute("errorUserName", "Tài Khoản Không Được Để Trống");
         } else if (userService.findByName(username) != null) {
             request.setAttribute("errorUserName", "Tài Khoản Đã Tồn Tại");
@@ -165,7 +162,7 @@ public class UserServlet extends HttpServlet {
         String password = request.getParameter("password");
         boolean checkEmptyPass = validate.checkEmpty(password);
         boolean checkPassword = checkPassword(password);
-        if (checkEmptyPass) {
+        if (!checkEmptyPass) {
             request.setAttribute("errorPassword", "Mật Khẩu Không Được Để Trống");
         }else if(!checkPassword){
             request.setAttribute("errorPassword", "Mật Khẩu gồm chữ và số");
@@ -174,7 +171,7 @@ public class UserServlet extends HttpServlet {
         String name = request.getParameter("name");
         boolean checkEmptyName = validate.checkEmpty(name);
         boolean checkName = checkName(name);
-        if(checkEmptyName){
+        if(!checkEmptyName){
             request.setAttribute("errorName", "Tên Không Được Để Trống");
         }else if(!checkName){
             request.setAttribute("errorName", "Tên Không Được Có Ký Tự Đặc Biệt");
@@ -196,7 +193,7 @@ public class UserServlet extends HttpServlet {
         String email = request.getParameter("email");
         boolean checkEmptyEmail = validate.checkEmpty(email);
         boolean checkEmail = checkEmail(email);
-        if(checkEmptyEmail){
+        if(!checkEmptyEmail){
             request.setAttribute("errorEmail","Email Không Được Để Trống");
         }else if(user_infoService.findByEmail(email)!= null){
             request.setAttribute("errorEmail","Email Đã Tồn Tại");
@@ -207,7 +204,7 @@ public class UserServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         boolean checkEmptyPhone = validate.checkEmpty(phone);
         boolean checkPhone = Regex.checkPhone(phone);
-        if(checkEmptyPhone){
+        if(!checkEmptyPhone){
             request.setAttribute("errorPhone","Số Điện Thoại Không Được Để Trống");
         }else if(user_infoService.findByPhone(phone) != null){
             request.setAttribute("errorPhone","Số Điện Thoại Đã Tồn Tại");

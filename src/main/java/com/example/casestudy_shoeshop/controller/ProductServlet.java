@@ -109,7 +109,7 @@ public class ProductServlet extends HttpServlet {
     private void createProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("product_name");
         boolean checkName = validate.checkEmpty(name);
-        if (checkName) {
+        if (!checkName) {
             req.setAttribute("errorName", "Tên Không Được Để Trống");
         } else if (productService.finByName(name) != null) {
             req.setAttribute("errorName", "Tên Sản Phẩm Đã Tồn Tại");
@@ -119,11 +119,12 @@ public class ProductServlet extends HttpServlet {
         boolean checkPrice = validate.checkEmpty(priceS);
         if(!checkPrice){
             req.setAttribute("errorPrice","Giá Sản Phẩm Không Được Để Trống");
-        }
+        }else
         if(!validate.checkPrice(priceS)){
             req.setAttribute("errorPrice","Giá Sản Phẩm Phải Lớn Hơn 0");
         }
-        if(checkName && checkPrice && validate.checkPrice(priceS)){
+
+        if(checkName && checkPrice){
             double price = Double.parseDouble(priceS);
 
             String description = req.getParameter("description");
@@ -147,21 +148,19 @@ public class ProductServlet extends HttpServlet {
 
         String name = req.getParameter("product_name");
         boolean checkName = validate.checkEmpty(name);
-        if (checkName) {
+        if (!checkName) {
             req.setAttribute("errorName", "Tên Không Được Để Trống");
-        } else if (productService.finByName(name) != null) {
-            req.setAttribute("errorName", "Tên Sản Phẩm Đã Tồn Tại");
         }
 
         String priceS = req.getParameter("price");
         boolean checkPrice = validate.checkEmpty(priceS);
         if(!checkPrice){
             req.setAttribute("errorPrice","Giá Sản Phẩm Không Được Để Trống");
-        }
+        }else
         if(!validate.checkPrice(priceS)){
             req.setAttribute("errorPrice","Giá Sản Phẩm Phải Lớn Hơn 0");
         }
-        if(checkName && checkPrice && validate.checkPrice(priceS)) {
+        if(checkName && checkPrice ) {
 
             double price = Double.parseDouble(priceS);
 
