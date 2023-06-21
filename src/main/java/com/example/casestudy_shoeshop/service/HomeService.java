@@ -32,4 +32,12 @@ public class HomeService {
     public Order createNewCart() {
         return orderDao.createNewOrder();
     }
+
+    public Order getCartByUserId(int id) {
+        return orderDao.findCartByUserId(id);
+    }
+
+    public Order getCartBySession (String sessionId) {
+        return orderDao.findCartBySesionId(sessionId);
+    }
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SizeDao extends ConnectionDatabase {
+    private final String SELECT_ALL_SIZE = "SELECT * FROM size";
     private final String SELECT_SIZE = "SELECT * FROM size_product";
     private final String SELECT_SIZE_BY_PRODUCT_ID = "SELECT s.id, s.size " +
             "FROM product p join size_product sp on sp.product_id = p.id " +
@@ -36,6 +37,22 @@ public class SizeDao extends ConnectionDatabase {
         return sizes;
     }
 
+    public List<Size> getAll() {
+        List<Size> sizes = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_SIZE)) {
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int idSize = rs.getInt("id");
+                int size = rs.getInt("size");
+                sizes.add(new Size(idSize, size));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return sizes;
+    }
+
     public List<Size> getSizeByIdProduct(int id) {
         List<Size> sizes = new ArrayList<>();
 
@@ -54,4 +71,6 @@ public class SizeDao extends ConnectionDatabase {
         }
         return sizes;
     }
+
+
 }

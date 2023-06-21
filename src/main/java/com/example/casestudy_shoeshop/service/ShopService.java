@@ -93,4 +93,8 @@ public class ShopService {
         cartUser.getOrderDetailList().add(cartDetail);
         orderDao.updateTPriceOrder(cartUser);
     }
+
+    public List<Size> getAllSize() {
+        return sizeDao.getAll();
+    }
 }

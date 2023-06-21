@@ -140,7 +140,22 @@ public class ShopServlet extends HttpServlet {
             });
             pageable.setCategories(categoryList);
         }
+        String sizes = req.getParameter("size");
+        if (sizes != null && !sizes.isEmpty()) {
+            String[] sizeString = sizes.split("");
+            List<Integer> integers = Arrays.stream(sizeString).map(Integer::parseInt).collect(Collectors.toList());
+            List<Size> sizeList = new ArrayList<>();
+            integers.forEach(value -> {
+                for (Size size : shopService.getAllSize()) {
+                    if (value == size.getId()) {
+                        sizeList.add(size);
+                    }
+                }
+            });
+            pageable.setSizes(sizeList);
+        }
 
+        req.setAttribute("sizes", shopService.getAllSize());
         req.setAttribute("productList", shopService.getProducts(pageable));
         req.setAttribute("prices", EPrice.values());
         req.setAttribute("pageable", pageable);

@@ -14,9 +14,9 @@ import java.util.Date;
 import java.util.List;
 
 public class OrderDao extends ConnectionDatabase {
-    private final String SELECT_ALL_ORDERED = "SELECT o.*, ui.`name` as `name_user` " +
-            "FROM user u JOIN `order` o ON u.id = o.user_id JOIN user_info ui ON u.id = ui.user_id " +
-            "WHERE o.status <> 1";
+    private final String SELECT_ALL_ORDERED = "SELECT o.*, ui.name as `name_user`" +
+            "FROM `order` o LEFT JOIN user u ON u.id = o.user_id " +
+            "LEFT JOIN user_info ui ON u.id = ui.user_id WHERE o.status <> 1";
     private final String SELECT_ORDER_BY_USER_ID = "SELECT o.*, ui.`name` as `name_user` " +
             "FROM user u JOIN `order` o ON u.id = o.user_id " +
             "JOIN user_info ui ON u.id = ui.user_id WHERE o.user_id = ? AND status <> 1";
@@ -47,6 +47,9 @@ public class OrderDao extends ConnectionDatabase {
                 int id = rs.getInt("id");
                 int userId = rs.getInt("user_id");
                 String nameUser = rs.getString("name_user");
+                if (nameUser == null || nameUser.equals("")) {
+                    nameUser = "Khách vãng lai";
+                }
                 List<OrderDetail> orderDetailList = orderDetailDao.findByOrderId(id);
                 double totalPrice = rs.getDouble("total_price");
                 Date orderDate = rs.getDate("order_date");

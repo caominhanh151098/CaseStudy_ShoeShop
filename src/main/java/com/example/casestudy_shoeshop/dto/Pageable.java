@@ -1,6 +1,7 @@
 package com.example.casestudy_shoeshop.dto;
 
 import com.example.casestudy_shoeshop.model.Category;
+import com.example.casestudy_shoeshop.model.Size;
 import com.example.casestudy_shoeshop.model.enums.EPrice;
 
 import java.util.List;
@@ -13,11 +14,10 @@ public class Pageable {
     private int totalPage;
     private String nameField;
     private String sortBy;
-
     private String priceString;
-
     private List<EPrice> prices;
     private List<Category> categories;
+    private List<Size> sizes;
 
     public Pageable(String search) {
         this.search = search;
@@ -50,7 +50,6 @@ public class Pageable {
     public void setSearch(String search) {
         this.search = search;
     }
-
 
     public int getPage() {
         return page;
@@ -113,5 +112,13 @@ public class Pageable {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public List<Size> getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(List<Size> sizes) {
+        this.sizes = sizes;
     }
 }

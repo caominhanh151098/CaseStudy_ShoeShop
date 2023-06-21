@@ -1,6 +1,7 @@
 package com.example.casestudy_shoeshop.controller;
 
 import com.example.casestudy_shoeshop.model.Order;
+import com.example.casestudy_shoeshop.model.User;
 import com.example.casestudy_shoeshop.service.HomeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -24,7 +26,13 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String sessionId = req.getSession().getId();
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user != null){
+            Order order = homeService.getCartByUserId(user.getId());
+            Order orderSession = homeService.getCartBySession(session.getId());
+            if (orderSession != null) {}
+        }
         req.setAttribute("productList", homeService.getProducts());
         req.setAttribute("categories", homeService.getCategories());
         req.getRequestDispatcher("user/home.jsp").forward(req, resp);
@@ -35,13 +43,4 @@ public class HomeServlet extends HttpServlet {
         super.doPost(req, resp);
     }
 
-    public static String convertListToJson(List<?> list) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(list);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

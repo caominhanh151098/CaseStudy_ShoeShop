@@ -3,6 +3,7 @@ package com.example.casestudy_shoeshop.dao;
 import com.example.casestudy_shoeshop.dto.Pageable;
 import com.example.casestudy_shoeshop.model.Category;
 import com.example.casestudy_shoeshop.model.Product;
+import com.example.casestudy_shoeshop.model.Size;
 import com.example.casestudy_shoeshop.model.enums.EPrice;
 //import javafx.scene.image.Image;
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 
 public class ProductDao extends ConnectionDatabase {
-    private final String SELECT_ALL_PRODUCT = "SELECT p.* , c.category_name as categoryName, c.img as category_img FROM product p Left join category c on p.category_id = c.id where lower(p.product_name) like '%s' %s %s order by '%s' '%s' limit %d offset %d";
+    private final String SELECT_ALL_PRODUCT = "SELECT p.* , c.category_name as categoryName, c.img as category_img FROM product p Left join category c on p.category_id = c.id where lower(p.product_name) like '%s' %s %s %s order by '%s' '%s' limit %d offset %d";
 
     private final String SELECT_PRODUCT = "SELECT p.* , c.category_name as categoryName, c.img as category_img " +
             "FROM product p Left join category c on p.category_id = c.id " +
@@ -55,10 +56,11 @@ public class ProductDao extends ConnectionDatabase {
             for (int i = 0; i < prices.size(); i++) {
                 String filter = String.format("(p.price >= %d AND p.price <= %d)", prices.get(i).getBegin(), prices.get(i).getEnd());
                 if (i == 0) {
-                    filterPrice += filter;
+                    filterPrice += "(" + filter;
                 } else
                     filterPrice += " OR " + filter;
             }
+            filterPrice += ")";
         }
         List<Category> categories = pageable.getCategories();
         String filterCategory = "";
@@ -72,11 +74,26 @@ public class ProductDao extends ConnectionDatabase {
                     filterCategory += " OR " + filter;
             }
         }
+        List<Size> sizes = pageable.getSizes();
+        String filterSize = "";
+        if (sizes != null && !sizes.isEmpty()) {
+            filterSize += "AND p.id IN (SELECT product_id FROM size_product WHERE ";
+            for (int i = 0; i < sizes.size(); i++) {
+                String filter = String.format("size_id = %d", sizes.get(i).getId());
+                if (i == 0) {
+                    filterSize += filter;
+                } else
+                    filterSize += " OR " + filter;
+            }
+            filterSize += ")";
+        }
+
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement(String.format(SELECT_ALL_PRODUCT, search,
                              filterPrice,
                              filterCategory,
+                             filterSize,
                              pageable.getNameField(),
                              pageable.getSortBy(),
                              pageable.getTotalItems(),
@@ -178,7 +195,6 @@ public class ProductDao extends ConnectionDatabase {
         }
     }
 
-<<<<<<< Updated upstream
     public Product findByName(String name) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PRODUCT_BY_NAME);) {
@@ -197,7 +213,7 @@ public class ProductDao extends ConnectionDatabase {
                 String categoryName = rs.getString("categoryName");
                 Category category = new Category(categoryId, categoryName);
 
-                return new Product( name, price, description, image, category);
+                return new Product(name, price, description, image, category);
 
             }
         } catch (SQLException e) {
@@ -206,10 +222,9 @@ public class ProductDao extends ConnectionDatabase {
         return null;
     }
 
-=======
     public List<Product> getAllProducts() {
         List<Product> productList = new ArrayList<>();
-        try(Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             String SELECT_ALL = "SELECT p.* , c.category_name as categoryName, c.img as category_img FROM product p Left join category c on p.category_id = c.id";
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
             ResultSet rs = preparedStatement.executeQuery();
@@ -231,5 +246,4 @@ public class ProductDao extends ConnectionDatabase {
         }
         return productList;
     }
->>>>>>> Stashed changes
 }

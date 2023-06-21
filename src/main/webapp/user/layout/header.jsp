@@ -50,7 +50,7 @@
                         Account
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <button class="dropdown-item" type="button">Sign in</button>
+                        <button class="dropdown-item" type="button"><a href="/login.jsp">Sign in</a></button>
                         <button class="dropdown-item" type="button">Sign up</button>
                     </div>
                 </div>

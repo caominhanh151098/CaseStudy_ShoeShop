@@ -16,28 +16,26 @@
         changeTotalPrice()
     }
 
-    let url = "/shop?";
-
-    function filterByPriceAndCategory() {
-        url = "/shop?";
-        var checkboxes = document.getElementsByClassName("prices");
+    function filterBy() {
+        let url = "shop?";
+        var checkboxesPrices = document.getElementsByClassName("prices");
         var checkboxesCategories = document.getElementsByClassName("categories");
-       if(checkboxes.length !==0){
-           var price = "";
+        var checkboxesSizes = document.getElementsByClassName("sizes");
+        if (checkboxesPrices.length !== 0) {
+            var price = "";
 
-           for (let i = 0; i < checkboxes.length; i++) {
-               let e = checkboxes[i];
-               if (e.checked && e.value) {
-                   price += e.value;
-               }
-           }
-           if(price !== ""){
-               price = "&price=" + price;
-           }
-           url += price;
-       }
-
-        if(checkboxesCategories.length !== 0){
+            for (let i = 0; i < checkboxesPrices.length; i++) {
+                let e = checkboxesPrices[i];
+                if (e.checked && e.value) {
+                    price += e.value;
+                }
+            }
+            if (price !== "") {
+                price = "&price=" + price;
+            }
+            url += price;
+        }
+        if (checkboxesCategories.length !== 0) {
             var category = "";
 
             for (let i = 0; i < checkboxesCategories.length; i++) {
@@ -47,12 +45,25 @@
                 }
 
             }
-            if(category !== ""){
+            if (category !== "") {
                 category = "&category=" + category;
             }
             url += category;
         }
+        if (checkboxesSizes.length !== 0) {
+            var size = "";
 
+            for (let i = 0; i < checkboxesSizes.length; i++) {
+                let e = checkboxesSizes[i];
+                if (e.checked && e.value) {
+                    size += e.value;
+                }
+            }
+            if (size !== "") {
+                size = "&size=" + size;
+            }
+            url += size;
+        }
 
         window.location = "http://localhost:8080/" + url;
     }
