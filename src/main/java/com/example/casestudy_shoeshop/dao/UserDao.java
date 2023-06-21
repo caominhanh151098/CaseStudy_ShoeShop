@@ -169,7 +169,7 @@ public class UserDao extends ConnectionDatabase {
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setInt(3, user.getRole().getId());
-            preparedStatement.setInt(5, user.getId());
+            preparedStatement.setInt(4, user.getId());
 //                preparedStatement.setString(5, book.getCategory().getNamecategory());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();

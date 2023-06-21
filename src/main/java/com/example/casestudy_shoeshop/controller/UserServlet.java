@@ -149,19 +149,20 @@ public class UserServlet extends HttpServlet {
     public void createUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         boolean checkEmptyUserName = validate.checkEmpty(username);
-        boolean checkUserName = checkUsername(username);
+        boolean checkUserName = validate.checkUserName(username);
+        boolean checkRegexUserName = checkUsername(username);
         if (!checkEmptyUserName) {
             request.setAttribute("errorUserName", "Tài Khoản Không Được Để Trống");
-        } else if (userService.findByName(username) != null) {
+        } else if (!checkUserName) {
             request.setAttribute("errorUserName", "Tài Khoản Đã Tồn Tại");
-        }else if(!checkUserName){
-            request.setAttribute("errorUserName", "Tài Khoản 8 ký tự gồm chữ và số. Ví dụ: phuc1234");
+        }else if(!checkRegexUserName){
+            request.setAttribute("errorUserName", "Tài Khoản Không Được Có Ký Tự Đặc Biệt");
         }
 
 
         String password = request.getParameter("password");
         boolean checkEmptyPass = validate.checkEmpty(password);
-        boolean checkPassword = checkPassword(password);
+        boolean checkPassword = Regex.checkPassword(password);
         if (!checkEmptyPass) {
             request.setAttribute("errorPassword", "Mật Khẩu Không Được Để Trống");
         }else if(!checkPassword){
@@ -170,7 +171,7 @@ public class UserServlet extends HttpServlet {
 
         String name = request.getParameter("name");
         boolean checkEmptyName = validate.checkEmpty(name);
-        boolean checkName = checkName(name);
+        boolean checkName = Regex.checkName(name);
         if(!checkEmptyName){
             request.setAttribute("errorName", "Tên Không Được Để Trống");
         }else if(!checkName){
@@ -192,43 +193,51 @@ public class UserServlet extends HttpServlet {
 
         String email = request.getParameter("email");
         boolean checkEmptyEmail = validate.checkEmpty(email);
-        boolean checkEmail = checkEmail(email);
+        boolean checkEmail = validate.checkEmail(email);
+        boolean checkRegexEmail = Regex.checkEmail(email);
         if(!checkEmptyEmail){
             request.setAttribute("errorEmail","Email Không Được Để Trống");
-        }else if(user_infoService.findByEmail(email)!= null){
-            request.setAttribute("errorEmail","Email Đã Tồn Tại");
         }else if(!checkEmail){
+            request.setAttribute("errorEmail","Email Đã Tồn Tại");
+        }else if(!checkRegexEmail){
             request.setAttribute("errorEmail","Sai Định Dạng. Ví Dụ: Phuc@gmail.com");
         }
 
         String phone = request.getParameter("phone");
         boolean checkEmptyPhone = validate.checkEmpty(phone);
-        boolean checkPhone = Regex.checkPhone(phone);
+        boolean checkPhone = validate.checkPhone(phone);
+        boolean checkRegexPhone = Regex.checkPhone(phone);
         if(!checkEmptyPhone){
             request.setAttribute("errorPhone","Số Điện Thoại Không Được Để Trống");
-        }else if(user_infoService.findByPhone(phone) != null){
-            request.setAttribute("errorPhone","Số Điện Thoại Đã Tồn Tại");
         }else if(!checkPhone){
+            request.setAttribute("errorPhone","Số Điện Thoại Đã Tồn Tại");
+        }else if(!checkRegexPhone){
             request.setAttribute("errorPhone","Sai Định Dạng. Ví Dụ: 0123456789");
         }
 
         String address = request.getParameter("address");
         boolean checkEmptyAddress = validate.checkEmpty(address);
-        if(checkEmptyAddress){
+        if(!checkEmptyAddress){
             request.setAttribute("errorAddress","Địa Chỉ Không Được Để Trống");
         }
 
 
-        if(checkEmptyUserName && checkEmptyPass && checkEmptyName && checkEmptyEmail && checkEmptyPhone) {
+        if(checkEmptyUserName && checkName && checkRegexUserName
+                && checkEmptyPass && checkPassword
+                && checkEmptyName && checkName
+                && checkEmptyEmail && checkEmail && checkRegexEmail
+                && checkEmptyPhone && checkPhone && checkRegexPhone
+                && checkEmptyAddress) {
 
             Role role = roleService.findById(3);
 
             UserInfo userInfo = new UserInfo(name, dob, email, phone, address);
-            User user = new User(username, password, role, userInfo);
+            User user = new User(username, password, role,userInfo);
 
             userService.create(user);
+//            user_infoService.create(userInfo);
 
-            request.setAttribute("message", "Tạo Tài Khoản Thành Công");
+            request.setAttribute("errorCreateUser", "Tạo Tài Khoản Thành Công");
             showCreateUser(request,response);
         }
         else {

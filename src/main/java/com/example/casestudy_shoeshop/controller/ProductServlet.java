@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ProductServlet extends HttpServlet {
 
-    private int TOTAL_ITEMS = 5;
+    private int TOTAL_ITEMS = 7;
 
     private List<Product> products = new ArrayList<>();
 
@@ -108,23 +108,25 @@ public class ProductServlet extends HttpServlet {
 
     private void createProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("product_name");
-        boolean checkName = validate.checkEmpty(name);
-        if (!checkName) {
+        boolean checkEmptyName = validate.checkEmpty(name);
+        boolean checkName = validate.checkNameProduct(name);
+        if (!checkEmptyName) {
             req.setAttribute("errorName", "Tên Không Được Để Trống");
-        } else if (productService.finByName(name) != null) {
+        } else if (!checkName) {
             req.setAttribute("errorName", "Tên Sản Phẩm Đã Tồn Tại");
         }
 
         String priceS = req.getParameter("price");
-        boolean checkPrice = validate.checkEmpty(priceS);
-        if(!checkPrice){
+        boolean checkEmptyPrice = validate.checkEmpty(priceS);
+        boolean checkPrice = validate.checkPrice(priceS);
+        if(!checkEmptyPrice){
             req.setAttribute("errorPrice","Giá Sản Phẩm Không Được Để Trống");
         }else
-        if(!validate.checkPrice(priceS)){
+        if(!checkPrice){
             req.setAttribute("errorPrice","Giá Sản Phẩm Phải Lớn Hơn 0");
         }
 
-        if(checkName && checkPrice){
+        if(checkEmptyName && checkEmptyPrice && checkName && checkPrice){
             double price = Double.parseDouble(priceS);
 
             String description = req.getParameter("description");
@@ -147,20 +149,21 @@ public class ProductServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
 
         String name = req.getParameter("product_name");
-        boolean checkName = validate.checkEmpty(name);
-        if (!checkName) {
+        boolean checkEmptyName = validate.checkEmpty(name);
+        if (!checkEmptyName) {
             req.setAttribute("errorName", "Tên Không Được Để Trống");
         }
 
         String priceS = req.getParameter("price");
-        boolean checkPrice = validate.checkEmpty(priceS);
-        if(!checkPrice){
+        boolean checkEmptyPrice = validate.checkEmpty(priceS);
+        boolean checkPrice = validate.checkPrice(priceS);
+        if(!checkEmptyPrice){
             req.setAttribute("errorPrice","Giá Sản Phẩm Không Được Để Trống");
         }else
-        if(!validate.checkPrice(priceS)){
+        if(!checkPrice){
             req.setAttribute("errorPrice","Giá Sản Phẩm Phải Lớn Hơn 0");
         }
-        if(checkName && checkPrice ) {
+        if(checkEmptyName && checkEmptyPrice && checkPrice ) {
 
             double price = Double.parseDouble(priceS);
 

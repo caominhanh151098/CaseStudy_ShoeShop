@@ -65,14 +65,14 @@ public class UserInfoDao extends ConnectionDatabase{
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                int user_id = rs.getInt("user_id");
+//                int user_id = rs.getInt("user_id");
                 String name = rs.getString("name");
                 Date dob = rs.getDate("dob");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone");
                 String address = rs.getString("address");
 
-                return new UserInfo(user_id,name,dob,email,phone, address);
+                return new UserInfo(id,name,dob,email,phone, address);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

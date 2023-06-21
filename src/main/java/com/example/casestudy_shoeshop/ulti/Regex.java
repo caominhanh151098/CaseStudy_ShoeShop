@@ -20,16 +20,16 @@ public class Regex {
 
     private static final String EMAIL_REGEX = "^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)$";
     public static boolean checkEmail(String email) {
-        return Pattern.compile(USERNAME_REGEX).matcher(email).matches();
+        return Pattern.compile(EMAIL_REGEX).matcher(email).matches();
     }
 
     private static final String DATE_REGEX = "^(0?[1-9]|[12]\\d|3[01])[\\-](0?[1-9]|1[0-2])[\\-](19|20)\\d{2}$";
     public static boolean checkDate(String date) {
-        return Pattern.compile(USERNAME_REGEX).matcher(date).matches();
+        return Pattern.compile(DATE_REGEX).matcher(date).matches();
     }
 
     private static final String PHONENUMBER_REGEX = "^[0]\\d{9}$";
     public static boolean checkPhone(String phone) {
-        return Pattern.compile(USERNAME_REGEX).matcher(phone).matches();
+        return Pattern.compile(PHONENUMBER_REGEX).matcher(phone).matches();
     }
 }

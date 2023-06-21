@@ -118,6 +118,12 @@
                 <a  class="btn btn-primary" href="/admin/user">BACK</a>
             </div>
         </div>
+                <br><br>
+                <div class="row justify-content-end">
+                    <div class="col-sm-10">
+                        <h5>${errorCreateUser}</h5>
+                    </div>
+                </div>
 <%--                <c:if test="${requestScope['message'] != null}">--%>
 <%--                    <span style="color: red">${message}</span>--%>
 <%--                </c:if>--%>
