@@ -52,15 +52,15 @@ public class ShopService {
             List<OrderDetail> orderDetailList = new ArrayList<>();
             cartUser = new Order(orderDetailList, Status.Shopping, sessionId);
             return orderDao.createOrder(cartUser);
-        }
-        else return cartUser;
+        } else return cartUser;
     }
 
     public void updateCartDetail(Order cartUser, int idCartDetail, int quantity) {
-        for(OrderDetail cartDetail : cartUser.getOrderDetailList()) {
+        for (OrderDetail cartDetail : cartUser.getOrderDetailList()) {
             if (cartDetail.getId() == idCartDetail) {
                 cartDetail.setQuantity(quantity);
-            orderDetailDao.updateOrderDetail(cartDetail);}
+                orderDetailDao.updateOrderDetail(cartDetail);
+            }
         }
     }
 
@@ -73,22 +73,28 @@ public class ShopService {
         cartUser.setOrderDate(new Date());
         deliveryDao.insertDelivery(delivery);
         cartUser.setDelivery(delivery);
-        orderDao.updateOrder(cartUser);
+        orderDao.updateCart(cartUser);
     }
 
-    public void removeCartDetail(int userID, int idCartDetail) {
+    public void removeCartDetail(Order cartUser, int idCartDetail) {
         orderDetailDao.dropOrderDetail(idCartDetail);
-        Order cartUser = orderDao.findCartByUserId(userID);
         orderDao.updateTPriceOrder(cartUser);
     }
 
     public void addToCart(Order cartUser, OrderDetail cartDetail) {
         Product product = productDao.findById(cartDetail.getProductID());
-
         cartDetail.setProductName(product.getProduct_name());
         cartDetail.setPrice(product.getPrice());
         cartDetail.setOrderID(cartUser.getId());
-
+        for (OrderDetail orderDetail : cartUser.getOrderDetailList()) {
+            if (orderDetail.getProductID() == cartDetail.getProductID()
+                    && orderDetail.getSizeID() == cartDetail.getSizeID()) {
+                int newQuantity = orderDetail.getQuantity() + cartDetail.getQuantity();
+                orderDetail.setQuantity(newQuantity);
+                orderDetailDao.updateOrderDetail(orderDetail);
+                return;
+            }
+        }
         orderDetailDao.insertOrderDetail(cartDetail);
         cartUser.getOrderDetailList().add(cartDetail);
         orderDao.updateTPriceOrder(cartUser);

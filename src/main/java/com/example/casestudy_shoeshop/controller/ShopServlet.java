@@ -54,9 +54,10 @@ public class ShopServlet extends HttpServlet {
     }
 
     private void removeCartDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = 5;
+        String sessionId = req.getSession().getId();
+        cartUser = shopService.findCartBySessionId(sessionId);
         int idCartDetail = Integer.parseInt(req.getParameter("id"));
-        shopService.removeCartDetail(id, idCartDetail);
+        shopService.removeCartDetail(cartUser, idCartDetail);
         showCart(req, resp);
     }
 

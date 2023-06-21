@@ -50,8 +50,14 @@
                         Account
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <button class="dropdown-item" type="button"><a href="/login.jsp">Sign in</a></button>
+                        <c:if test="${sessionScope['user'] == null}">
+                        <button class="dropdown-item" type="button"><a href="/login.jsp">Sign In</a></button>
                         <button class="dropdown-item" type="button">Sign up</button>
+                        </c:if>
+                        <c:if test="${sessionScope['user'] != null}">
+                            <button class="dropdown-item" type="button"><a href="#">Info</a></button>
+                            <button class="dropdown-item" type="button"><a href="/logout">Sign Out</a></button>
+                        </c:if>
                     </div>
                 </div>
                 <div class="btn-group mx-2">
@@ -128,16 +134,8 @@
                  id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
                 <div class="navbar-nav w-100">
                     <c:forEach items="${categories}" var="category">
-                        <a href="" class="nav-item nav-link">${category.categoryName}</a>
+                        <a href="shop?&category=${category.id}" class="nav-item nav-link">${category.categoryName}</a>
                     </c:forEach>
-                    <%--                    <div class="nav-item dropdown dropright">--%>
-                    <%--                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dresses <i class="fa fa-angle-right float-right mt-1"></i></a>--%>
-                    <%--                        <div class="dropdown-menu position-absolute rounded-0 border-0 m-0">--%>
-                    <%--                            <a href="" class="dropdown-item">Men's Dresses</a>--%>
-                    <%--                            <a href="" class="dropdown-item">Women's Dresses</a>--%>
-                    <%--                            <a href="" class="dropdown-item">Baby's Dresses</a>--%>
-                    <%--                        </div>--%>
-                    <%--                    </div>--%>
                 </div>
             </nav>
         </div>

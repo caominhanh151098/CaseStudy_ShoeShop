@@ -19,7 +19,7 @@ public class OrderDetailDao extends ConnectionDatabase {
             "where order_id = ?";
     private final String INSERT_ORDER_DETAIL = "INSERT INTO `order_detail` (`order_id`, `product_id`, `size_id`, `quantity`, `product_name`, `price`) " +
             "VALUES (?, ?, ?, ?, ?, ?)";
-    private final String UPDATE_ORDER_DETAIL = "UPDATE `order_detail` SET `quantity` = ? WHERE (`id` = ?);";
+    private final String UPDATE_ORDER_DETAIL = "UPDATE `order_detail` SET `order_id` = ?, `quantity` = ? WHERE (`id` = ?);";
     private final String DROP_ORDER_DETAIL = "DELETE FROM `order_detail` WHERE (`id` = ?);";
     private final String DROP_BY_ORDER_ID = "DELETE FROM `order_detail` WHERE (`order_id` = ?);";
 
@@ -84,8 +84,9 @@ public class OrderDetailDao extends ConnectionDatabase {
     public void updateOrderDetail(OrderDetail orderDetail) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ORDER_DETAIL)) {
-            preparedStatement.setInt(1, orderDetail.getQuantity());
-            preparedStatement.setInt(2, orderDetail.getId());
+            preparedStatement.setInt(1, orderDetail.getOrderID());
+            preparedStatement.setInt(2, orderDetail.getQuantity());
+            preparedStatement.setInt(3, orderDetail.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -30,10 +30,10 @@ public class OrderDao extends ConnectionDatabase {
     private final String INSERT_ORDER = "INSERT INTO `order` (`user_id`, `status`) " +
             "VALUES (?, ?);";
     private final String CREATE_ORDER = "INSERT INTO `order` (`status`, `session_id`) VALUES (?,?);";
-    private final String REMOVE_ORDER = "DELETE FROM `order` WHERE (`user_id` is null AND `status` = 'Shopping');";
-    private final String UPDATE_ORDER = "UPDATE `order` SET `total_price` = ?, `order_date` = ?, `status` = ?, `delivery_id` = ? WHERE (`id` = ?);";
+    private final String UPDATE_ORDER = "UPDATE `order` SET `user_id` = ?, `total_price` = ?, `order_date` = ?, `status` = ?, `delivery_id` = ?, `session_id` = ? WHERE (`id` = ?);";
     private final String UPDATE_TOTAL_PRICE = "UPDATE `order` SET `total_price` = ? WHERE (`id` = ?);";
     private final String UPDATE_STATUS_ORDER = "UPDATE `order` SET `status` = ? WHERE (`id` = ?);";
+    private final String DROP_ORDER = "DELETE FROM `order` WHERE (`id` = ?);";
     private OrderDetailDao orderDetailDao = new OrderDetailDao();
     private DeliveryDao deliveryDao = new DeliveryDao();
     private List<Order> orderList = new ArrayList<>();
@@ -136,6 +136,7 @@ public class OrderDao extends ConnectionDatabase {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CART_BY_SESSION)) {
             preparedStatement.setString(1, sessionId);
+            System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int orderId = rs.getInt("id");
@@ -191,26 +192,38 @@ public class OrderDao extends ConnectionDatabase {
         return order;
     }
 
-    public Order createNewOrder() {
-        Order newOrder = new Order();
-        try (Connection connection = getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_ORDER);
-            preparedStatement.executeUpdate();
-            createOrder(newOrder);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return newOrder;
-    }
-
     public void updateOrder(Order order) {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ORDER)) {
-            preparedStatement.setDouble(1, order.getTotalPrice());
-            preparedStatement.setDate(2, new java.sql.Date(order.getOrderDate().getTime()));
-            preparedStatement.setInt(3, order.getStatus().getIndex());
-            preparedStatement.setInt(4, order.getDelivery().getId());
-            preparedStatement.setInt(5, order.getId());
+            preparedStatement.setInt(1, order.getUserId());
+            preparedStatement.setDouble(2, order.getTotalPrice());
+            try {
+                preparedStatement.setDate(3, new java.sql.Date(order.getOrderDate().getTime()));
+            } catch (NullPointerException e) {
+                preparedStatement.setNull(3, 0);
+            }
+            preparedStatement.setInt(4, order.getStatus().getIndex());
+            if (order.getDelivery().getId() != 0)
+                preparedStatement.setInt(5, order.getDelivery().getId());
+            else
+                preparedStatement.setNull(5, 0);
+            preparedStatement.setString(6, order.getSession_id());
+            preparedStatement.setInt(7, order.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateCart(Order order) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ORDER)) {
+            preparedStatement.setNull(1, 0);
+            preparedStatement.setDouble(2, order.getTotalPrice());
+            preparedStatement.setDate(3, new java.sql.Date(order.getOrderDate().getTime()));
+            preparedStatement.setInt(4, order.getStatus().getIndex());
+            preparedStatement.setInt(5, order.getDelivery().getId());
+            preparedStatement.setInt(6, order.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -246,5 +259,15 @@ public class OrderDao extends ConnectionDatabase {
         }
         cartUser.setTotalPrice(totalPrice);
         updateTotalPrice(cartUser);
+    }
+
+    public void dropOrder(int idOrder) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(DROP_ORDER)) {
+            preparedStatement.setInt(1, idOrder);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
