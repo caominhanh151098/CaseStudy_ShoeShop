@@ -15,14 +15,12 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Login Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Register Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
-
-
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -60,7 +58,7 @@
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">
-          <!-- Register -->
+          <!-- Register Card -->
           <div class="card">
             <div class="card-body">
               <!-- Logo -->
@@ -94,48 +92,43 @@
                       </defs>
                       <g id="g-app-brand" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g id="Brand-Logo" transform="translate(-27.000000, -15.000000)">
-                            <input type="image" src="../assets/img/favicon/logo.jpg" alt="Photo" width="70px" height="50px">
-<%--                          <g id="Icon" transform="translate(27.000000, 15.000000)">--%>
-<%--                            <g id="Mask" transform="translate(0.000000, 8.000000)">--%>
-<%--                              <mask id="mask-2" fill="white">--%>
-<%--                                <use xlink:href="#path-1"></use>--%>
-<%--                              </mask>--%>
-<%--                              <use fill="#696cff" xlink:href="#path-1"></use>--%>
-<%--                              <g id="Path-3" mask="url(#mask-2)">--%>
-<%--                                <use fill="#696cff" xlink:href="#path-3"></use>--%>
-<%--                                <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-3"></use>--%>
-<%--                              </g>--%>
-<%--                              <g id="Path-4" mask="url(#mask-2)">--%>
-<%--                                <use fill="#696cff" xlink:href="#path-4"></use>--%>
-<%--                                <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-4"></use>--%>
-<%--                              </g>--%>
-<%--                            </g>--%>
-<%--                            <g--%>
-<%--                              id="Triangle"--%>
-<%--                              transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) "--%>
-<%--                            >--%>
-<%--                              <use fill="#696cff" xlink:href="#path-5"></use>--%>
-<%--                              <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-5"></use>--%>
-<%--                            </g>--%>
-<%--                          </g>--%>
+                          <g id="Icon" transform="translate(27.000000, 15.000000)">
+                            <g id="Mask" transform="translate(0.000000, 8.000000)">
+                              <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                              </mask>
+                              <use fill="#696cff" xlink:href="#path-1"></use>
+                              <g id="Path-3" mask="url(#mask-2)">
+                                <use fill="#696cff" xlink:href="#path-3"></use>
+                                <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-3"></use>
+                              </g>
+                              <g id="Path-4" mask="url(#mask-2)">
+                                <use fill="#696cff" xlink:href="#path-4"></use>
+                                <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-4"></use>
+                              </g>
+                            </g>
+                            <g
+                              id="Triangle"
+                              transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) "
+                            >
+                              <use fill="#696cff" xlink:href="#path-5"></use>
+                              <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-5"></use>
+                            </g>
+                          </g>
                         </g>
                       </g>
-
                     </svg>
                   </span>
-                  <input type="image" src="../assets/img/favicon/logo.jpg" alt="Photo" width="70px" height="50px">
-
-                  <span class="app-brand-text demo text-body fw-bolder" style="color:#f6ca45"> Shoe Shop</span>
+                  <span class="app-brand-text demo text-body fw-bolder">Sneat</span>
                 </a>
               </div>
               <!-- /Logo -->
-              <h4 class="mb-2">Welcome to Shoes Shop </h4>
-              <p class="mb-4">Please sign-in to your account and start the adventure</p>
+              <h4 class="mb-2">Adventure starts here 🚀</h4>
+              <p class="mb-4">Make your app management easy and fun!</p>
 
-
-              <form id="formAuthentication" class="mb-3" action="/login" method="post">
+              <form id="formAuthentication" class="mb-3" action="/register" method="POST">
                 <div class="mb-3">
-                  <label for="username" class="form-label" name="username">Username</label>
+                  <label for="username" class="form-label">Username</label>
                   <input
                     type="text"
                     class="form-control"
@@ -145,14 +138,12 @@
                     autofocus
                   />
                 </div>
-                <h5>${errors}</h5>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" />
+                </div>
                 <div class="mb-3 form-password-toggle">
-                  <div class="d-flex justify-content-between">
-                    <label class="form-label" for="password" name="password">Password</label>
-                    <a href="auth-forgot-password-basic.html">
-                      <small>Forgot Password?</small>
-                    </a>
-                  </div>
+                  <label class="form-label" for="password" >Password</label>
                   <div class="input-group input-group-merge">
                     <input
                       type="password"
@@ -165,33 +156,43 @@
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
                 </div>
-                <h5>${error}</h5>
+
                 <div class="mb-3">
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="remember-me" />
-                    <label class="form-check-label" for="remember-me"> Remember Me </label>
+                    <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
+                    <label class="form-check-label" for="terms-conditions">
+                      I agree to
+                      <a href="javascript:void(0);">privacy policy & terms</a>
+                    </label>
                   </div>
                 </div>
-                <div class="mb-3">
-
-                  <button class="btn btn-primary d-grid w-100" type="submit ">Sign in</button>
-                </div>
+                <button class="btn btn-primary d-grid w-100" type="submit">Sign up</button>
               </form>
 
               <p class="text-center">
-                <span>New on our platform?</span>
-                <a href="/register.jsp">
-                  <span>Create an account</span>
+                <span>Already have an account?</span>
+                <a href="auth-login-basic.html">
+                  <span>Sign in instead</span>
                 </a>
               </p>
             </div>
           </div>
-          <!-- /Register -->
+          <!-- Register Card -->
         </div>
       </div>
     </div>
 
     <!-- / Content -->
+
+    <div class="buy-now">
+      <a
+        href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
+        target="_blank"
+        class="btn btn-danger btn-buy-now"
+        >Upgrade to Pro</a
+      >
+    </div>
+
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="../assets/vendor/libs/jquery/jquery.js"></script>
