@@ -119,14 +119,14 @@
                       </g>
                     </svg>
                   </span>
-                  <span class="app-brand-text demo text-body fw-bolder">Sneat</span>
+                  <span class="app-brand-text demo text-body fw-bolder">Shoes Shop</span>
                 </a>
               </div>
               <!-- /Logo -->
               <h4 class="mb-2">Adventure starts here 🚀</h4>
               <p class="mb-4">Make your app management easy and fun!</p>
 
-              <form id="formAuthentication" class="mb-3" action="/register" method="POST">
+              <form id="formAuthentication" class="mb-3" action="/register?action=createRegister" method="post">
                 <div class="mb-3">
                   <label for="username" class="form-label">Username</label>
                   <input
@@ -167,12 +167,19 @@
                   </div>
                 </div>
                 <button class="btn btn-primary d-grid w-100" type="submit">Sign up</button>
+
+                <br><br>
+                <div class="row justify-content-end">
+                  <div class="col-sm-10">
+                    <h5>${errorRegister}</h5>
+                  </div>
+                </div>
               </form>
 
               <p class="text-center">
                 <span>Already have an account?</span>
-                <a href="auth-login-basic.html">
-                  <span>Sign in instead</span>
+                <a href="/login.jsp">
+                  <span>Sign in </span>
                 </a>
               </p>
             </div>

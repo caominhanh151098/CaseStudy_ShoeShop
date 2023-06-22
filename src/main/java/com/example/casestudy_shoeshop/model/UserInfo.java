@@ -14,6 +14,10 @@ public class UserInfo {
     public UserInfo() {
     }
 
+    public UserInfo(String email) {
+        this.email = email;
+    }
+
     public UserInfo(int user_id, String name, Date dob, String email, String phone, String address) {
         this.user_id = user_id;
         this.name = name;

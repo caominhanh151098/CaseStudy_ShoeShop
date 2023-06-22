@@ -219,7 +219,9 @@ public class UserServlet extends HttpServlet {
         if(!checkEmptyAddress){
             request.setAttribute("errorAddress","Địa Chỉ Không Được Để Trống");
         }
-        if(checkEmptyUserName && checkName && checkRegexUserName
+
+
+        if(checkEmptyUserName && checkUserName && checkRegexUserName
                 && checkEmptyPass && checkPassword
                 && checkEmptyName && checkName
                 && checkEmptyEmail && checkEmail && checkRegexEmail
