@@ -46,31 +46,6 @@
                             <input class="form-control" type="text" name="address" placeholder="Your Address"
                                    value="${userinfo.address}">
                         </div>
-                        <div class="col-md-6 form-group">
-                            <label>Address Line 2</label>
-                            <input class="form-control" type="text" placeholder="123 Street">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Country</label>
-                            <select class="custom-select">
-                                <option selected>United States</option>
-                                <option>Afghanistan</option>
-                                <option>Albania</option>
-                                <option>Algeria</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>City</label>
-                            <input class="form-control" type="text" placeholder="New York">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>State</label>
-                            <input class="form-control" type="text" placeholder="New York">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>ZIP Code</label>
-                            <input class="form-control" type="text" placeholder="123">
-                        </div>
                         <%--                    <div class="col-md-12 form-group">--%>
                         <%--                        <div class="custom-control custom-checkbox">--%>
                         <%--                            <input type="checkbox" class="custom-control-input" id="newaccount">--%>

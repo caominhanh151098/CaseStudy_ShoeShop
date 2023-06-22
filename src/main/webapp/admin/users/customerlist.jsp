@@ -80,8 +80,8 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <span class="fw-semibold d-block">caoanh</span>
-                                    <small class="text-muted">Admin</small>
+                                    <span class="fw-semibold d-block">${user.username}</span>
+                                    <small class="text-muted">${admin}</small>
                                 </div>
                             </div>
                         </a>
@@ -90,7 +90,7 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="user?action=showInfo&id=${user.id}">
                             <i class="bx bx-user me-2"></i>
                             <span class="align-middle">My Profile</span>
                         </a>

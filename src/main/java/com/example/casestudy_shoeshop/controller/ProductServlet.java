@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ProductServlet extends HttpServlet {
 
-    private int TOTAL_ITEMS = 7;
+    private int TOTAL_ITEMS = 6;
 
     private List<Product> products = new ArrayList<>();
 

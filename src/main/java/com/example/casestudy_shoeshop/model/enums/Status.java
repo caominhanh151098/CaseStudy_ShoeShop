@@ -4,7 +4,8 @@ public enum Status {
     Shopping(1),
     Ordered(2),
     Delivery(3),
-    Complete(4);
+    Complete(4),
+    Cancelled(5);
     private int index;
 
     Status(int index) {

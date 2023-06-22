@@ -108,17 +108,7 @@
                 <td><fmt:formatNumber type="number" value="${order.totalPrice}"/>đ</td>
                 <td>${order.orderDate}</td>
                 <td>
-                    <c:choose>
-                        <c:when test="${order.status.getIndex() == 2}">
-                            <span class="badge bg-label-info me-1">${order.status}</span>
-                        </c:when>
-                        <c:when test="${order.status.getIndex() == 3}">
-                            <span class="badge bg-label-warning me-1">${order.status}</span>
-                        </c:when>
-                        <c:when test="${order.status.getIndex() == 4}">
-                            <span class="badge bg-label-success me-1">${order.status}</span>
-                        </c:when>
-                    </c:choose>
+                    <span class="badge bg-label-danger me-1">${order.status}</span>
                 </td>
                 <td>
                     <div class="dropdown">
@@ -129,11 +119,9 @@
                             <a class="dropdown-item" href="/admin/order?action=info&id=${order.id}">
                                 <i class="bx bx-edit-alt me-1"></i>Show Info</a>
                             <a class="dropdown-item"
-                               href="/admin/order?action=change&id=${order.id}&status=${order.status.index + 1}"
-                               onclick="return confirm('Want to change the status of this order?')">
-                                <i class="bx bx-edit-alt me-1"></i>Change Status</a>
-                            <a class="dropdown-item" href="/admin/order?action=cancel&id=${order.id}">
-                                <i class="bx bx-trash me-1"></i>Cancel Order</a>
+                               href="/admin/order?action=change&id=${order.id}&status=2"
+                               onclick="return confirm('Want to reset the status of this order?')">
+                                <i class="bx bx-edit-alt me-1"></i>Reset Status</a>
                         </div>
                     </div>
                 </td>

@@ -23,6 +23,12 @@ public class Pageable {
         this.search = search;
     }
 
+    public Pageable(String search, int page, int totalItems) {
+        this.search = search;
+        this.page = page;
+        this.totalItems = totalItems;
+    }
+
     public Pageable(String search, int page, int totalItems, int totalPage) {
         this.search = search;
         this.page = page;

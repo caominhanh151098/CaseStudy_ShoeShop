@@ -37,7 +37,8 @@
 <%--        </div>--%>
 <%--    </div>--%>
 <%--</nav>--%>
-<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+     id="layout-navbar">
     <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
         <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
             <i class="bx bx-menu bx-sm"></i>
@@ -50,16 +51,19 @@
             <div class="nav-item d-flex align-items-center">
                 <i class="bx bx-search fs-4 lh-0"></i>
                 <form>
-                    <input type="search" class="form-control border-0 shadow-none" placeholder="Search..." aria-label="Search..." name="search" value="" onsearch="onClearSearch()">
+                    <input type="search" class="form-control border-0 shadow-none" placeholder="Search..."
+                           aria-label="Search..." name="search" value="" onsearch="onClearSearch()">
                     <button id="searchButton" type="submit" style="display: none">
 
                         <script>
-                            function onClearSearch(){
+                            function onClearSearch() {
                                 let searchButton = document.getElementById("searchButton");
                                 searchButton.click();
                             }
                         </script>
-                    </button></form></div>
+                    </button>
+                </form>
+            </div>
         </div>
         <!-- /Search -->
 
@@ -77,12 +81,13 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        <img src="../assets/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle">
+                                        <img src="../assets/img/avatars/1.png" alt=""
+                                             class="w-px-40 h-auto rounded-circle">
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <span class="fw-semibold d-block">caoanh</span>
-                                    <small class="text-muted">Admin</small>
+                                    <span class="fw-semibold d-block">${user.username}</span>
+                                    <small class="text-muted">${admin}</small>
                                 </div>
                             </div>
                         </a>
@@ -91,24 +96,9 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="user?action=showInfo&id=${user.id}">
                             <i class="bx bx-user me-2"></i>
                             <span class="align-middle">My Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <i class="bx bx-cog me-2"></i>
-                            <span class="align-middle">Settings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                                    <span class="d-flex align-items-center align-middle">
-                                      <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                                      <span class="flex-grow-1 align-middle">Billing</span>
-                                      <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                                    </span>
                         </a>
                     </li>
                     <li>
@@ -143,37 +133,37 @@
         <tbody class="table-border-bottom-0">
 
 
-        <c:forEach items="${user}" var="user1">
+        <c:forEach items="${users}" var="user1">
             <c:if test="${user1.role.id != 3}">
-
-            <tr>
-            <td>${user1.id}</td>
-            <td>${user1.username}</td>
-            <td><img src="../../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" width="50px"/></td>
-            <td>
-                <span class="badge bg-label-info me-1" value = "${role.id}"></span>
-                    ${user1.role.role_name}</td>
-            <td>
-                <div class="dropdown">
-                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                        <i class="bx bx-dots-vertical-rounded"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="user?action=edit&id=${user1.id}"
-                        ><i class="bx bx-edit-alt me-1"></i>Edit</a
-                        >
-                        <a class="dropdown-item" href="user?action=showInfo&id=${user1.id}"
-                        ><i class="bx bx-info-circle me-1"></i>Info</a
-                        >
-                    </div>
-                </div>
-            </td>
-        </tr>
+                <tr>
+                    <td>${user1.id}</td>
+                    <td>${user1.username}</td>
+                    <td><img src="../../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" width="50px"/>
+                    </td>
+                    <td>
+                        <span class="badge bg-label-info me-1" value="${role.id}"></span>
+                            ${user1.role.role_name}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="user?action=edit&id=${user1.id}"
+                                ><i class="bx bx-edit-alt me-1"></i>Edit</a
+                                >
+                                <a class="dropdown-item" href="user?action=showInfo&id=${user1.id}"
+                                ><i class="bx bx-info-circle me-1"></i>Info</a
+                                >
+                            </div>
+                        </div>
+                    </td>
+                </tr>
             </c:if>
 
         </c:forEach>
         <script>
-            function onClearSearch(){
+            function onClearSearch() {
                 searchButton.click();
             }
         </script>
@@ -181,13 +171,64 @@
     </table>
 </div>
 
-<ul class="pagination d-flex justify-content-center" >
-    <li class="page-item first">
-        <a class="page-link" href="user?page=${pageable.page - 1}"><i class="tf-icon bx bx-chevrons-left"></i></a>
-    </li>
+<%--<ul class="pagination d-flex justify-content-center" >--%>
+<%--    <li class="page-item first">--%>
+<%--        <a class="page-link" href="user?page=${pageable.page - 1}"><i class="tf-icon bx bx-chevrons-left"></i></a>--%>
+<%--    </li>--%>
 
+<%--    <li class="page-item last">--%>
+<%--        <a class="page-link" href="user?page=${pageable.page + 1}"><i class="tf-icon bx bx-chevrons-right"></i></a>--%>
+<%--    </li>--%>
+<%--</ul>--%>
+<ul class="pagination d-flex justify-content-center">
+    <li class="page-item first">
+        <c:choose>
+            <c:when test="${pageable.page > 1}">
+                <a class="page-link" href="user?search=${pageable.search}"><i
+                        class="tf-icon bx bx-chevrons-left"></i></a>
+            </c:when>
+            <c:otherwise>
+                <a class="page-link" href="#"><i
+                        class="tf-icon bx bx-chevrons-left"></i></a>
+            </c:otherwise>
+        </c:choose>
+    </li>
+    <li class="page-item prev">
+        <c:choose>
+            <c:when test="${pageable.page > 1}">
+                <a class="page-link" href="user?page=${pageable.page - 1}&search=${pageable.search}">
+                    <i class="tf-icon bx bx-chevron-left"></i></a>
+            </c:when>
+            <c:otherwise>
+                <a class="page-link" href="#"><i
+                        class="tf-icon bx bx-chevrons-left"></i></a>
+            </c:otherwise>
+        </c:choose>
+    </li>
+    <li><a class="page-link" href="#">${pageable.page}</a></li>
+    <li class="page-item next">
+        <c:choose>
+            <c:when test="${pageable.page < pageable.totalPage}">
+                <a class="page-link" href="user?page=${pageable.page + 1}&search=${pageable.search}">
+                    <i class="tf-icon bx bx-chevron-right"></i></a>
+            </c:when>
+            <c:otherwise>
+                <a class="page-link" href="#"><i
+                        class="tf-icon bx bx-chevron-right"></i></a>
+            </c:otherwise>
+        </c:choose>
+    </li>
     <li class="page-item last">
-        <a class="page-link" href="user?page=${pageable.page + 1}"><i class="tf-icon bx bx-chevrons-right"></i></a>
+        <c:choose>
+            <c:when test="${pageable.page < pageable.totalPage}">
+                <a class="page-link" href="user?page=${pageable.totalPage}&search=${pageable.search}">
+                    <i class="tf-icon bx bx-chevrons-right"></i></a>
+            </c:when>
+            <c:otherwise>
+                <a class="page-link" href="#"><i
+                        class="tf-icon bx bx-chevrons-right"></i></a>
+            </c:otherwise>
+        </c:choose>
     </li>
 </ul>
 <jsp:include page="../layout/footer.jsp"/>

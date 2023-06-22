@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<jsp:include page="../layout/header.jsp"/>
+<jsp:include page="layout/header.jsp"/>
 <nav
         class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
         id="layout-navbar"
@@ -88,16 +88,26 @@
     </div>
 </nav>
 <br><br>
+<div style="display: flex; justified-content: space-around">
+    <form>
+    <div>From: <input name="date1" type="date" id="from" class="form-control" value="${datefrom}"
+           style="width: 400px"/></div>
+    <div>To :<input name="date2" type="date" id="to" class="form-control" value="${dateto}"
+           style="width: 400px"/></div>
+        <button type="submit" class="btn rounded-pill btn-outline-secondary">
+                <i class="bx bxs-tag-alt me-1"></i>Submit
+        </button>
+    </form>
+</div>
 <div class="table-responsive text-nowrap">
     <table class="table">
         <thead class="table-light">
         <tr>
             <th>Order ID</th>
             <th>Name User</th>
-            <th>Total Price</th>
             <th>Order Date</th>
             <th>Status</th>
-            <th>Actions</th>
+            <th>Total Price</th>
         </tr>
         </thead>
         <tbody class="table-border-bottom-0">
@@ -105,7 +115,6 @@
             <tr>
                 <td>${order.id}</td>
                 <td>${order.nameUser}</td>
-                <td><fmt:formatNumber type="number" value="${order.totalPrice}"/>đ</td>
                 <td>${order.orderDate}</td>
                 <td>
                     <c:choose>
@@ -120,33 +129,23 @@
                         </c:when>
                     </c:choose>
                 </td>
-                <td>
-                    <div class="dropdown">
-                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/admin/order?action=info&id=${order.id}">
-                                <i class="bx bx-edit-alt me-1"></i>Show Info</a>
-                            <a class="dropdown-item"
-                               href="/admin/order?action=change&id=${order.id}&status=${order.status.index + 1}"
-                               onclick="return confirm('Want to change the status of this order?')">
-                                <i class="bx bx-edit-alt me-1"></i>Change Status</a>
-                            <a class="dropdown-item" href="/admin/order?action=cancel&id=${order.id}">
-                                <i class="bx bx-trash me-1"></i>Cancel Order</a>
-                        </div>
-                    </div>
-                </td>
+                <td align="right"><fmt:formatNumber type="number" value="${order.totalPrice}"/>đ</td>
             </tr>
         </c:forEach>
         </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="4">Total Price:</th>
+            <td align="right"><fmt:formatNumber type="number" value="${totalprice}"/>đ</td>
+        </tr>
+        </tfoot>
     </table>
 </div>
 <ul class="pagination d-flex justify-content-center">
     <li class="page-item first">
         <c:choose>
             <c:when test="${pageable.page > 1}">
-                <a class="page-link" href="order?search=${pageable.search}"><i
+                <a class="page-link" href="revenue?date1=${datefrom}&date2=${dateto}&search=${pageable.search}"><i
                         class="tf-icon bx bx-chevrons-left"></i></a>
             </c:when>
             <c:otherwise>
@@ -158,7 +157,7 @@
     <li class="page-item prev">
         <c:choose>
             <c:when test="${pageable.page > 1}">
-                <a class="page-link" href="order?page=${pageable.page - 1}&search=${pageable.search}">
+                <a class="page-link" href="revenue?date1=${datefrom}&date2=${dateto}&page=${pageable.page - 1}&search=${pageable.search}">
                     <i class="tf-icon bx bx-chevron-left"></i></a>
             </c:when>
             <c:otherwise>
@@ -171,7 +170,7 @@
     <li class="page-item next">
         <c:choose>
             <c:when test="${pageable.page < pageable.totalPage}">
-                <a class="page-link" href="order?page=${pageable.page + 1}&search=${pageable.search}">
+                <a class="page-link" href="revenue?date1=${datefrom}&date2=${dateto}&page=${pageable.page + 1}&search=${pageable.search}">
                     <i class="tf-icon bx bx-chevron-right"></i></a>
             </c:when>
             <c:otherwise>
@@ -183,7 +182,7 @@
     <li class="page-item last">
         <c:choose>
             <c:when test="${pageable.page < pageable.totalPage}">
-                <a class="page-link" href="order?page=${pageable.totalPage}&search=${pageable.search}">
+                <a class="page-link" href="revenue?date1=${datefrom}&date2=${dateto}&page=${pageable.totalPage}&search=${pageable.search}">
                     <i class="tf-icon bx bx-chevrons-right"></i></a>
             </c:when>
             <c:otherwise>
@@ -193,4 +192,4 @@
         </c:choose>
     </li>
 </ul>
-<jsp:include page="../layout/footer.jsp"/>
+<jsp:include page="layout/footer.jsp"/>

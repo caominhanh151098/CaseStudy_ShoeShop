@@ -1,5 +1,6 @@
 package com.example.casestudy_shoeshop.dao;
 
+import com.example.casestudy_shoeshop.dto.Pageable;
 import com.example.casestudy_shoeshop.model.Delivery;
 import com.example.casestudy_shoeshop.model.Order;
 import com.example.casestudy_shoeshop.model.OrderDetail;
@@ -14,9 +15,38 @@ import java.util.Date;
 import java.util.List;
 
 public class OrderDao extends ConnectionDatabase {
+    private final String SELECT_ORDER_BY_ID = "SELECT o.* FROM `order` o WHERE o.id = ?";
     private final String SELECT_ALL_ORDERED = "SELECT o.*, ui.name as `name_user`" +
             "FROM `order` o LEFT JOIN user u ON u.id = o.user_id " +
-            "LEFT JOIN user_info ui ON u.id = ui.user_id WHERE o.status <> 1";
+            "LEFT JOIN user_info ui ON u.id = ui.user_id " +
+            "WHERE %s o.status <> 1 AND o.status <> 5 " +
+            "LIMIT %d OFFSET %d";
+    private final String SELECT_ALL_CANCEL_ORDER = "SELECT o.*, ui.name as `name_user`" +
+            "FROM `order` o LEFT JOIN user u ON u.id = o.user_id " +
+            "LEFT JOIN user_info ui ON u.id = ui.user_id " +
+            "WHERE %s o.status = 5 " +
+            "LIMIT %d OFFSET %d";
+    private final String SELECT_REVENUE = "SELECT o.*, ui.name as `name_user` " +
+            "FROM `order` o LEFT JOIN user u ON u.id = o.user_id  " +
+            "LEFT JOIN user_info ui ON u.id = ui.user_id  " +
+            "WHERE %s DATEDIFF(o.order_date, %s) > 0 AND  DATEDIFF(%s, o.order_date) > 0 " +
+            "AND o.status <> 1 AND o.status <> 5 " +
+            "LIMIT %d OFFSET %d";
+
+    private final String SELECT_TOTAL_PRICE = "SELECT SUM(o.total_price) as total_price " +
+            "FROM `order` o LEFT JOIN user u ON u.id = o.user_id  " +
+            "LEFT JOIN user_info ui ON u.id = ui.user_id  " +
+            "WHERE %s DATEDIFF(o.order_date, %s) > 0 AND  DATEDIFF(%s, o.order_date) > 0 " +
+            "AND o.status <> 1 AND o.status <> 5";
+    private final String TOTAL_ORDERED = "SELECT COUNT(1) as total " +
+            "FROM `order` o LEFT JOIN user u ON u.id = o.user_id " +
+            "LEFT JOIN user_info ui ON u.id = ui.user_id " +
+            "WHERE %s o.status <> 1 AND o.status <> 5";
+    private final String TOTAL_REVENUE = "SELECT COUNT(1) as total " +
+            "FROM `order` o LEFT JOIN user u ON u.id = o.user_id " +
+            "LEFT JOIN user_info ui ON u.id = ui.user_id " +
+            "WHERE %s DATEDIFF(o.order_date, %s) > 0 AND  DATEDIFF(%s, o.order_date) > 0 " +
+            "AND o.status <> 1 AND o.status <> 5";
     private final String SELECT_ORDER_BY_USER_ID = "SELECT o.*, ui.`name` as `name_user` " +
             "FROM user u JOIN `order` o ON u.id = o.user_id " +
             "JOIN user_info ui ON u.id = ui.user_id WHERE o.user_id = ? AND status <> 1";
@@ -38,10 +68,17 @@ public class OrderDao extends ConnectionDatabase {
     private DeliveryDao deliveryDao = new DeliveryDao();
     private List<Order> orderList = new ArrayList<>();
 
-    public List<Order> getAllOrdered() {
+    public List<Order> getAllOrdered(Pageable pageable) {
         orderList = new ArrayList<>();
+        String search = "";
+        if (!pageable.getSearch().equals("")) {
+            search = String.format("ui.name like %s AND", "'%" + pageable.getSearch() + "%' ");
+        }
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_ORDERED)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(String.format(SELECT_ALL_ORDERED,
+                     search,
+                     pageable.getTotalItems(),
+                     (pageable.getPage() - 1) * pageable.getTotalItems()))) {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -60,10 +97,154 @@ public class OrderDao extends ConnectionDatabase {
                     delivery = deliveryDao.findById(deliveryId);
                 orderList.add(new Order(id, userId, nameUser, orderDetailList, totalPrice, orderDate, status, delivery));
             }
+            PreparedStatement statement = connection.prepareStatement(String.format(TOTAL_ORDERED, search));
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                double total = resultSet.getDouble("total");
+                double totalItem = Double.parseDouble(pageable.getTotalItems() + "");
+                int totalPage = (int) Math.ceil(total / totalItem);
+                pageable.setTotalPage(totalPage);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return orderList;
+    }
+
+    public List<Order> getCancelOrders(Pageable pageable) {
+        orderList = new ArrayList<>();
+        String search = "";
+        if (!pageable.getSearch().equals("")) {
+            search = String.format("ui.name like %s AND", "'%" + pageable.getSearch() + "%' ");
+        }
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(String.format(SELECT_ALL_CANCEL_ORDER,
+                     search,
+                     pageable.getTotalItems(),
+                     (pageable.getPage() - 1) * pageable.getTotalItems()))) {
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int userId = rs.getInt("user_id");
+                String nameUser = rs.getString("name_user");
+                if (nameUser == null || nameUser.equals("")) {
+                    nameUser = "Khách vãng lai";
+                }
+                List<OrderDetail> orderDetailList = orderDetailDao.findByOrderId(id);
+                double totalPrice = rs.getDouble("total_price");
+                Date orderDate = rs.getDate("order_date");
+                Status status = Status.valueOf(rs.getString("Status"));
+                int deliveryId = rs.getInt("delivery_id");
+                Delivery delivery = new Delivery();
+                if (deliveryId != 0)
+                    delivery = deliveryDao.findById(deliveryId);
+                orderList.add(new Order(id, userId, nameUser, orderDetailList, totalPrice, orderDate, status, delivery));
+            }
+            PreparedStatement statement = connection.prepareStatement(String.format(TOTAL_ORDERED, search));
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                double total = resultSet.getDouble("total");
+                double totalItem = Double.parseDouble(pageable.getTotalItems() + "");
+                int totalPage = (int) Math.ceil(total / totalItem);
+                pageable.setTotalPage(totalPage);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return orderList;
+    }
+
+    public List<Order> getRevenue(String dateFrom, String dateTo, Pageable pageable) {
+        orderList = new ArrayList<>();
+        String search = "";
+        if (!pageable.getSearch().equals("")) {
+            search = String.format("ui.name like %s AND", "'%" + pageable.getSearch() + "%' ");
+        }
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(String.format(SELECT_REVENUE,
+                     search,
+                     "'" + dateFrom + "'",
+                     "'" + dateTo + "'",
+                     pageable.getTotalItems(),
+                     (pageable.getPage() - 1) * pageable.getTotalItems()))) {
+            ResultSet rs = preparedStatement.executeQuery();
+            System.out.println(preparedStatement);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int userId = rs.getInt("user_id");
+                String nameUser = rs.getString("name_user");
+                if (nameUser == null || nameUser.equals("")) {
+                    nameUser = "Khách vãng lai";
+                }
+                List<OrderDetail> orderDetailList = orderDetailDao.findByOrderId(id);
+                double totalPrice = rs.getDouble("total_price");
+                Date orderDate = rs.getDate("order_date");
+                Status status = Status.valueOf(rs.getString("Status"));
+                int deliveryId = rs.getInt("delivery_id");
+                Delivery delivery = new Delivery();
+                if (deliveryId != 0)
+                    delivery = deliveryDao.findById(deliveryId);
+                orderList.add(new Order(id, userId, nameUser, orderDetailList, totalPrice, orderDate, status, delivery));
+            }
+            PreparedStatement statement = connection.prepareStatement(String.format(TOTAL_REVENUE,
+                    search,
+                    "'" + dateFrom + "'",
+                    "'" + dateTo + "'"));
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                double total = resultSet.getDouble("total");
+                double totalItem = Double.parseDouble(pageable.getTotalItems() + "");
+                int totalPage = (int) Math.ceil(total / totalItem);
+                pageable.setTotalPage(totalPage);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return orderList;
+    }
+
+    public double getTotalPriceRevenue(String dateFrom, String dateTo, Pageable pageable) {
+        String search = "";
+        if (!pageable.getSearch().equals("")) {
+            search = String.format("ui.name like %s AND", "'%" + pageable.getSearch() + "%' ");
+        }
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(String.format(SELECT_TOTAL_PRICE,
+                     search,
+                     "'" + dateFrom + "'",
+                     "'" + dateTo + "'"))) {
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                return rs.getDouble("total_price");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return -1;
+    }
+
+    public Order getOrderByOrderId(int orderId) {
+        orderList = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ORDER_BY_ID)) {
+            preparedStatement.setInt(1, orderId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int userId = rs.getInt("user_id");
+                List<OrderDetail> orderDetailList = orderDetailDao.findByOrderId(orderId);
+                double totalPrice = rs.getDouble("total_price");
+                Date orderDate = rs.getDate("order_date");
+                Status status = Status.valueOf(rs.getString("Status"));
+                int deliveryId = rs.getInt("delivery_id");
+                Delivery delivery = new Delivery();
+                if (deliveryId != 0)
+                    delivery = deliveryDao.findById(deliveryId);
+                return new Order(orderId, userId, "", orderDetailList, totalPrice, orderDate, status, delivery);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
     public List<Order> findByUserId(int userId) {
@@ -136,7 +317,6 @@ public class OrderDao extends ConnectionDatabase {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CART_BY_SESSION)) {
             preparedStatement.setString(1, sessionId);
-            System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int orderId = rs.getInt("id");

@@ -23,10 +23,10 @@ public class ProductDao extends ConnectionDatabase {
             "where lower(p.product_name) like '%s' or lower(p.category_id) like '%s'  ";
 
 
-    private final String TOTAL_PRODUCT = "SELECT count(1) as total\n" +
-            "FROM product p \n" +
-            "Left join category c \n" +
-            "on p.category_id = c.id \n" +
+    private final String TOTAL_PRODUCT = "SELECT count(1) as total " +
+            "FROM product p " +
+            "Left join category c " +
+            "on p.category_id = c.id " +
             "where lower(p.product_name) like ?";
     private final String INSERT_PRODUCT = "INSERT INTO product (product_name, price, description, img, category_id) VALUES (?, ?, ?, ?, ?)";
 

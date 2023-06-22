@@ -2,7 +2,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <jsp:include page="../layout/header.jsp"/>
-
 <nav
         class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
         id="layout-navbar"
@@ -68,24 +67,9 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="user?action=showInfo&id=${user.id}">
                             <i class="bx bx-user me-2"></i>
                             <span class="align-middle">My Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <i class="bx bx-cog me-2"></i>
-                            <span class="align-middle">Settings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                                    <span class="d-flex align-items-center align-middle">
-                                      <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                                      <span class="flex-grow-1 align-middle">Billing</span>
-                                      <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                                    </span>
                         </a>
                     </li>
                     <li>
@@ -104,7 +88,6 @@
     </div>
 </nav>
 <br><br>
-
     <button type="button" class="btn rounded-pill btn-outline-secondary">
         <a href="/admin/product?action=create">
             <i class="bx bx-edit-alt me-1"></i>CREATE
@@ -127,8 +110,8 @@
         <c:forEach items="${products}" var="product">
             <tr align="center">
                 <td>${product.id}</td>
-                <td>${product.product_name}</td>
-                <td><fmt:formatNumber type="number" value="${product.price}"/>đ</td>
+                <td align="left">${product.product_name}</td>
+                <td align="right"><fmt:formatNumber type="number" value="${product.price}"/>đ</td>
                 <td><img src="${product.image}" width="50px"></td>
                 <td>${product.category.categoryName}</td>
                 <td>
@@ -161,31 +144,81 @@
 <%--    </c:if>--%>
 <%--</div>--%>
 
-<ul class="pagination d-flex justify-content-center" >
+<%--<ul class="pagination d-flex justify-content-center" >--%>
+<%--    <li class="page-item first">--%>
+<%--        <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-left"></i></a>--%>
+<%--    </li>--%>
+<%--    <li class="page-item prev">--%>
+<%--        <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-left"></i></a>--%>
+<%--    </li>--%>
+<%--<c:if test="${pageable.page > 1}">--%>
+<%--    <li class="page-item ">--%>
+<%--        <a class="page-link" href="product?page=${pageable.page - 1}">Prev</a>--%>
+<%--    </li>--%>
+<%--</c:if>--%>
+<%--<c:if test="${pageable.page < pageable.totalPage}">--%>
+<%--    <li class="page-item " >--%>
+<%--        <a class="page-link" href="product?page=${pageable.page + 1}">Next</a>--%>
+<%--    </li>--%>
+<%--</c:if>--%>
+
+<%--    <li class="page-item next">--%>
+<%--        <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-right"></i></a>--%>
+<%--    </li>--%>
+
+<%--    <li class="page-item last">--%>
+<%--        <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-right"></i></a>--%>
+<%--    </li>--%>
+<%--</ul>--%>
+<ul class="pagination d-flex justify-content-center">
     <li class="page-item first">
-        <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-left"></i></a>
+        <c:choose>
+            <c:when test="${pageable.page > 1}">
+                <a class="page-link" href="product?search=${pageable.search}"><i
+                        class="tf-icon bx bx-chevrons-left"></i></a>
+            </c:when>
+            <c:otherwise>
+                <a class="page-link" href="#"><i
+                        class="tf-icon bx bx-chevrons-left"></i></a>
+            </c:otherwise>
+        </c:choose>
     </li>
     <li class="page-item prev">
-        <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-left"></i></a>
+        <c:choose>
+            <c:when test="${pageable.page > 1}">
+                <a class="page-link" href="product?page=${pageable.page - 1}&search=${pageable.search}">
+                    <i class="tf-icon bx bx-chevron-left"></i></a>
+            </c:when>
+            <c:otherwise>
+                <a class="page-link" href="#"><i
+                        class="tf-icon bx bx-chevrons-left"></i></a>
+            </c:otherwise>
+        </c:choose>
     </li>
-<c:if test="${pageable.page > 1}">
-    <li class="page-item ">
-        <a class="page-link" href="product?page=${pageable.page - 1}">Prev</a>
-    </li>
-</c:if>
-<c:if test="${pageable.page < pageable.totalPage}">
-    <li class="page-item " >
-        <a class="page-link" href="product?page=${pageable.page + 1}">Next</a>
-    </li>
-</c:if>
-
+    <li><a class="page-link" href="#">${pageable.page}</a></li>
     <li class="page-item next">
-        <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-right"></i></a>
+        <c:choose>
+            <c:when test="${pageable.page < pageable.totalPage}">
+                <a class="page-link" href="product?page=${pageable.page + 1}&search=${pageable.search}">
+                    <i class="tf-icon bx bx-chevron-right"></i></a>
+            </c:when>
+            <c:otherwise>
+                <a class="page-link" href="#"><i
+                        class="tf-icon bx bx-chevron-right"></i></a>
+            </c:otherwise>
+        </c:choose>
     </li>
-
     <li class="page-item last">
-        <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-right"></i></a>
+        <c:choose>
+            <c:when test="${pageable.page < pageable.totalPage}">
+                <a class="page-link" href="product?page=${pageable.totalPage}&search=${pageable.search}">
+                    <i class="tf-icon bx bx-chevrons-right"></i></a>
+            </c:when>
+            <c:otherwise>
+                <a class="page-link" href="#"><i
+                        class="tf-icon bx bx-chevrons-right"></i></a>
+            </c:otherwise>
+        </c:choose>
     </li>
 </ul>
-
 <jsp:include page="../layout/footer.jsp"/>

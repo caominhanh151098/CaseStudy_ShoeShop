@@ -26,7 +26,7 @@ import static com.example.casestudy_shoeshop.ulti.Regex.*;
 @WebServlet({"/admin/user"})
 
 public class UserServlet extends HttpServlet {
-    private  int TOTAL_ITEMS = 5;
+    private int TOTAL_ITEMS = 6;
 
     private UserService userService = new UserService();
     private UserInfoService user_infoService = new UserInfoService();
@@ -36,18 +36,18 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        if (action == null){
+        if (action == null) {
             action = "";
         }
-        switch (action){
+        switch (action) {
             case "showInfo":
-                showInfoUser(req,resp);
+                showInfoUser(req, resp);
                 break;
             case "edit":
                 showEditUserInfo(req, resp);
                 break;
             case "createUser":
-                showCreateUser(req,resp);
+                showCreateUser(req, resp);
                 break;
             default:
                 showUser(req, resp);
@@ -59,27 +59,27 @@ public class UserServlet extends HttpServlet {
         String search = req.getParameter("search");
 
         int page = 1;
-        if(req.getParameter("page")!= null){
+        if (req.getParameter("page") != null) {
             page = Integer.parseInt(req.getParameter("page"));
         }
 
         String sortBy = req.getParameter("sortBy");
-        if(sortBy == null){
+        if (sortBy == null) {
             sortBy = "asc";
         }
 
         String fieldName = req.getParameter("fieldName");
-        if(fieldName == null){
+        if (fieldName == null) {
             fieldName = "product.id";
         }
 
-        Pageable pageable = new Pageable(search, page, TOTAL_ITEMS ,fieldName,sortBy);
+        Pageable pageable = new Pageable(search, page, TOTAL_ITEMS, fieldName, sortBy);
         req.setAttribute("pageable", pageable);
         req.setAttribute("usercustomer", userService.findALL(pageable));
 
         req.setAttribute("role", roleService.findAll());
         req.setAttribute("userinfo", userService.findALL(pageable));
-        req.getRequestDispatcher("/admin/users/createUser.jsp").forward(req,resp);
+        req.getRequestDispatcher("/admin/users/createUser.jsp").forward(req, resp);
 
     }
 
@@ -94,25 +94,25 @@ public class UserServlet extends HttpServlet {
     private void showInfoUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         User user = userService.findByID(id);
-        req.setAttribute("user",user);
+        req.setAttribute("user", user);
 //        req.setAttribute("userAll",userService.findALL());
-        req.getRequestDispatcher("/admin/users/showUserInfo.jsp").forward(req,resp);
+        req.getRequestDispatcher("/admin/users/showUserInfo.jsp").forward(req, resp);
 
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        if (action == null){
+        if (action == null) {
             action = "";
         }
-        switch (action){
+        switch (action) {
             case "edit":
                 editUserInfo(req, resp);
                 break;
 
             case "createUser":
-                createUser(req,resp);
+                createUser(req, resp);
                 break;
 
             default:
@@ -120,29 +120,28 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-    public void showUser (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void showUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String search = request.getParameter("search");
 
         int page = 1;
-        if(request.getParameter("page")!= null){
+        if (request.getParameter("page") != null) {
             page = Integer.parseInt(request.getParameter("page"));
         }
 
         String sortBy = request.getParameter("sortBy");
-        if(sortBy == null){
+        if (sortBy == null) {
             sortBy = "asc";
         }
 
         String fieldName = request.getParameter("fieldName");
-        if(fieldName == null){
+        if (fieldName == null) {
             fieldName = "user.id";
         }
 
-        Pageable pageable = new Pageable(search, page, TOTAL_ITEMS ,fieldName,sortBy);
+        Pageable pageable = new Pageable(search, page, TOTAL_ITEMS, fieldName, sortBy);
         request.setAttribute("pageable", pageable);
-
-        request.setAttribute("user",userService.findALL(pageable));
-        request.getRequestDispatcher("/admin/users/userlist.jsp").forward(request,response);
+        request.setAttribute("users", userService.findALL(pageable));
+        request.getRequestDispatcher("/admin/users/userlist.jsp").forward(request, response);
     }
 
 
@@ -165,7 +164,7 @@ public class UserServlet extends HttpServlet {
         boolean checkPassword = Regex.checkPassword(password);
         if (!checkEmptyPass) {
             request.setAttribute("errorPassword", "Mật Khẩu Không Được Để Trống");
-        }else if(!checkPassword){
+        } else if (!checkPassword) {
             request.setAttribute("errorPassword", "Mật Khẩu gồm chữ và số");
         }
 
@@ -174,19 +173,19 @@ public class UserServlet extends HttpServlet {
         boolean checkName = Regex.checkName(name);
         if(!checkEmptyName){
             request.setAttribute("errorName", "Tên Không Được Để Trống");
-        }else if(!checkName){
+        } else if (!checkName) {
             request.setAttribute("errorName", "Tên Không Được Có Ký Tự Đặc Biệt");
         }
 
 
         String dobString = request.getParameter("dob");
         Date dob = null;
-        if(dobString == "") {
-            request.setAttribute("errorDob","Vui Lòng Chọn Ngày Tháng");
+        if (dobString == "") {
+            request.setAttribute("errorDob", "Vui Lòng Chọn Ngày Tháng");
         } else {
             dob = Date.valueOf(dobString);
-            if(dob.compareTo(new java.util.Date()) >= 0){
-                request.setAttribute("errorDob","Không Đươc Chọn Quá Ngày Hiện Tại");
+            if (dob.compareTo(new java.util.Date()) >= 0) {
+                request.setAttribute("errorDob", "Không Đươc Chọn Quá Ngày Hiện Tại");
             }
         }
 
@@ -220,8 +219,6 @@ public class UserServlet extends HttpServlet {
         if(!checkEmptyAddress){
             request.setAttribute("errorAddress","Địa Chỉ Không Được Để Trống");
         }
-
-
         if(checkEmptyUserName && checkName && checkRegexUserName
                 && checkEmptyPass && checkPassword
                 && checkEmptyName && checkName
@@ -240,10 +237,6 @@ public class UserServlet extends HttpServlet {
             request.setAttribute("errorCreateUser", "Tạo Tài Khoản Thành Công");
             showCreateUser(request,response);
         }
-        else {
-            showCreateUser(request,response);
-        }
-
 
 
     }
@@ -253,7 +246,7 @@ public class UserServlet extends HttpServlet {
         UserInfo userInfo = new UserInfo();
         int user_id = Integer.parseInt(req.getParameter("id"));
 
-        validateName(req, errors,userInfo);
+        validateName(req, errors, userInfo);
         validateDate(req, errors, userInfo);
         validateEmail(req, errors, userInfo);
 
@@ -261,37 +254,39 @@ public class UserServlet extends HttpServlet {
         userInfo.setPhone(phone);
         userInfo.setUser_id(user_id);
 
-        if(errors.isEmpty()){
+        if (errors.isEmpty()) {
             user_infoService.editUserInfo(userInfo);
-        }else{
+        } else {
             req.setAttribute("errors", errors);
-            req.setAttribute("userInfo",userInfo);
+            req.setAttribute("userInfo", userInfo);
         }
         String message = "Sửa thành công";
         req.setAttribute("message", message);
-        req.getRequestDispatcher("/admin/users/userEdit.jsp").forward(req,resp);
+        req.getRequestDispatcher("/admin/users/userEdit.jsp").forward(req, resp);
 //        showUser(req, resp);
     }
 
     private void validateEmail(HttpServletRequest req, List<String> errors, UserInfo userInfo) {
         String email = req.getParameter("email");
-        if (!ValidateUtils.isEmailValid(email)){
+        if (!ValidateUtils.isEmailValid(email)) {
             errors.add("Vui lòng nhập emmail !");
         }
         userInfo.setEmail(email);
     }
+
     private void validateDate(HttpServletRequest req, List<String> errors, UserInfo userInfo) {
         Date Dob = null;
-        try{
+        try {
             Dob = Date.valueOf(req.getParameter("dob"));
-        }catch (IllegalArgumentException illegalArgumentException){
+        } catch (IllegalArgumentException illegalArgumentException) {
             errors.add("Loi dinh dang ngay thang");
         }
         userInfo.setDob(Dob);
     }
+
     private void validateName(HttpServletRequest req, List<String> errors, UserInfo userInfo) {
         String name = req.getParameter("name");
-        if(!ValidateUtils.isNameValid(name)){        // rong
+        if (!ValidateUtils.isNameValid(name)) {        // rong
             errors.add("Ten khong duoc de trong");
         }
         userInfo.setName(name);

@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @WebServlet(name = "customer", urlPatterns = "/admin/customer")
 public class CustomerUserServlet extends HttpServlet {
-    private  int TOTAL_ITEMS = 5;
+    private  int TOTAL_ITEMS = 6;
     private UserService userService = new UserService();
     private UserInfoService user_infoService = new UserInfoService();
 
