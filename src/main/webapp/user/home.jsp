@@ -48,7 +48,7 @@
                                 <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Which size S, M, L, XL is right for you?
                                     Check out our summer must-have t-shirt and shorts fit guide today.</p>
                                 <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
-                                   href="#">Shop Now</a>
+                                   href="/shop">Shop Now</a>
                             </div>
                         </div>
                     </div>
@@ -59,17 +59,15 @@
             <div class="product-offer mb-30" style="height: 200px;">
                 <img class="img-fluid" src="user/img/nike4.png" alt="">
                 <div class="offer-text">
-                    <h6 class="text-white text-uppercase">Save 20%</h6>
                     <h3 class="text-white mb-3"></h3>
-                    <a href="" class="btn btn-primary">Shop Now</a>
+                    <a href="/shop" class="btn btn-primary">Shop Now</a>
                 </div>
             </div>
             <div class="product-offer mb-30" style="height: 200px;">
                 <img class="img-fluid" src="user/img/nike5.png" alt="">
                 <div class="offer-text">
-                    <h6 class="text-white text-uppercase">Save 20%</h6>
                     <h3 class="text-white mb-3"></h3>
-                    <a href="" class="btn btn-primary">Shop Now</a>
+                    <a href="/shop" class="btn btn-primary">Shop Now</a>
                 </div>
             </div>
         </div>

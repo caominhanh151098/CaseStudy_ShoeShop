@@ -154,7 +154,7 @@ public class UserServlet extends HttpServlet {
             request.setAttribute("errorUserName", "Tài Khoản Không Được Để Trống");
         } else if (!checkUserName) {
             request.setAttribute("errorUserName", "Tài Khoản Đã Tồn Tại");
-        }else if(!checkRegexUserName){
+        } else if (!checkRegexUserName) {
             request.setAttribute("errorUserName", "Tài Khoản Không Được Có Ký Tự Đặc Biệt");
         }
 
@@ -171,7 +171,7 @@ public class UserServlet extends HttpServlet {
         String name = request.getParameter("name");
         boolean checkEmptyName = validate.checkEmpty(name);
         boolean checkName = Regex.checkName(name);
-        if(!checkEmptyName){
+        if (!checkEmptyName) {
             request.setAttribute("errorName", "Tên Không Được Để Trống");
         } else if (!checkName) {
             request.setAttribute("errorName", "Tên Không Được Có Ký Tự Đặc Biệt");
@@ -194,34 +194,34 @@ public class UserServlet extends HttpServlet {
         boolean checkEmptyEmail = validate.checkEmpty(email);
         boolean checkEmail = validate.checkEmail(email);
         boolean checkRegexEmail = Regex.checkEmail(email);
-        if(!checkEmptyEmail){
-            request.setAttribute("errorEmail","Email Không Được Để Trống");
-        }else if(!checkEmail){
-            request.setAttribute("errorEmail","Email Đã Tồn Tại");
-        }else if(!checkRegexEmail){
-            request.setAttribute("errorEmail","Sai Định Dạng. Ví Dụ: Phuc@gmail.com");
+        if (!checkEmptyEmail) {
+            request.setAttribute("errorEmail", "Email Không Được Để Trống");
+        } else if (!checkEmail) {
+            request.setAttribute("errorEmail", "Email Đã Tồn Tại");
+        } else if (!checkRegexEmail) {
+            request.setAttribute("errorEmail", "Sai Định Dạng. Ví Dụ: Phuc@gmail.com");
         }
 
         String phone = request.getParameter("phone");
         boolean checkEmptyPhone = validate.checkEmpty(phone);
         boolean checkPhone = validate.checkPhone(phone);
         boolean checkRegexPhone = Regex.checkPhone(phone);
-        if(!checkEmptyPhone){
-            request.setAttribute("errorPhone","Số Điện Thoại Không Được Để Trống");
-        }else if(!checkPhone){
-            request.setAttribute("errorPhone","Số Điện Thoại Đã Tồn Tại");
-        }else if(!checkRegexPhone){
-            request.setAttribute("errorPhone","Sai Định Dạng. Ví Dụ: 0123456789");
+        if (!checkEmptyPhone) {
+            request.setAttribute("errorPhone", "Số Điện Thoại Không Được Để Trống");
+        } else if (!checkPhone) {
+            request.setAttribute("errorPhone", "Số Điện Thoại Đã Tồn Tại");
+        } else if (!checkRegexPhone) {
+            request.setAttribute("errorPhone", "Sai Định Dạng. Ví Dụ: 0123456789");
         }
 
         String address = request.getParameter("address");
         boolean checkEmptyAddress = validate.checkEmpty(address);
-        if(!checkEmptyAddress){
-            request.setAttribute("errorAddress","Địa Chỉ Không Được Để Trống");
+        if (!checkEmptyAddress) {
+            request.setAttribute("errorAddress", "Địa Chỉ Không Được Để Trống");
         }
 
 
-        if(checkEmptyUserName && checkUserName && checkRegexUserName
+        if (checkEmptyUserName && checkUserName && checkRegexUserName
                 && checkEmptyPass && checkPassword
                 && checkEmptyName && checkName
                 && checkEmptyEmail && checkEmail && checkRegexEmail
@@ -231,15 +231,16 @@ public class UserServlet extends HttpServlet {
             Role role = roleService.findById(3);
 
             UserInfo userInfo = new UserInfo(name, dob, email, phone, address);
-            User user = new User(username, password, role,userInfo);
+            User user = new User(username, password, role, userInfo);
 
             userService.create(user);
 //            user_infoService.create(userInfo);
 
             request.setAttribute("errorCreateUser", "Tạo Tài Khoản Thành Công");
-            showCreateUser(request,response);
+            showCreateUser(request, response);
+        } else {
+            showCreateUser(request, response);
         }
-
 
     }
 

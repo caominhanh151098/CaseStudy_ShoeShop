@@ -9,7 +9,7 @@
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="../assets/img/favicon/logo.jpg" rel="icon" >
+    <link href="../assets/img/favicon/logo.jpg" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -37,10 +37,10 @@
     <div class="row bg-secondary py-1 px-xl-5">
         <div class="col-lg-6 d-none d-lg-block">
             <div class="d-inline-flex align-items-center h-100">
-                <a class="text-body mr-3" href="">About</a>
-                <a class="text-body mr-3" href="">Contact</a>
-                <a class="text-body mr-3" href="">Help</a>
-                <a class="text-body mr-3" href="">FAQs</a>
+                <a class="text-body mr-3" href="#">About</a>
+                <a class="text-body mr-3" href="#">Contact</a>
+                <a class="text-body mr-3" href="#">Help</a>
+                <a class="text-body mr-3" href="#">FAQs</a>
             </div>
         </div>
         <div class="col-lg-6 text-center text-lg-right">
@@ -51,31 +51,13 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <c:if test="${sessionScope['user'] == null}">
-                        <button class="dropdown-item" type="button"><a href="/login.jsp">Sign In</a></button>
-                        <button class="dropdown-item" type="button">Sign up</button>
+                            <button class="dropdown-item" type="button"><a href="/login.jsp">Sign In</a></button>
+                            <button class="dropdown-item" type="button"><a href="/register.jsp">Sign up</a></button>
                         </c:if>
                         <c:if test="${sessionScope['user'] != null}">
                             <button class="dropdown-item" type="button"><a href="#">Info</a></button>
                             <button class="dropdown-item" type="button"><a href="/logout">Sign Out</a></button>
                         </c:if>
-                    </div>
-                </div>
-                <div class="btn-group mx-2">
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">USD
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <button class="dropdown-item" type="button">EUR</button>
-                        <button class="dropdown-item" type="button">GBP</button>
-                        <button class="dropdown-item" type="button">CAD</button>
-                    </div>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">EN
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <button class="dropdown-item" type="button">FR</button>
-                        <button class="dropdown-item" type="button">AR</button>
-                        <button class="dropdown-item" type="button">RU</button>
                     </div>
                 </div>
             </div>
@@ -105,7 +87,7 @@
                 <div class="input-group">
                     <input type="text" name="search" class="form-control" placeholder="Search for products">
                     <div class="input-group-append">
-                            <button><span class="input-group-text bg-transparent text-primary">
+                        <button><span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
                             </span></button>
                     </div>
@@ -152,7 +134,6 @@
                     <div class="navbar-nav mr-auto py-0">
                         <a href="/home" class="nav-item nav-link active">Home</a>
                         <a href="/shop" class="nav-item nav-link">Shop</a>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                         <a href="" class="btn px-0">

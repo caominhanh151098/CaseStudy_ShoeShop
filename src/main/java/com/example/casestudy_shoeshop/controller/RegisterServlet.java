@@ -102,6 +102,9 @@ public class RegisterServlet extends HttpServlet {
             req.setAttribute("errorRegister", "Tạo Tài Khoản Thành Công");
             showRegister(req,resp);
         }
+        else {
+            showRegister(req,resp);
+        }
     }
 
     private void showRegister(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

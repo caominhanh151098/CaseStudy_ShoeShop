@@ -30,14 +30,14 @@ public class OrderDao extends ConnectionDatabase {
             "FROM `order` o LEFT JOIN user u ON u.id = o.user_id  " +
             "LEFT JOIN user_info ui ON u.id = ui.user_id  " +
             "WHERE %s DATEDIFF(o.order_date, %s) > 0 AND  DATEDIFF(%s, o.order_date) > 0 " +
-            "AND o.status <> 1 AND o.status <> 5 " +
+            "AND o.status = 4 " +
             "LIMIT %d OFFSET %d";
 
     private final String SELECT_TOTAL_PRICE = "SELECT SUM(o.total_price) as total_price " +
             "FROM `order` o LEFT JOIN user u ON u.id = o.user_id  " +
             "LEFT JOIN user_info ui ON u.id = ui.user_id  " +
             "WHERE %s DATEDIFF(o.order_date, %s) > 0 AND  DATEDIFF(%s, o.order_date) > 0 " +
-            "AND o.status <> 1 AND o.status <> 5";
+            "AND o.status = 4";
     private final String TOTAL_ORDERED = "SELECT COUNT(1) as total " +
             "FROM `order` o LEFT JOIN user u ON u.id = o.user_id " +
             "LEFT JOIN user_info ui ON u.id = ui.user_id " +
@@ -46,7 +46,7 @@ public class OrderDao extends ConnectionDatabase {
             "FROM `order` o LEFT JOIN user u ON u.id = o.user_id " +
             "LEFT JOIN user_info ui ON u.id = ui.user_id " +
             "WHERE %s DATEDIFF(o.order_date, %s) > 0 AND  DATEDIFF(%s, o.order_date) > 0 " +
-            "AND o.status <> 1 AND o.status <> 5";
+            "AND o.status =4";
     private final String SELECT_ORDER_BY_USER_ID = "SELECT o.*, ui.`name` as `name_user` " +
             "FROM user u JOIN `order` o ON u.id = o.user_id " +
             "JOIN user_info ui ON u.id = ui.user_id WHERE o.user_id = ? AND status <> 1";
@@ -403,7 +403,8 @@ public class OrderDao extends ConnectionDatabase {
             preparedStatement.setDate(3, new java.sql.Date(order.getOrderDate().getTime()));
             preparedStatement.setInt(4, order.getStatus().getIndex());
             preparedStatement.setInt(5, order.getDelivery().getId());
-            preparedStatement.setInt(6, order.getId());
+            preparedStatement.setString(6, order.getSession_id());
+            preparedStatement.setInt(7, order.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

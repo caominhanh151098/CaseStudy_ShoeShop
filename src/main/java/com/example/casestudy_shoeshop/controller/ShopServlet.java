@@ -187,6 +187,7 @@ public class ShopServlet extends HttpServlet {
         cartUser = shopService.findCartBySessionId(sessionId);
         int productId = Integer.parseInt(req.getParameter("productId"));
         int sizeId = Integer.parseInt(req.getParameter("sizeId"));
+        System.out.println(sizeId);
         int quantity = Integer.parseInt(req.getParameter("quantity"));
         OrderDetail cartDetail = new OrderDetail(productId, sizeId, quantity);
         shopService.addToCart(cartUser, cartDetail);
